@@ -71,4 +71,17 @@ def export_quality_summary(df):
 
     print("✅ JSON de qualidade gerado com sucesso")
 
-from src.analyzer import export_quality_summary
+import pandas as pd
+import json
+
+def load_data(path: str):
+    ...
+
+def data_quality_report(df: pd.DataFrame):
+    ...
+
+def data_quality_score(df):
+    ...
+
+def export_quality_summary(df):
+    ...
