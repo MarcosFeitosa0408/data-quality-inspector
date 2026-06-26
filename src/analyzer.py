@@ -85,3 +85,17 @@ def data_quality_score(df):
 
 def export_quality_summary(df):
     ...
+
+def load_data(path: str) -> pd.DataFrame:
+
+print("[INFO] Dataset carregado com sucesso")
+print("[PROCESS] Calculando score de qualidade...")
+score = (1 - (missing_cells / total_cells)) * 100
+
+{
+  "missing": 10,
+  "duplicates": 2,
+  "valid": 88,
+  "score": 82.5,
+  "timestamp": "2026-06-26"
+}
