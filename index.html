@@ -67,80 +67,80 @@
 
 <section>
 
-    <!-- KPIs -->
+    <!-- KPIs EXECUTIVOS -->
     <div class="grid">
 
         <div class="card kpi">
-            <h3>❌ Nulos</h3>
+            <h4>📊 Score Geral</h4>
+            <h1 id="score" class="highlight">...</h1>
+        </div>
+
+        <div class="card kpi">
+            <h4>❌ Valores Ausentes</h4>
             <h2 id="missing">...</h2>
         </div>
 
         <div class="card kpi">
-            <h3>🔁 Duplicados</h3>
+            <h4>🔁 Duplicados</h4>
             <h2 id="duplicates">...</h2>
         </div>
 
         <div class="card kpi">
-            <h3>📄 Válidos</h3>
+            <h4>📄 Dados Válidos</h4>
             <h2 id="valid">...</h2>
         </div>
 
-        <div class="card kpi">
-            <h3>🧠 Score</h3>
-            <h2 id="score" class="highlight">...</h2>
-        </div>
-
     </div>
 
-    <!-- INSIGHT -->
+    <!-- GRÁFICO PRINCIPAL -->
     <div class="card" style="margin-top:20px;">
-        <h2>📈 Insight Automático</h2>
-        <p>
-            O dataset apresenta inconsistências moderadas e precisa de limpeza antes de ser usado em modelos.
-        </p>
-    </div>
-
-    <!-- GRÁFICO -->
-    <div class="card" style="margin-top:20px;">
-        <h2>📊 Distribuição de Qualidade</h2>
+        <h2>📊 Distribuição de Qualidade dos Dados</h2>
         <canvas id="qualityChart"></canvas>
+    </div>
+
+    <!-- INSIGHT EXECUTIVO -->
+    <div class="card" style="margin-top:20px;">
+        <h2>🧠 Insight Automático</h2>
+        <p id="insight">
+            Carregando análise...
+        </p>
     </div>
 
 </section>
 
-<!-- SCRIPTS -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </section>
 
-<script>
-fetch("data/quality_summary.json")
-  .then(res => res.json())
-  .then(data => {
+    <!-- Biblioteca do Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    // KPIs
-    document.getElementById("missing").innerText = data.missing;
-    document.getElementById("duplicates").innerText = data.duplicates;
-    document.getElementById("valid").innerText = data.valid;
+    <!-- JavaScript do Dashboard -->
+    <script>
+    fetch("data/quality_summary.json")
+      .then(res => res.json())
+      .then(data => {
 
-    // SCORE DINÂMICO
-    document.getElementById("score").innerText = data.score;
+        document.getElementById("score").innerText = data.score;
+        document.getElementById("missing").innerText = data.missing;
+        document.getElementById("duplicates").innerText = data.duplicates;
+        document.getElementById("valid").innerText = data.valid;
 
-    // GRÁFICO
-    const ctx = document.getElementById('qualityChart');
+        const ctx = document.getElementById("qualityChart");
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Ausentes', 'Duplicados', 'Válidos'],
-            datasets: [{
-                label: 'Quantidade',
-                data: [data.missing, data.duplicates, data.valid],
-            }]
-        }
-    });
+        new Chart(ctx, {
+            type: "doughnut",
+            data: {
+                labels: ["Ausentes", "Duplicados", "Válidos"],
+                datasets: [{
+                    data: [data.missing, data.duplicates, data.valid]
+                }]
+            }
+        });
 
-  })
-  .catch(err => console.error("Erro ao carregar JSON:", err));
-</script>
+      });
+    </script>
+
+</body>
+</html>
 
 </body>
 </html>
