@@ -1,43 +1,57 @@
 # 📊 Data Quality Inspector
 
-## 🧠 Sobre o Projeto
-
-O **Data Quality Inspector** é uma ferramenta em Python desenvolvida para automatizar a análise da qualidade de dados em arquivos CSV.
-
-O objetivo do projeto é simular um cenário real de engenharia de dados, onde bases precisam ser avaliadas antes de serem utilizadas em análises ou modelos.
+Sistema de análise automatizada de qualidade de dados construído em Python com dashboard interativo em HTML.
 
 ---
 
-## 🎯 Problema que resolve
+## 🚀 Objetivo
 
-Em ambientes reais de dados, é comum encontrar:
+Simular um pipeline real de Engenharia de Dados:
 
-- Valores ausentes
-- Registros duplicados
-- Dados inconsistentes
-- Falta de padronização
-
-Este projeto automatiza a detecção desses problemas e gera uma visão clara da qualidade do dataset.
+**Python (análise) → JSON (camada intermediária) → Dashboard (visualização)**
 
 ---
 
 ## ⚙️ Funcionalidades
 
-✔ Leitura de arquivos CSV  
-✔ Análise de valores nulos  
-✔ Identificação de duplicados  
-✔ Estatísticas descritivas  
-✔ Score automático de qualidade (0–100)  
-✔ Classificação de qualidade dos dados  
-✔ Visualização gráfica de dados faltantes  
+- Leitura de arquivos CSV
+- Detecção de valores nulos
+- Identificação de duplicados
+- Cálculo de score de qualidade
+- Geração de relatório em JSON
+- Dashboard interativo com gráficos
 
 ---
 
-## 📊 Exemplo de saída
+## 🧠 Tecnologias
 
+- Python
+- Pandas
+- JSON
+- HTML
+- Chart.js
+
+---
+
+## 📊 Arquitetura
+
+Python → processa dados  
+↓  
+Gera JSON  
+↓  
+Frontend consome JSON  
+↓  
+Dashboard atualizado automaticamente  
+
+---
+
+## 📷 Resultado
+
+Dashboard interativo com KPIs e gráfico de qualidade de dados.
+
+---
 
 ## 👨‍💻 Autor
 
-**Marcos Feitosa**
-
-Analista de Dados em formação, desenvolvendo projetos práticos com Python, SQL, Power BI, ETL e Inteligência Artificial.
+Marcos Feitosa  
+Analista de Dados em formação focado em Python, SQL e BI.
