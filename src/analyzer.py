@@ -25,3 +25,28 @@ def data_quality_report(df: pd.DataFrame):
     # estatísticas básicas
     print("\n📈 Estatísticas descritivas:")
     print(df.describe(include="all"))
+
+def data_quality_score(df):
+    total_cells = df.size
+    missing_cells = df.isnull().sum().sum()
+
+    completeness = ((total_cells - missing_cells) / total_cells) * 100
+
+    duplicates = df.duplicated().sum()
+
+    score = completeness - (duplicates * 2)
+
+    if score >= 90:
+        level = "🟢 Excelente"
+    elif score >= 70:
+        level = "🟡 Bom"
+    elif score >= 50:
+        level = "🟠 Médio"
+    else:
+        level = "🔴 Ruim"
+
+    print("\n📊 SCORE DE QUALIDADE")
+    print(f"Completude: {completeness:.2f}%")
+    print(f"Duplicados: {duplicates}")
+    print(f"Score final: {score:.2f}")
+    print(f"Classificação: {level}")
