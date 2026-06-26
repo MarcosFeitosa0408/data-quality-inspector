@@ -70,3 +70,5 @@ def export_quality_summary(df):
         json.dump(result, f)
 
     print("✅ JSON de qualidade gerado com sucesso")
+
+from src.analyzer import export_quality_summary
