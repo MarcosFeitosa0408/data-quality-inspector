@@ -50,3 +50,23 @@ def data_quality_score(df):
     print(f"Duplicados: {duplicates}")
     print(f"Score final: {score:.2f}")
     print(f"Classificação: {level}")
+
+import json
+
+def export_quality_summary(df):
+    total_cells = df.size
+    missing_cells = df.isnull().sum().sum()
+    duplicates = df.duplicated().sum()
+
+    valid_cells = total_cells - missing_cells
+
+    result = {
+        "missing": int(missing_cells),
+        "duplicates": int(duplicates),
+        "valid": int(valid_cells)
+    }
+
+    with open("data/quality_summary.json", "w") as f:
+        json.dump(result, f)
+
+    print("✅ JSON de qualidade gerado com sucesso")
