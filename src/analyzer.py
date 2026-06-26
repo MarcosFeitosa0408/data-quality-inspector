@@ -10,7 +10,7 @@ def load_data(path: str):
         return None
 
 
-def data_quality_report(df: pd.DataFrame):
+
     print("\n📊 RELATÓRIO DE QUALIDADE DE DADOS\n")
 
     # valores nulos
