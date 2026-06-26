@@ -41,8 +41,16 @@
             font-weight: bold;
         }
 
-        #chart-container {
-            margin-top: 15px;
+        .grid {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .kpi {
+            flex: 1;
+            text-align: center;
+            min-width: 150px;
         }
     </style>
 </head>
@@ -51,63 +59,70 @@
 
 <header>
     <h1>📊 Data Quality Inspector</h1>
-    <p>Ferramenta de Análise Automatizada de Qualidade de Dados</p>
+    <p>Dashboard de Análise de Qualidade de Dados</p>
 </header>
 
 <section>
 
+    <!-- KPI DASHBOARD -->
     <div class="card">
-        <h2>🧠 Sobre o Projeto</h2>
-        <p>Sistema em Python para análise automática de qualidade de dados em CSV.</p>
-    </div>
+        <h2>📊 Visão Geral</h2>
 
-    <div class="card">
-        <h2>🎯 Problema Resolvido</h2>
-        <p>Identifica valores ausentes, duplicados e inconsistências antes da análise.</p>
-    </div>
+        <div class="grid">
 
-    <div class="card">
-        <h2>⚙️ Funcionalidades</h2>
-        <p>
-            ✔ Leitura de CSV<br>
-            ✔ Detecção de nulos<br>
-            ✔ Duplicados<br>
-            ✔ Score de qualidade<br>
-            ✔ Visualização de dados
-        </p>
-    </div>
+            <div class="card kpi">
+                <h3>❌ Nulos</h3>
+                <p id="missing">...</p>
+            </div>
 
-    <div class="card">
-        <h2>🧠 Score de Qualidade</h2>
-        <h1 class="highlight">🟡 Bom (80.50)</h1>
-        <p>Dataset com qualidade aceitável.</p>
-    </div>
+            <div class="card kpi">
+                <h3>🔁 Duplicados</h3>
+                <p id="duplicates">...</p>
+            </div>
 
-    <div class="card">
-        <h2>📈 Insight</h2>
-        <p>
-            Baixa completude em colunas críticas, exigindo limpeza antes de modelos.
-        </p>
-    </div>
+            <div class="card kpi">
+                <h3>📄 Válidos</h3>
+                <p id="valid">...</p>
+            </div>
 
-    <div class="card">
-        <h2>📊 Dashboard de Qualidade</h2>
-        <p class="highlight">Distribuição automática dos problemas encontrados</p>
+            <div class="card kpi">
+                <h3>🧠 Score</h3>
+                <p class="highlight">80.50</p>
+            </div>
 
-        <div id="chart-container">
-            <canvas id="qualityChart"></canvas>
         </div>
+    </div>
+
+    <!-- INSIGHT -->
+    <div class="card">
+        <h2>📈 Insight Automático</h2>
+        <p>
+            O dataset apresenta inconsistências moderadas e precisa de limpeza antes de modelagem.
+        </p>
+    </div>
+
+    <!-- GRÁFICO -->
+    <div class="card">
+        <h2>📊 Distribuição de Qualidade</h2>
+        <canvas id="qualityChart"></canvas>
     </div>
 
 </section>
 
+<!-- SCRIPT -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 fetch("data/quality_summary.json")
-  .then(response => response.json())
+  .then(res => res.json())
   .then(data => {
 
+    // KPIs
+    document.getElementById("missing").innerText = data.missing;
+    document.getElementById("duplicates").innerText = data.duplicates;
+    document.getElementById("valid").innerText = data.valid;
+
+    // GRÁFICO
     const ctx = document.getElementById('qualityChart');
 
     new Chart(ctx, {
@@ -122,9 +137,7 @@ fetch("data/quality_summary.json")
     });
 
   })
-  .catch(error => {
-    console.error("Erro ao carregar JSON:", error);
-  });
+  .catch(err => console.error("Erro ao carregar JSON:", err));
 </script>
 
 </body>
