@@ -6,7 +6,7 @@
 
     <style>
         body {
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             margin: 0;
             background: #0f172a;
             color: #e2e8f0;
@@ -40,6 +40,10 @@
             color: #38bdf8;
             font-weight: bold;
         }
+
+        #chart-container {
+            margin-top: 15px;
+        }
     </style>
 </head>
 
@@ -52,6 +56,7 @@
 
 <section>
 
+    <!-- SOBRE -->
     <div class="card">
         <h2>🧠 Sobre o Projeto</h2>
         <p>
@@ -60,6 +65,7 @@
         </p>
     </div>
 
+    <!-- PROBLEMA -->
     <div class="card">
         <h2>🎯 Problema Resolvido</h2>
         <p>
@@ -68,6 +74,7 @@
         </p>
     </div>
 
+    <!-- FUNCIONALIDADES -->
     <div class="card">
         <h2>⚙️ Funcionalidades</h2>
         <p>
@@ -79,19 +86,56 @@
         </p>
     </div>
 
+    <!-- SCORE -->
     <div class="card">
-        <h2>📊 Destaque Técnico</h2>
-        <p class="highlight">
-            Projeto simula pipeline real de análise de dados com Python + Pandas + Matplotlib
+        <h2>🧠 Score de Qualidade</h2>
+        <h1 class="highlight">🟡 Bom (80.50)</h1>
+        <p>
+            O dataset possui qualidade aceitável, mas ainda requer tratamento de dados ausentes.
         </p>
     </div>
 
+    <!-- INSIGHT -->
     <div class="card">
-        <h2>👨‍💻 Autor</h2>
-        <p>Marcos Feitosa — Analista de Dados em formação</p>
+        <h2>📈 Insight Gerado pelo Sistema</h2>
+        <p>
+            O dataset analisado apresenta <span class="highlight">baixa taxa de completude em colunas críticas</span>,
+            indicando necessidade de limpeza antes de uso em modelos preditivos.
+        </p>
+    </div>
+
+    <!-- GRÁFICO -->
+    <div class="card">
+        <h2>📊 Visualização de Qualidade dos Dados</h2>
+
+        <p class="highlight">
+            Distribuição dos problemas encontrados no dataset
+        </p>
+
+        <div id="chart-container">
+            <canvas id="qualityChart"></canvas>
+        </div>
     </div>
 
 </section>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const ctx = document.getElementById('qualityChart');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Valores Nulos', 'Duplicados', 'Dados Válidos'],
+        datasets: [{
+            label: 'Quantidade',
+            data: [5, 1, 94],
+        }]
+    }
+});
+</script>
 
 </body>
 </html>
