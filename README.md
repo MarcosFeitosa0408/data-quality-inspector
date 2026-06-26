@@ -54,4 +54,11 @@ Dashboard interativo com KPIs e gráfico de qualidade de dados.
 ## 👨‍💻 Autor
 
 Marcos Feitosa  
+
 Analista de Dados em formação focado em Python, SQL e BI.
+
+Este projeto demonstra um pipeline completo de dados, integrando Python e interface web para monitoramento de qualidade de dados em tempo real.
+
+O sistema simula um ambiente real de análise de dados utilizado em empresas, com geração automática de métricas e visualização interativa.
+
+Projeto desenvolvido para portfólio técnico de Analista de Dados Júnior.
