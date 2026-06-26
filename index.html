@@ -122,20 +122,27 @@
 <!-- SCRIPTS -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
-const ctx = document.getElementById('qualityChart');
+fetch("data/quality_summary.json")
+  .then(response => response.json())
+  .then(data => {
 
-new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: ['Valores Nulos', 'Duplicados', 'Dados Válidos'],
-        datasets: [{
-            label: 'Quantidade',
-            data: [5, 1, 94],
-        }]
-    }
-});
+    const ctx = document.getElementById('qualityChart');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Valores Ausentes', 'Duplicados', 'Válidos'],
+            datasets: [{
+                label: 'Quantidade',
+                data: [data.missing, data.duplicates, data.valid],
+            }]
+        }
+    });
+
+  });
 </script>
-
 </body>
 </html>
