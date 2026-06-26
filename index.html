@@ -1,146 +1,83 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
+
 <head>
+
     <meta charset="UTF-8">
-    <title>Data Quality Inspector</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #0f172a;
-            color: #e2e8f0;
-        }
+    <title>Enterprise Data Analytics Platform</title>
 
-        header {
-            padding: 40px;
-            text-align: center;
-            background: #1e293b;
-        }
+    <link rel="stylesheet" href="assets/css/style.css">
 
-        h1 {
-            margin: 0;
-            font-size: 32px;
-        }
-
-        section {
-            max-width: 1000px;
-            margin: auto;
-            padding: 30px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-
-        .card {
-            background: #1e293b;
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .kpi {
-            text-align: center;
-        }
-
-        .highlight {
-            color: #38bdf8;
-            font-weight: bold;
-        }
-
-        @media (max-width: 800px) {
-            .grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
-<header>
-    <h1>📊 Data Quality Inspector</h1>
-    <p>Dashboard de Análise de Qualidade de Dados</p>
-</header>
+    <header>
 
-<section>
+        <h1>Enterprise Data Analytics Platform</h1>
 
-    
-    <div class="grid">
-
-        <div class="card kpi">
-            <h4>📊 Score Geral</h4>
-            <h1 id="score" class="highlight">...</h1>
-        </div>
-
-        <div class="card kpi">
-            <h4>❌ Valores Ausentes</h4>
-            <h2 id="missing">...</h2>
-        </div>
-
-        <div class="card kpi">
-            <h4>🔁 Duplicados</h4>
-            <h2 id="duplicates">...</h2>
-        </div>
-
-        <div class="card kpi">
-            <h4>📄 Dados Válidos</h4>
-            <h2 id="valid">...</h2>
-        </div>
-
-    </div>
-
-    
-    <div class="card" style="margin-top:20px;">
-        <h2>📊 Distribuição de Qualidade dos Dados</h2>
-        <canvas id="qualityChart"></canvas>
-    </div>
-
-    
-    <div class="card" style="margin-top:20px;">
-        <h2>🧠 Insight Automático</h2>
-        <p id="insight">
-           
+        <p>
+            Plataforma Profissional de Análise de Dados
         </p>
-    </div>
 
-</section>
+    </header>
 
-    </section>
+    <main>
 
-    
+        <section id="dataset-info">
+
+            <h2>Dataset</h2>
+
+        </section>
+
+        <section id="kpis">
+
+            <h2>Indicadores</h2>
+
+        </section>
+
+        <section id="dashboard">
+
+            <h2>Dashboard Executivo</h2>
+
+        </section>
+
+        <section id="charts">
+
+            <h2>Visualizações</h2>
+
+        </section>
+
+        <section id="insights">
+
+            <h2>Insights Automáticos</h2>
+
+        </section>
+
+        <section id="exports">
+
+            <h2>Exportações</h2>
+
+        </section>
+
+    </main>
+
+    <footer>
+
+        <p>
+
+            Enterprise Data Analytics Platform © 2026
+
+        </p>
+
+    </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    
-    <script>
-    fetch("data/quality_summary.json")
-      .then(res => res.json())
-      .then(data => {
-
-        document.getElementById("score").innerText = data.score;
-        document.getElementById("missing").innerText = data.missing;
-        document.getElementById("duplicates").innerText = data.duplicates;
-        document.getElementById("valid").innerText = data.valid;
-
-        const ctx = document.getElementById("qualityChart");
-
-        new Chart(ctx, {
-            type: "doughnut",
-            data: {
-                labels: ["Ausentes", "Duplicados", "Válidos"],
-                datasets: [{
-                    data: [data.missing, data.duplicates, data.valid]
-                }]
-            }
-        });
-
-      });
-    </script>
+    <script src="assets/js/dashboard.js"></script>
 
 </body>
-</html>
 
-</body>
 </html>
