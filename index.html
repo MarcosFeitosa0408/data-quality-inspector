@@ -56,61 +56,43 @@
 
 <section>
 
-    <!-- SOBRE -->
     <div class="card">
         <h2>🧠 Sobre o Projeto</h2>
-        <p>
-            Sistema desenvolvido em Python para análise automática de qualidade de dados em arquivos CSV,
-            simulando um cenário real de Engenharia de Dados.
-        </p>
+        <p>Sistema em Python para análise automática de qualidade de dados em CSV.</p>
     </div>
 
-    <!-- PROBLEMA -->
     <div class="card">
         <h2>🎯 Problema Resolvido</h2>
-        <p>
-            Identificação de dados inconsistentes, valores ausentes e registros duplicados
-            antes da análise ou uso em modelos.
-        </p>
+        <p>Identifica valores ausentes, duplicados e inconsistências antes da análise.</p>
     </div>
 
-    <!-- FUNCIONALIDADES -->
     <div class="card">
         <h2>⚙️ Funcionalidades</h2>
         <p>
             ✔ Leitura de CSV<br>
-            ✔ Detecção de valores nulos<br>
+            ✔ Detecção de nulos<br>
             ✔ Duplicados<br>
             ✔ Score de qualidade<br>
             ✔ Visualização de dados
         </p>
     </div>
 
-    <!-- SCORE -->
     <div class="card">
         <h2>🧠 Score de Qualidade</h2>
         <h1 class="highlight">🟡 Bom (80.50)</h1>
+        <p>Dataset com qualidade aceitável.</p>
+    </div>
+
+    <div class="card">
+        <h2>📈 Insight</h2>
         <p>
-            O dataset possui qualidade aceitável, mas ainda requer tratamento de dados ausentes.
+            Baixa completude em colunas críticas, exigindo limpeza antes de modelos.
         </p>
     </div>
 
-    <!-- INSIGHT -->
     <div class="card">
-        <h2>📈 Insight Gerado pelo Sistema</h2>
-        <p>
-            O dataset analisado apresenta <span class="highlight">baixa taxa de completude em colunas críticas</span>,
-            indicando necessidade de limpeza antes de uso em modelos preditivos.
-        </p>
-    </div>
-
-    <!-- GRÁFICO -->
-    <div class="card">
-        <h2>📊 Visualização de Qualidade dos Dados</h2>
-
-        <p class="highlight">
-            Distribuição dos problemas encontrados no dataset
-        </p>
+        <h2>📊 Dashboard de Qualidade</h2>
+        <p class="highlight">Distribuição automática dos problemas encontrados</p>
 
         <div id="chart-container">
             <canvas id="qualityChart"></canvas>
@@ -118,9 +100,6 @@
     </div>
 
 </section>
-
-<!-- SCRIPTS -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -134,7 +113,7 @@ fetch("data/quality_summary.json")
     new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Valores Ausentes', 'Duplicados', 'Válidos'],
+            labels: ['Ausentes', 'Duplicados', 'Válidos'],
             datasets: [{
                 label: 'Quantidade',
                 data: [data.missing, data.duplicates, data.valid],
@@ -142,7 +121,11 @@ fetch("data/quality_summary.json")
         }
     });
 
+  })
+  .catch(error => {
+    console.error("Erro ao carregar JSON:", error);
   });
 </script>
+
 </body>
 </html>
