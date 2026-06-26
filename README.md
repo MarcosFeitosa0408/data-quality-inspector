@@ -28,11 +28,15 @@ Além disso, serão gerados relatórios e gráficos para apoiar a análise e a t
 data-quality-inspector/
 │
 ├── data/
-├── reports/
-├── images/
+│   └── sample_data.csv
+│
 ├── src/
-├── requirements.txt
-└── README.md
+│   ├── main.py
+│   ├── analyzer.py
+│   ├── utils.py
+│
+├── reports/
+└── images/
 ```
 
 ## 📌 Status
