@@ -1,47 +1,40 @@
 # 📊 Data Quality Inspector
 
-Ferramenta desenvolvida em Python para automatizar a análise da qualidade de dados em arquivos CSV.
+## 🧠 Sobre o Projeto
 
-## 🎯 Objetivo
+O **Data Quality Inspector** é uma ferramenta em Python desenvolvida para automatizar a análise da qualidade de dados em arquivos CSV.
 
-Este projeto tem como objetivo identificar problemas comuns em bases de dados, como:
+O objetivo do projeto é simular um cenário real de engenharia de dados, onde bases precisam ser avaliadas antes de serem utilizadas em análises ou modelos.
 
-* Valores nulos
-* Registros duplicados
-* Outliers
-* Inconsistências nos dados
-* Estatísticas descritivas
+---
 
-Além disso, serão gerados relatórios e gráficos para apoiar a análise e a tomada de decisão.
+## 🎯 Problema que resolve
 
-## 🚀 Tecnologias
+Em ambientes reais de dados, é comum encontrar:
 
-* Python
-* Pandas
-* NumPy
-* Matplotlib
-* OpenPyXL
+- Valores ausentes
+- Registros duplicados
+- Dados inconsistentes
+- Falta de padronização
 
-## 📂 Estrutura do Projeto
+Este projeto automatiza a detecção desses problemas e gera uma visão clara da qualidade do dataset.
 
-```text
-data-quality-inspector/
-│
-├── data/
-│   └── sample_data.csv
-│
-├── src/
-│   ├── main.py
-│   ├── analyzer.py
-│   ├── utils.py
-│
-├── reports/
-└── images/
-```
+---
 
-## 📌 Status
+## ⚙️ Funcionalidades
 
-🚧 Projeto em desenvolvimento.
+✔ Leitura de arquivos CSV  
+✔ Análise de valores nulos  
+✔ Identificação de duplicados  
+✔ Estatísticas descritivas  
+✔ Score automático de qualidade (0–100)  
+✔ Classificação de qualidade dos dados  
+✔ Visualização gráfica de dados faltantes  
+
+---
+
+## 📊 Exemplo de saída
+
 
 ## 👨‍💻 Autor
 
