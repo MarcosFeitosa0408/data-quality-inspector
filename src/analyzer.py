@@ -1,101 +1,76 @@
 import pandas as pd
+import json
 
-def load_data(path: str):
+
+# =========================
+# LOAD DATA
+# =========================
+def load_data(path: str) -> pd.DataFrame:
     try:
         df = pd.read_csv(path)
-        print(f"✅ Dataset carregado: {df.shape[0]} linhas | {df.shape[1]} colunas")
+        print(f"[INFO] Dataset carregado: {df.shape[0]} linhas | {df.shape[1]} colunas")
         return df
     except Exception as e:
-        print(f"❌ Erro ao carregar dados: {e}")
+        print(f"[ERROR] Falha ao carregar dados: {e}")
         return None
 
 
+# =========================
+# REPORT
+# =========================
+def data_quality_report(df: pd.DataFrame):
+    print("\n📊 RELATÓRIO DE QUALIDADE\n")
 
-    print("\n📊 RELATÓRIO DE QUALIDADE DE DADOS\n")
-
-    # valores nulos
-    nulls = df.isnull().sum()
     print("🔎 Valores nulos por coluna:")
-    print(nulls)
+    print(df.isnull().sum())
 
-    # duplicados
-    duplicates = df.duplicated().sum()
-    print(f"\n🔁 Registros duplicados: {duplicates}")
+    print("\n🔁 Duplicados:")
+    print(df.duplicated().sum())
 
-    # estatísticas básicas
-    print("\n📈 Estatísticas descritivas:")
+    print("\n📈 Estatísticas:")
     print(df.describe(include="all"))
 
-def data_quality_score(df):
+
+# =========================
+# SCORE
+# =========================
+def data_quality_score(df: pd.DataFrame) -> float:
+
     total_cells = df.size
     missing_cells = df.isnull().sum().sum()
-
-    completeness = ((total_cells - missing_cells) / total_cells) * 100
-
     duplicates = df.duplicated().sum()
 
+    completeness = (1 - (missing_cells / total_cells)) * 100
     score = completeness - (duplicates * 2)
 
-    if score >= 90:
-        level = "🟢 Excelente"
-    elif score >= 70:
-        level = "🟡 Bom"
-    elif score >= 50:
-        level = "🟠 Médio"
-    else:
-        level = "🔴 Ruim"
-
     print("\n📊 SCORE DE QUALIDADE")
-    print(f"Completude: {completeness:.2f}%")
-    print(f"Duplicados: {duplicates}")
     print(f"Score final: {score:.2f}")
-    print(f"Classificação: {level}")
 
-import json
+    return round(score, 2)
 
-def export_quality_summary(df):
+
+# =========================
+# EXPORT JSON (FRONTEND)
+# =========================
+def export_quality_summary(df: pd.DataFrame):
+
     total_cells = df.size
     missing_cells = df.isnull().sum().sum()
     duplicates = df.duplicated().sum()
 
     valid_cells = total_cells - missing_cells
 
+    completeness = (1 - (missing_cells / total_cells)) * 100
+    score = completeness - (duplicates * 2)
+
     result = {
         "missing": int(missing_cells),
         "duplicates": int(duplicates),
-        "valid": int(valid_cells)
+        "valid": int(valid_cells),
+        "score": round(score, 2)
     }
 
     with open("data/quality_summary.json", "w") as f:
         json.dump(result, f)
 
-    print("✅ JSON de qualidade gerado com sucesso")
-
-import pandas as pd
-import json
-
-def load_data(path: str):
-    ...
-
-def data_quality_report(df: pd.DataFrame):
-    ...
-
-def data_quality_score(df):
-    ...
-
-def export_quality_summary(df):
-    ...
-
-def load_data(path: str) -> pd.DataFrame:
-
-print("[INFO] Dataset carregado com sucesso")
-print("[PROCESS] Calculando score de qualidade...")
-score = (1 - (missing_cells / total_cells)) * 100
-
-{
-  "missing": 10,
-  "duplicates": 2,
-  "valid": 88,
-  "score": 82.5,
-  "timestamp": "2026-06-26"
-}
+    print("✅ JSON gerado com sucesso para o dashboard")
