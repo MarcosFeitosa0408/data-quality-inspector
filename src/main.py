@@ -1,4 +1,4 @@
-from src.analyzer import load_data
+from src.analyzer import load_data, data_quality_report
 
 def main():
     print("🚀 Data Quality Inspector iniciado")
@@ -7,8 +7,7 @@ def main():
     df = load_data(file_path)
 
     if df is not None:
-        print("\n📊 Primeiras linhas do dataset:")
-        print(df.head())
+        data_quality_report(df)
 
 if __name__ == "__main__":
     main()
