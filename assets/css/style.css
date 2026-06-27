@@ -1,0 +1,334 @@
+/* ==========================================================
+   ENTERPRISE DATA ANALYTICS PLATFORM (EDAP)
+   style.css
+   ========================================================== */
+
+/* ==========================
+   RESET
+========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+/* ==========================
+   VARIÁVEIS
+========================== */
+
+:root{
+
+    --bg:#0F172A;
+
+    --card:#1E293B;
+
+    --border:#334155;
+
+    --primary:#38BDF8;
+
+    --success:#22C55E;
+
+    --warning:#F59E0B;
+
+    --danger:#EF4444;
+
+    --text:#F8FAFC;
+
+    --text-light:#CBD5E1;
+
+    --shadow:0 10px 25px rgba(0,0,0,.25);
+
+}
+
+/* ==========================
+   BODY
+========================== */
+
+body{
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    font-family:
+    "Segoe UI",
+    Tahoma,
+    Geneva,
+    Verdana,
+    sans-serif;
+
+    line-height:1.6;
+
+}
+
+/* ==========================
+   HEADER
+========================== */
+
+header{
+
+    background:var(--card);
+
+    border-bottom:1px solid var(--border);
+
+    padding:35px;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+}
+
+header h1{
+
+    font-size:34px;
+
+    margin-bottom:8px;
+
+}
+
+header p{
+
+    color:var(--text-light);
+
+}
+
+/* ==========================
+   MAIN
+========================== */
+
+main{
+
+    width:95%;
+
+    max-width:1500px;
+
+    margin:auto;
+
+    padding:35px 0;
+
+}
+
+/* ==========================
+   SECTIONS
+========================== */
+
+section{
+
+    background:var(--card);
+
+    margin-bottom:30px;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    border:1px solid var(--border);
+
+    box-shadow:var(--shadow);
+
+}
+
+/* ==========================
+   TÍTULOS
+========================== */
+
+section h2{
+
+    margin-bottom:20px;
+
+    color:var(--primary);
+
+}
+
+/* ==========================
+   GRID KPI
+========================== */
+
+.kpi-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+
+    gap:20px;
+
+}
+
+.kpi-card{
+
+    background:#243447;
+
+    border-radius:12px;
+
+    padding:25px;
+
+    text-align:center;
+
+    transition:.3s;
+
+    border:1px solid var(--border);
+
+}
+
+.kpi-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.kpi-card h3{
+
+    color:var(--text-light);
+
+    margin-bottom:10px;
+
+}
+
+.kpi-value{
+
+    font-size:34px;
+
+    color:var(--primary);
+
+    font-weight:bold;
+
+}
+
+/* ==========================
+   DASHBOARD
+========================== */
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr;
+
+    gap:25px;
+
+}
+
+.chart-box{
+
+    background:#243447;
+
+    padding:20px;
+
+    border-radius:12px;
+
+    border:1px solid var(--border);
+
+}
+
+.chart-box canvas{
+
+    width:100%;
+
+}
+
+/* ==========================
+   INSIGHTS
+========================== */
+
+.insight{
+
+    padding:18px;
+
+    background:#243447;
+
+    border-left:5px solid var(--primary);
+
+    border-radius:10px;
+
+}
+
+/* ==========================
+   BOTÕES
+========================== */
+
+button{
+
+    background:var(--primary);
+
+    color:white;
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    transform:scale(1.04);
+
+}
+
+/* ==========================
+   FOOTER
+========================== */
+
+footer{
+
+    text-align:center;
+
+    color:var(--text-light);
+
+    padding:30px;
+
+    border-top:1px solid var(--border);
+
+}
+
+/* ==========================
+   RESPONSIVIDADE
+========================== */
+
+@media(max-width:900px){
+
+.dashboard-grid{
+
+grid-template-columns:1fr;
+
+}
+
+header h1{
+
+font-size:28px;
+
+}
+
+}
+
+@media(max-width:600px){
+
+main{
+
+width:95%;
+
+}
+
+section{
+
+padding:18px;
+
+}
+
+.kpi-value{
+
+font-size:26px;
+
+}
+
+}
