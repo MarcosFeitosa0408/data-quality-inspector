@@ -52,7 +52,7 @@ def data_quality_score(df: pd.DataFrame) -> float:
 # =========================
 # EXPORT JSON (FRONTEND)
 # =========================
-def export_quality_summary(df: pd.DataFrame):
+def export_quality_summary(df: pd.DataFrame, file_path: str):
 
     total_cells = df.size
     missing_cells = df.isnull().sum().sum()
