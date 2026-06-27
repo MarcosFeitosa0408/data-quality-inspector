@@ -18,7 +18,7 @@ def main():
     if df is not None:
         data_quality_report(df)
         data_quality_score(df)
-        export_quality_summary(df)
+        export_quality_summary(df, file_path)
         plot_nulls(df)
 
         print("✅ Análise concluída com sucesso!")
