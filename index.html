@@ -312,3 +312,267 @@
 
 </section>
 ```
+```html
+<!-- ==========================================================
+     DASHBOARD GRID
+     ========================================================== -->
+
+<section
+    id="quality"
+    class="dashboard-section">
+
+    <div class="dashboard-grid">
+
+        <!-- ==========================================
+             GRÁFICO PRINCIPAL
+             ========================================== -->
+
+        <article class="dashboard-card chart-large">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h3>
+
+                        Qualidade Geral dos Dados
+
+                    </h3>
+
+                    <p>
+
+                        Distribuição entre registros válidos, ausentes e duplicados.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="card-body">
+
+                <canvas id="qualityChart"></canvas>
+
+            </div>
+
+        </article>
+
+        <!-- ==========================================
+             RESUMO DO DATASET
+             ========================================== -->
+
+        <article
+            id="dataset"
+            class="dashboard-card">
+
+            <div class="card-header">
+
+                <h3>
+
+                    Informações do Dataset
+
+                </h3>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="info-item">
+
+                    <span>
+
+                        Nome do Arquivo
+
+                    </span>
+
+                    <strong id="dataset-name">
+
+                        --
+
+                    </strong>
+
+                </div>
+
+                <div class="info-item">
+
+                    <span>
+
+                        Total de Linhas
+
+                    </span>
+
+                    <strong id="dataset-rows-info">
+
+                        --
+
+                    </strong>
+
+                </div>
+
+                <div class="info-item">
+
+                    <span>
+
+                        Total de Colunas
+
+                    </span>
+
+                    <strong id="dataset-columns">
+
+                        --
+
+                    </strong>
+
+                </div>
+
+                <div class="info-item">
+
+                    <span>
+
+                        Colunas Numéricas
+
+                    </span>
+
+                    <strong id="numeric-columns">
+
+                        --
+
+                    </strong>
+
+                </div>
+
+                <div class="info-item">
+
+                    <span>
+
+                        Colunas Categóricas
+
+                    </span>
+
+                    <strong id="categorical-columns">
+
+                        --
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+<!-- ==========================================================
+     ESTATÍSTICAS
+     ========================================================== -->
+
+<section
+    id="statistics"
+    class="statistics-section">
+
+    <div class="section-title">
+
+        <h2>
+
+            Estatísticas da Qualidade
+
+        </h2>
+
+        <p>
+
+            Indicadores produzidos automaticamente pelo motor analítico da EDAP.
+
+        </p>
+
+    </div>
+
+    <div class="statistics-grid">
+
+        <article class="stat-card">
+
+            <h4>
+
+                Missing Values
+
+            </h4>
+
+            <div
+                class="progress-card">
+
+                <div
+                    class="progress-bar bg-danger"
+                    id="progress-missing">
+
+                </div>
+
+            </div>
+
+            <span id="missing-percent">
+
+                --
+
+            </span>
+
+        </article>
+
+        <article class="stat-card">
+
+            <h4>
+
+                Duplicated Rows
+
+            </h4>
+
+            <div
+                class="progress-card">
+
+                <div
+                    class="progress-bar bg-warning"
+                    id="progress-duplicates">
+
+                </div>
+
+            </div>
+
+            <span id="duplicates-percent">
+
+                --
+
+            </span>
+
+        </article>
+
+        <article class="stat-card">
+
+            <h4>
+
+                Valid Cells
+
+            </h4>
+
+            <div
+                class="progress-card">
+
+                <div
+                    class="progress-bar bg-success"
+                    id="progress-valid">
+
+                </div>
+
+            </div>
+
+            <span id="valid-percent">
+
+                --
+
+            </span>
+
+        </article>
+
+    </div>
+
+</section>
+```
