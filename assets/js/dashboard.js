@@ -6897,8 +6897,571 @@ EventBus.emit(
 
 );
 
+```javascript
 /* ==========================================================
-   END OF PART 15
+   PATCH 05
+   RESOURCE MANAGER
+   ========================================================== */
+
+/* FECHAMENTO CORRETO DO MÓDULO */
+
+dispose(){
+
+    this.resources.forEach(
+
+        resource=>{
+
+            resource
+
+                ?.dispose?.();
+
+        }
+
+    );
+
+    this.resources.clear();
+
+}
+
+};
+
+/* ==========================================================
+   PART 16
+   ENTERPRISE ANALYTICS FOUNDATION
+   ========================================================== */
+
+/* ==========================================================
+   ENTERPRISE CONFIGURATION PROVIDER
+   ========================================================== */
+
+const EnterpriseConfiguration={
+
+    providers:new Map(),
+
+    cache:new Map(),
+
+    register(
+
+        name,
+
+        provider
+
+    ){
+
+        this.providers.set(
+
+            name,
+
+            provider
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Configuration Provider Registered",
+
+            {
+
+                provider:name
+
+            }
+
+        );
+
+    },
+
+    async load(name){
+
+        if(
+
+            this.cache.has(name)
+
+        ){
+
+            return this.cache.get(
+
+                name
+
+            );
+
+        }
+
+        const provider=
+
+            this.providers.get(
+
+                name
+
+            );
+
+        if(
+
+            !provider
+
+            ){
+
+            return null;
+
+        }
+
+        const configuration=
+
+            await provider.load();
+
+        this.cache.set(
+
+            name,
+
+            configuration
+
+        );
+
+        return configuration;
+
+    },
+
+    clear(){
+
+        this.cache.clear();
+
+    }
+
+};
+
+/* ==========================================================
+   DATA SOURCE REGISTRY
+   ========================================================== */
+
+const DataSourceRegistry={
+
+    sources:new Map(),
+
+    register(
+
+        id,
+
+        datasource
+
+    ){
+
+        this.sources.set(
+
+            id,
+
+            datasource
+
+        );
+
+        EventBus.emit(
+
+            "datasource.registered",
+
+            {
+
+                id
+
+            }
+
+        );
+       Audit.log(
+
+    "datasource.registered",
+
+    {
+
+        id
+
+    }
+
+);
+
+    },
+
+    get(id){
+
+        return this.sources.get(
+
+            id
+
+        );
+
+    },
+
+    list(){
+
+        return Array.from(
+
+            this.sources.keys()
+
+        );
+
+    }
+
+};
+
+/* ==========================================================
+   DATASET CATALOG
+   ========================================================== */
+
+const DatasetCatalog={
+
+    datasets:new Map(),
+
+    register(
+
+        metadata
+
+    ){
+
+        this.datasets.set(
+
+            metadata.id,
+
+            metadata
+
+        );
+
+        Audit.log(
+
+            "dataset.catalog.register",
+
+            metadata
+
+        );
+
+    },
+
+    get(id){
+
+        return this.datasets.get(
+
+            id
+
+        );
+
+    },
+
+    list(){
+
+        return Array.from(
+
+            this.datasets.values()
+
+        );
+
+    }
+
+};
+
+/* ==========================================================
+   ANALYTICS ENGINE
+   ========================================================== */
+
+const AnalyticsEngine={
+
+    analyzers:new Map(),
+
+    register(
+
+        name,
+
+        analyzer
+
+    ){
+
+        this.analyzers.set(
+
+            name,
+
+            analyzer
+
+        );
+
+    },
+
+    async execute(
+
+        name,
+
+        dataset
+
+    ){
+
+        const analyzer=
+
+            this.analyzers.get(
+
+                name
+
+            );
+
+        if(
+
+            !analyzer
+
+        ){
+
+            throw new Error(
+
+                `Analyzer not found: ${name}`
+
+            );
+
+        }
+
+        PerformanceMonitor.begin?.(
+
+            `analytics.${name}`
+
+        );
+
+        const result=
+
+            await analyzer.run(
+
+                dataset
+
+            );
+
+        PerformanceMonitor.end?.(
+
+            `analytics.${name}`
+
+        );
+
+        Telemetry.track(
+
+            "analytics.executed",
+
+            {
+
+                analyzer:name
+
+            }
+
+        );
+
+        return result;
+
+    }
+
+};
+
+/* ==========================================================
+   REPORT REGISTRY
+   ========================================================== */
+
+const ReportRegistry={
+
+    reports:new Map(),
+
+    register(
+
+        id,
+
+        report
+
+    ){
+
+        this.reports.set(
+
+            id,
+
+            report
+
+        );
+
+    },
+
+    get(id){
+
+        return this.reports.get(
+
+            id
+
+        );
+
+    },
+
+    list(){
+
+        return Array.from(
+
+            this.reports.keys()
+
+        );
+
+    }
+
+};
+
+/* ==========================================================
+   DASHBOARD TEMPLATE REGISTRY
+   ========================================================== */
+
+const DashboardTemplates={
+
+    templates:new Map(),
+
+    register(
+
+        name,
+
+        template
+
+    ){
+
+        this.templates.set(
+
+            name,
+
+            template
+
+        );
+
+    },
+
+    resolve(name){
+
+        return this.templates.get(
+
+            name
+
+        );
+
+    }
+
+};
+
+/* ==========================================================
+   ENTERPRISE INITIALIZATION
+   ========================================================== */
+
+ModuleRegistry.register(
+
+    "EnterpriseConfiguration",
+
+    "1.0.0",
+
+    EnterpriseConfiguration
+
+);
+
+ModuleRegistry.register(
+
+    "DataSourceRegistry",
+
+    "1.0.0",
+
+    DataSourceRegistry
+
+);
+
+ModuleRegistry.register(
+
+    "DatasetCatalog",
+
+    "1.0.0",
+
+    DatasetCatalog
+
+);
+
+ModuleRegistry.register(
+
+    "AnalyticsEngine",
+
+    "1.0.0",
+
+    AnalyticsEngine
+
+);
+
+ModuleRegistry.register(
+
+    "ReportRegistry",
+
+    "1.0.0",
+
+    ReportRegistry
+
+);
+
+ModuleRegistry.register(
+
+    "DashboardTemplates",
+
+    "1.0.0",
+
+    DashboardTemplates
+
+);
+
+Container.register(
+
+    "AnalyticsEngine",
+
+    AnalyticsEngine
+
+);
+
+Container.register(
+
+    "DatasetCatalog",
+
+    DatasetCatalog
+
+);
+
+Container.register(
+
+    "EnterpriseConfiguration",
+
+    EnterpriseConfiguration
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "EDAP Enterprise Analytics Foundation loaded."
+
+);
+
+EventBus.emit(
+
+    "enterprise.analytics.ready",
+
+    {
+
+        version:"1.1",
+
+        modules:[
+
+            "EnterpriseConfiguration",
+
+            "DataSourceRegistry",
+
+            "DatasetCatalog",
+
+            "AnalyticsEngine",
+
+            "ReportRegistry",
+
+            "DashboardTemplates"
+
+        ]
+
+    }
+
+);
+
+/* ==========================================================
+   END OF PART 16
    ========================================================== */
 ```
+
 
