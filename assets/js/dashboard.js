@@ -6256,7 +6256,7 @@ const DomainEvents={
 
         }
 
-        Audit.log?.(
+       Audit.log(
 
             event,
 
@@ -6594,10 +6594,11 @@ const ResourceManager={
 
         );
 
+        this.resources.clear();
+
     }
 
 };
-
 /* ==========================================================
    DATASET VERSION MANAGER
    ========================================================== */
@@ -6612,7 +6613,9 @@ const DatasetVersionManager={
 
             id:
 
-                crypto.randomUUID(),
+    crypto.randomUUID
+        ? crypto.randomUUID()
+        : `dataset-${Date.now()}`,
 
             createdAt:
 
@@ -6630,7 +6633,7 @@ const DatasetVersionManager={
 
         );
 
-        Audit.log?.(
+        Audit.log(
 
             "dataset.version.created",
 
