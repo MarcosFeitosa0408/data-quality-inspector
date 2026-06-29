@@ -7211,7 +7211,8 @@ const AnalyticsEngine={
 
         }
 
-        PerformanceMonitor.begin?.(
+        PerformanceMonitor.begin(
+
 
             `analytics.${name}`
 
@@ -7225,7 +7226,7 @@ const AnalyticsEngine={
 
             );
 
-        PerformanceMonitor.end?.(
+       PerformanceMonitor.end(
 
             `analytics.${name}`
 
