@@ -6242,7 +6242,7 @@ const DomainEvents={
 
             Logger.write(
 
-                Logger.levels.WARNING,
+                Logger.levels.WARN,
 
                 "Unregistered domain event",
 
