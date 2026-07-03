@@ -8408,3 +8408,190 @@ EventBus.emit(
 /* ==========================================================
    END OF PART 18
    ========================================================== */
+
+   /* ==========================================================
+   PART 19 — ENTERPRISE DATA GOVERNANCE EVOLUTION
+   METADATA VERSION REGISTRY
+   ========================================================== */
+
+const MetadataVersionRegistry={
+
+    versions:new Map(),
+
+    register(
+
+        datasetId,
+
+        metadata,
+
+        version="1.0.0"
+
+    ){
+
+        const history=
+
+            this.versions.get(
+
+                datasetId
+
+            ) ?? [];
+
+        history.push({
+
+            version,
+
+            metadata,
+
+            timestamp:new Date().toISOString()
+
+        });
+
+        this.versions.set(
+
+            datasetId,
+
+            history
+
+        );
+
+        Audit.log(
+
+            "metadata.version.register",
+
+            {
+
+                dataset:datasetId,
+
+                version
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "metadata.version.registered",
+
+            {
+
+                dataset:datasetId,
+
+                version
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "metadata.version.registered",
+
+            {
+
+                dataset:datasetId,
+
+                version
+
+            }
+
+        );
+
+    },
+
+    history(
+
+        datasetId
+
+    ){
+
+        return this.versions.get(
+
+            datasetId
+
+        ) ?? [];
+
+    },
+
+    latest(
+
+        datasetId
+
+    ){
+
+        const history=
+
+            this.history(
+
+                datasetId
+
+            );
+
+        return history.length===0
+
+            ? undefined
+
+            : history[
+
+                history.length-1
+
+            ];
+
+    },
+
+    clear(
+
+        datasetId
+
+    ){
+
+        this.versions.delete(
+
+            datasetId
+
+        );
+
+    }
+
+};
+
+/* ==========================================================
+   METADATA VERSION BOOTSTRAP
+   ========================================================== */
+
+ModuleRegistry.register(
+
+    "MetadataVersionRegistry",
+
+    "1.0.0",
+
+    MetadataVersionRegistry
+
+);
+
+Container.register(
+
+    "MetadataVersionRegistry",
+
+    MetadataVersionRegistry
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Metadata Version Registry loaded."
+
+);
+
+EventBus.emit(
+
+    "metadata.version.ready",
+
+    {
+
+        module:"MetadataVersionRegistry"
+
+    }
+
+);
