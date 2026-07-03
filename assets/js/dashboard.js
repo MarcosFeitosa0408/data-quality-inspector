@@ -7799,3 +7799,614 @@ EventBus.emit(
 /* ==========================================================
    END OF PART 17
    ========================================================== */
+
+   /* ==========================================================
+   PART 18 — ENTERPRISE DATA GOVERNANCE FOUNDATION
+   DATASET CATALOG GOVERNANCE
+   ========================================================== */
+
+const DatasetGovernance={
+
+  catalog:DatasetCatalog,
+
+    register(
+
+    id,
+
+    definition
+
+){
+
+    this.catalog.register(
+
+        {
+
+            id,
+
+            ...definition
+
+        }
+
+    );
+
+    Audit.log(
+
+        "dataset.governance.register",
+
+        {
+
+            dataset:id
+
+        }
+
+    );
+
+    EventBus.emit(
+
+        "dataset.governance.registered",
+
+        {
+
+            dataset:id
+
+        }
+
+    );
+
+
+
+    },
+
+    resolve(
+
+    id
+
+){
+
+    return this.catalog.get(
+
+        id
+
+    );
+
+},
+
+   list(){
+
+    return this.catalog.list();
+
+},
+
+   exists(
+
+    id
+
+){
+
+    return this.catalog.get(
+
+        id
+
+    )!==undefined;
+
+}
+
+};
+
+/* ==========================================================
+   METADATA REGISTRY
+   ========================================================== */
+
+const MetadataRegistry={
+
+    registry:new Map(),
+
+    register(
+
+        datasetId,
+
+        metadata
+
+    ){
+
+        this.registry.set(
+
+            datasetId,
+
+            metadata
+
+        );
+
+        Audit.log(
+
+            "metadata.register",
+
+            {
+
+                dataset:datasetId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "metadata.registered",
+
+            {
+
+                dataset:datasetId
+
+            }
+
+        );
+
+    },
+
+    update(
+
+        datasetId,
+
+        metadata
+
+    ){
+
+        const current=
+
+            this.registry.get(
+
+                datasetId
+
+            ) ?? {};
+
+        this.registry.set(
+
+            datasetId,
+
+            {
+
+                ...current,
+
+                ...metadata
+
+            }
+
+        );
+
+        Audit.log(
+
+            "metadata.updated",
+
+            {
+
+                dataset:datasetId
+
+            }
+
+        );
+
+    },
+
+    get(
+
+        datasetId
+
+    ){
+
+        return this.registry.get(
+
+            datasetId
+
+        );
+
+    },
+
+    remove(
+
+        datasetId
+
+    ){
+
+        this.registry.delete(
+
+            datasetId
+
+        );
+
+    },
+
+    list(){
+
+        return Array.from(
+
+            this.registry.entries()
+
+        );
+
+    }
+
+};
+
+/* ==========================================================
+   DATA CONTRACT REGISTRY
+   ========================================================== */
+
+const DataContractRegistry={
+
+    contracts:new Map(),
+
+    register(
+
+        datasetId,
+
+        contract
+
+    ){
+
+        this.contracts.set(
+
+            datasetId,
+
+            contract
+
+        );
+
+        Audit.log(
+
+            "contract.register",
+
+            {
+
+                dataset:datasetId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "contract.registered",
+
+            {
+
+                dataset:datasetId
+
+            }
+
+        );
+
+    },
+
+    resolve(
+
+        datasetId
+
+    ){
+
+        return this.contracts.get(
+
+            datasetId
+
+        );
+
+    },
+
+    exists(
+
+        datasetId
+
+    ){
+
+        return this.contracts.has(
+
+            datasetId
+
+        );
+
+    },
+
+    remove(
+
+        datasetId
+
+    ){
+
+        this.contracts.delete(
+
+            datasetId
+
+        );
+
+    }
+
+};
+
+/* ==========================================================
+   DATA CONTRACT VALIDATOR
+   ========================================================== */
+
+const DataContractValidator={
+
+    validate(
+
+        datasetId,
+
+        dataset
+
+    ){
+
+        const contract=
+
+            DataContractRegistry.resolve(
+
+                datasetId
+
+            );
+
+        if(
+
+            !contract
+
+        ){
+
+            return{
+
+                valid:true,
+
+                violations:[]
+
+            };
+
+        }
+
+        const violations=[];
+
+        for(
+
+            const field of
+
+            contract.fields ?? []
+
+        ){
+
+            if(
+
+                field.required &&
+
+                !(field.name in dataset)
+
+            ){
+
+                violations.push({
+
+                    field:field.name,
+
+                    rule:"required"
+
+                });
+
+            }
+
+        }
+
+        const valid=
+
+            violations.length===0;
+
+        Audit.log(
+
+            "contract.validation",
+
+            {
+
+                dataset:datasetId,
+
+                valid
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "contract.validated",
+
+            {
+
+                dataset:datasetId,
+
+                valid
+
+            }
+
+        );
+
+        return{
+
+            valid,
+
+            violations
+
+        };
+
+    }
+
+};
+
+/* ==========================================================
+   DATASET LINEAGE REGISTRY
+   ========================================================== */
+
+const DatasetLineage={
+
+    lineage:new Map(),
+
+    register(
+
+        datasetId,
+
+        dependencies=[]
+
+    ){
+
+        this.lineage.set(
+
+            datasetId,
+
+            dependencies
+
+        );
+
+        Audit.log(
+
+            "lineage.register",
+
+            {
+
+                dataset:datasetId
+
+            }
+
+        );
+
+    },
+
+    dependencies(
+
+        datasetId
+
+    ){
+
+        return this.lineage.get(
+
+            datasetId
+
+        ) ?? [];
+
+    }
+
+};
+
+/* ==========================================================
+   GOVERNANCE BOOTSTRAP
+   ========================================================== */
+
+ModuleRegistry.register(
+
+    "DatasetGovernance",
+
+    "1.0.0",
+
+    DatasetGovernance
+
+);
+
+ModuleRegistry.register(
+
+    "MetadataRegistry",
+
+    "1.0.0",
+
+    MetadataRegistry
+
+);
+
+ModuleRegistry.register(
+
+    "DataContractRegistry",
+
+    "1.0.0",
+
+    DataContractRegistry
+
+);
+
+ModuleRegistry.register(
+
+    "DataContractValidator",
+
+    "1.0.0",
+
+    DataContractValidator
+
+);
+
+ModuleRegistry.register(
+
+    "DatasetLineage",
+
+    "1.0.0",
+
+    DatasetLineage
+
+);
+
+Container.register(
+
+    "MetadataRegistry",
+
+    MetadataRegistry
+
+);
+
+Container.register(
+
+    "DataContractRegistry",
+
+    DataContractRegistry
+
+);
+
+Container.register(
+
+    "DataContractValidator",
+
+    DataContractValidator
+
+);
+
+Container.register(
+
+    "DatasetLineage",
+
+    DatasetLineage
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "EDAP Data Governance Foundation loaded."
+
+);
+
+EventBus.emit(
+
+    "governance.ready",
+
+    {
+
+        version:"1.1",
+
+        modules:[
+
+            "DatasetGovernance",
+
+            "MetadataRegistry",
+
+            "DataContractRegistry",
+
+            "DataContractValidator",
+
+            "DatasetLineage"
+
+        ]
+
+    }
+
+);
+
+/* ==========================================================
+   END OF PART 18
+   ========================================================== */
