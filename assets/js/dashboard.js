@@ -7807,89 +7807,87 @@ EventBus.emit(
 
 const DatasetGovernance={
 
-  catalog:DatasetCatalog,
+    catalog:DatasetCatalog,
 
     register(
 
-    id,
+        id,
 
-    definition
+        definition
 
-){
+    ){
 
-    this.catalog.register(
+        this.catalog.register(
 
-        {
+            {
 
-            id,
+                id,
 
-            ...definition
+                ...definition
 
-        }
+            }
 
-    );
+        );
 
-    Audit.log(
+        Audit.log(
 
-        "dataset.governance.register",
+            "dataset.governance.register",
 
-        {
+            {
 
-            dataset:id
+                dataset:id
 
-        }
+            }
 
-    );
+        );
 
-    EventBus.emit(
+        EventBus.emit(
 
-        "dataset.governance.registered",
+            "dataset.governance.registered",
 
-        {
+            {
 
-            dataset:id
+                dataset:id
 
-        }
+            }
 
-    );
-
-
+        );
 
     },
 
     resolve(
 
-    id
+        id
 
-){
+    ){
 
-    return this.catalog.get(
+        return this.catalog.get(
+
+            id
+
+        );
+
+    },
+
+    list(){
+
+        return this.catalog.list();
+
+    },
+
+    exists(
 
         id
 
-    );
+    ){
 
-},
+        return this.catalog.get(
 
-   list(){
+            id
 
-    return this.catalog.list();
+        )!==undefined;
 
-},
-
-   exists(
-
-    id
-
-){
-
-    return this.catalog.get(
-
-        id
-
-    )!==undefined;
-
-}
+    }
 
 };
 
