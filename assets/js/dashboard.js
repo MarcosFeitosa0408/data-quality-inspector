@@ -8809,3 +8809,217 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   DATA QUALITY RULE SET REGISTRY
+   ========================================================== */
+
+const DataQualityRuleSetRegistry={
+
+    ruleSets:new Map(),
+
+    register(
+
+        id,
+
+        definition
+
+    ){
+
+        this.ruleSets.set(
+
+            id,
+
+            definition
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Data Quality Rule Set Registered",
+
+            {
+
+                ruleSet:id
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.ruleset.register",
+
+            {
+
+                ruleSet:id
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.ruleset.registered",
+
+            {
+
+                ruleSet:id
+
+            }
+
+        );
+
+    },
+
+    update(
+
+        id,
+
+        definition
+
+    ){
+
+        const current=
+
+            this.ruleSets.get(
+
+                id
+
+            ) ?? {};
+
+        this.ruleSets.set(
+
+            id,
+
+            {
+
+                ...current,
+
+                ...definition
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.ruleset.updated",
+
+            {
+
+                ruleSet:id
+
+            }
+
+        );
+
+    },
+
+    resolve(
+
+        id
+
+    ){
+
+        return this.ruleSets.get(
+
+            id
+
+        );
+
+    },
+
+    exists(
+
+        id
+
+    ){
+
+        return this.ruleSets.has(
+
+            id
+
+        );
+
+    },
+
+    remove(
+
+        id
+
+    ){
+
+        this.ruleSets.delete(
+
+            id
+
+        );
+
+        Audit.log(
+
+            "quality.ruleset.removed",
+
+            {
+
+                ruleSet:id
+
+            }
+
+        );
+
+    },
+
+    list(){
+
+        return Array.from(
+
+            this.ruleSets.values()
+
+        );
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "DataQualityRuleSetRegistry",
+
+    "1.0.0",
+
+    DataQualityRuleSetRegistry
+
+);
+
+Container.register(
+
+    "DataQualityRuleSetRegistry",
+
+    DataQualityRuleSetRegistry
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Data Quality Rule Set Registry loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.rulesets.ready",
+
+    {
+
+        module:
+
+            "DataQualityRuleSetRegistry"
+
+    }
+
+);
