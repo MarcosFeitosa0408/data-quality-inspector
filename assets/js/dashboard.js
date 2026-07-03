@@ -8595,3 +8595,217 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   DATA QUALITY RULE REGISTRY
+   ========================================================== */
+
+const DataQualityRuleRegistry={
+
+    rules:new Map(),
+
+    register(
+
+        id,
+
+        rule
+
+    ){
+
+        this.rules.set(
+
+            id,
+
+            rule
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Data Quality Rule Registered",
+
+            {
+
+                rule:id
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.rule.register",
+
+            {
+
+                rule:id
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.rule.registered",
+
+            {
+
+                rule:id
+
+            }
+
+        );
+
+    },
+
+    update(
+
+        id,
+
+        rule
+
+    ){
+
+        const current=
+
+            this.rules.get(
+
+                id
+
+            ) ?? {};
+
+        this.rules.set(
+
+            id,
+
+            {
+
+                ...current,
+
+                ...rule
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.rule.updated",
+
+            {
+
+                rule:id
+
+            }
+
+        );
+
+    },
+
+    resolve(
+
+        id
+
+    ){
+
+        return this.rules.get(
+
+            id
+
+        );
+
+    },
+
+    remove(
+
+        id
+
+    ){
+
+        this.rules.delete(
+
+            id
+
+        );
+
+        Audit.log(
+
+            "quality.rule.removed",
+
+            {
+
+                rule:id
+
+            }
+
+        );
+
+    },
+
+    exists(
+
+        id
+
+    ){
+
+        return this.rules.has(
+
+            id
+
+        );
+
+    },
+
+    list(){
+
+        return Array.from(
+
+            this.rules.values()
+
+        );
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "DataQualityRuleRegistry",
+
+    "1.0.0",
+
+    DataQualityRuleRegistry
+
+);
+
+Container.register(
+
+    "DataQualityRuleRegistry",
+
+    DataQualityRuleRegistry
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Data Quality Rule Registry loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.rules.ready",
+
+    {
+
+        module:
+
+            "DataQualityRuleRegistry"
+
+    }
+
+);
