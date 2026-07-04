@@ -9453,3 +9453,245 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   DATA QUALITY ENGINE
+   ========================================================== */
+
+const DataQualityEngine={
+
+    async execute(
+
+        targetId,
+
+        context={}
+
+    ){
+
+        const profileId=
+
+            DataQualityAssignmentRegistry.resolve(
+
+                targetId
+
+            );
+
+        if(
+
+            !profileId
+
+        ){
+
+            throw new Error(
+
+                `No Data Quality Profile assigned to ${targetId}`
+
+            );
+
+        }
+
+        const profile=
+
+            DataQualityProfileRegistry.resolve(
+
+                profileId
+
+            );
+
+        if(
+
+            !profile
+
+        ){
+
+            throw new Error(
+
+                `Profile not found: ${profileId}`
+
+            );
+
+        }
+
+        const executionId=
+
+            crypto.randomUUID
+
+                ? crypto.randomUUID()
+
+                : `dq-execution-${Date.now()}`;
+
+        const execution={
+
+            id:executionId,
+
+            target:targetId,
+
+            profile:profileId,
+
+            startedAt:
+
+                new Date()
+
+                    .toISOString(),
+
+            status:"RUNNING"
+
+        };
+
+        DataQualityExecutionRegistry.register(
+
+            executionId,
+
+            execution
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Data Quality Execution Started",
+
+            {
+
+                execution:executionId,
+
+                target:targetId,
+
+                profile:profileId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.execution.started",
+
+            execution
+
+        );
+
+        Telemetry.track(
+
+            "quality.execution.started",
+
+            execution
+
+        );
+
+        const result={
+
+            executionId,
+
+            target:targetId,
+
+            profile:profileId,
+
+            ruleSets:
+
+                profile.ruleSets ?? [],
+
+            context
+
+        };
+
+        DataQualityExecutionRegistry.update(
+
+            executionId,
+
+            {
+
+                status:"COMPLETED",
+
+                finishedAt:
+
+                    new Date()
+
+                        .toISOString()
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.execution.completed",
+
+            {
+
+                execution:executionId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.execution.completed",
+
+            {
+
+                execution:executionId
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "quality.execution.completed",
+
+            {
+
+                execution:executionId
+
+            }
+
+        );
+
+        return result;
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "DataQualityEngine",
+
+    "1.0.0",
+
+    DataQualityEngine
+
+);
+
+Container.register(
+
+    "DataQualityEngine",
+
+    DataQualityEngine
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Data Quality Engine loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.engine.ready",
+
+    {
+
+        module:
+
+            "DataQualityEngine"
+
+    }
+
+);
