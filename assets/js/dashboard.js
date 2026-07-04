@@ -9695,3 +9695,199 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   DATA QUALITY RULE EXECUTOR
+   ========================================================== */
+
+const DataQualityRuleExecutor={
+
+    async execute(
+
+        ruleSet,
+
+        context={}
+
+    ){
+
+        const results=[];
+
+        for(
+
+            const ruleId of
+
+            ruleSet.rules ?? []
+
+        ){
+
+            const rule=
+
+                DataQualityRuleRegistry.resolve(
+
+                    ruleId
+
+                );
+
+            if(
+
+                !rule
+
+            ){
+
+                Logger.write(
+
+                    Logger.levels.WARN,
+
+                    "Data Quality Rule Not Found",
+
+                    {
+
+                        rule:ruleId
+
+                    }
+
+                );
+
+                continue;
+
+            }
+
+            Logger.write(
+
+                Logger.levels.INFO,
+
+                "Executing Data Quality Rule",
+
+                {
+
+                    rule:ruleId
+
+                }
+
+            );
+
+            EventBus.emit(
+
+                "quality.rule.started",
+
+                {
+
+                    rule:ruleId
+
+                }
+
+            );
+
+            Telemetry.track(
+
+                "quality.rule.started",
+
+                {
+
+                    rule:ruleId
+
+                }
+
+            );
+
+            const outcome=
+
+                await rule.execute(
+
+                    context
+
+                );
+
+            results.push({
+
+                rule:ruleId,
+
+                outcome
+
+            });
+
+            Audit.log(
+
+                "quality.rule.executed",
+
+                {
+
+                    rule:ruleId
+
+                }
+
+            );
+
+            EventBus.emit(
+
+                "quality.rule.executed",
+
+                {
+
+                    rule:ruleId,
+
+                    outcome
+
+                }
+
+            );
+
+            Telemetry.track(
+
+                "quality.rule.executed",
+
+                {
+
+                    rule:ruleId
+
+                }
+
+            );
+
+        }
+
+        return results;
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "DataQualityRuleExecutor",
+
+    "1.0.0",
+
+    DataQualityRuleExecutor
+
+);
+
+Container.register(
+
+    "DataQualityRuleExecutor",
+
+    DataQualityRuleExecutor
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Data Quality Rule Executor loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.rule.executor.ready",
+
+    {
+
+        module:
+
+            "DataQualityRuleExecutor"
+
+    }
+
+);
