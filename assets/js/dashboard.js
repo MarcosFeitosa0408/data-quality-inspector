@@ -10271,3 +10271,179 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY METRICS SERVICE
+   ========================================================== */
+
+const QualityMetricsService={
+
+    summarize(
+
+        assessmentIds=[]
+
+    ){
+
+        const summaries=[];
+
+        for(
+
+            const assessmentId of assessmentIds
+
+        ){
+
+            const score=
+
+                QualityScoreEngine.calculate(
+
+                    assessmentId
+
+                );
+
+            if(
+
+                score
+
+            ){
+
+                summaries.push(
+
+                    score
+
+                );
+
+            }
+
+        }
+
+        const assessments=
+
+            summaries.length;
+
+        const averageScore=
+
+            assessments===0
+
+                ?100
+
+                :summaries.reduce(
+
+                    (
+
+                        total,
+
+                        current
+
+                    )=>
+
+                        total+
+
+                        current.score,
+
+                    0
+
+                )/assessments;
+
+        const summary={
+
+            assessments,
+
+            averageScore:Number(
+
+                averageScore.toFixed(
+
+                    2
+
+                )
+
+            ),
+
+            scores:summaries
+
+        };
+
+        Telemetry.track(
+
+            "quality.metrics.generated",
+
+            {
+
+                assessments
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.metrics.generated",
+
+            {
+
+                assessments
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.metrics.generated",
+
+            {
+
+                assessments
+
+            }
+
+        );
+
+        return summary;
+
+    }
+
+};
+
+/* ==========================================================
+   QUALITY METRICS SERVICE BOOTSTRAP
+   ========================================================== */
+
+ModuleRegistry.register(
+
+    "QualityMetricsService",
+
+    "1.0.0",
+
+    QualityMetricsService
+
+);
+
+Container.register(
+
+    "QualityMetricsService",
+
+    QualityMetricsService
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Metrics Service loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.metrics.ready",
+
+    {
+
+        module:
+
+            "QualityMetricsService"
+
+    }
+
+);
