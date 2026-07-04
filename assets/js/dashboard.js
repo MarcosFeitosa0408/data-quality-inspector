@@ -11071,3 +11071,161 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY EXECUTIVE DASHBOARD SERVICE
+   ========================================================== */
+
+const QualityExecutiveDashboardService={
+
+    build(
+
+        assessmentIds=[],
+
+        options={}
+
+    ){
+
+        const report=
+
+            QualityReportingService.generate(
+
+                assessmentIds,
+
+                options
+
+            );
+
+        const executiveDashboard={
+
+            generatedAt:
+
+                report.generatedAt,
+
+            title:
+
+                options.title ??
+
+                "Enterprise Data Quality Executive Dashboard",
+
+            kpis:{
+
+                averageScore:
+
+                    report.summary.averageScore,
+
+                assessments:
+
+                    report.summary.assessments,
+
+                alerts:
+
+                    report.summary.alerts
+
+            },
+
+            report
+
+        };
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Quality Executive Dashboard Generated",
+
+            {
+
+                assessments:
+
+                    report.summary.assessments
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "quality.executive.dashboard.generated",
+
+            {
+
+                assessments:
+
+                    report.summary.assessments
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.executive.dashboard.generated",
+
+            {
+
+                assessments:
+
+                    report.summary.assessments
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.executive.dashboard.generated",
+
+            executiveDashboard
+
+        );
+
+        return executiveDashboard;
+
+    }
+
+};
+
+/* ==========================================================
+   QUALITY EXECUTIVE DASHBOARD SERVICE BOOTSTRAP
+   ========================================================== */
+
+ModuleRegistry.register(
+
+    "QualityExecutiveDashboardService",
+
+    "1.0.0",
+
+    QualityExecutiveDashboardService
+
+);
+
+Container.register(
+
+    "QualityExecutiveDashboardService",
+
+    QualityExecutiveDashboardService
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Executive Dashboard Service loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.executive.dashboard.ready",
+
+    {
+
+        module:
+
+            "QualityExecutiveDashboardService"
+
+    }
+
+);
