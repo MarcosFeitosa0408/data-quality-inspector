@@ -10755,3 +10755,161 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY DASHBOARD PROVIDER
+   ========================================================== */
+
+const QualityDashboardProvider={
+
+    build(
+
+        assessmentIds=[],
+
+        options={}
+
+    ){
+
+        const metrics=
+
+            QualityMetricsService.summarize(
+
+                assessmentIds
+
+            );
+
+        const alerts=
+
+            QualityAlertEngine.evaluate(
+
+                assessmentIds,
+
+                options
+
+            );
+
+        const notification=
+
+            QualityNotificationService.publish(
+
+                assessmentIds,
+
+                options
+
+            );
+
+        const dashboard={
+
+            generatedAt:
+
+                new Date().toISOString(),
+
+            metrics,
+
+            alerts,
+
+            notification
+
+        };
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Quality Dashboard Generated",
+
+            {
+
+                assessments:
+
+                    metrics.assessments
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "quality.dashboard.generated",
+
+            {
+
+                assessments:
+
+                    metrics.assessments
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.dashboard.generated",
+
+            {
+
+                assessments:
+
+                    metrics.assessments
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.dashboard.generated",
+
+            dashboard
+
+        );
+
+        return dashboard;
+
+    }
+
+};
+
+/* ==========================================================
+   QUALITY DASHBOARD PROVIDER BOOTSTRAP
+   ========================================================== */
+
+ModuleRegistry.register(
+
+    "QualityDashboardProvider",
+
+    "1.0.0",
+
+    QualityDashboardProvider
+
+);
+
+Container.register(
+
+    "QualityDashboardProvider",
+
+    QualityDashboardProvider
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Dashboard Provider loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.dashboard.ready",
+
+    {
+
+        module:
+
+            "QualityDashboardProvider"
+
+    }
+
+);
