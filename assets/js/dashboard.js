@@ -10447,3 +10447,169 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY ALERT ENGINE
+   ========================================================== */
+
+const QualityAlertEngine={
+
+    evaluate(
+
+        assessmentIds=[],
+
+        options={}
+
+    ){
+
+        const threshold=
+
+            options.threshold ?? 95;
+
+        const metrics=
+
+            QualityMetricsService.summarize(
+
+                assessmentIds
+
+            );
+
+        const alerts=[];
+
+        for(
+
+            const score of
+
+            metrics.scores
+
+        ){
+
+            if(
+
+                score.score<threshold
+
+            ){
+
+                alerts.push({
+
+                    assessment:
+
+                        score.assessment,
+
+                    score:
+
+                        score.score,
+
+                    threshold,
+
+                    severity:
+
+                        score.score<80
+
+                            ?"HIGH"
+
+                            :"MEDIUM"
+
+                });
+
+            }
+
+        }
+
+        const result={
+
+            threshold,
+
+            alerts,
+
+            totalAlerts:
+
+                alerts.length
+
+        };
+
+        Telemetry.track(
+
+            "quality.alerts.generated",
+
+            {
+
+                alerts:
+
+                    alerts.length
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.alerts.generated",
+
+            {
+
+                alerts:
+
+                    alerts.length
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.alerts.generated",
+
+            result
+
+        );
+
+        return result;
+
+    }
+
+};
+
+/* ==========================================================
+   QUALITY ALERT ENGINE BOOTSTRAP
+   ========================================================== */
+
+ModuleRegistry.register(
+
+    "QualityAlertEngine",
+
+    "1.0.0",
+
+    QualityAlertEngine
+
+);
+
+Container.register(
+
+    "QualityAlertEngine",
+
+    QualityAlertEngine
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Alert Engine loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.alert.engine.ready",
+
+    {
+
+        module:
+
+            "QualityAlertEngine"
+
+    }
+
+);
