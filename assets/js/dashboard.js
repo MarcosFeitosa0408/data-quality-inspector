@@ -10117,3 +10117,157 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY SCORE ENGINE
+   ========================================================== */
+
+const QualityScoreEngine={
+
+    calculate(
+
+        assessmentId
+
+    ){
+
+        const assessment=
+
+            QualityAssessmentRegistry.resolve(
+
+                assessmentId
+
+            );
+
+        if(
+
+            !assessment
+
+        ){
+
+            return null;
+
+        }
+
+        const results=
+
+            assessment.results ?? [];
+
+        const total=
+
+            results.length;
+
+        const passed=
+
+            results.filter(
+
+                result=>result.valid===true
+
+            ).length;
+
+        const failed=
+
+            total-passed;
+
+        const score=
+
+            total===0
+
+                ?100
+
+                :(passed/total)*100;
+
+        const summary={
+
+            assessment:assessmentId,
+
+            total,
+
+            passed,
+
+            failed,
+
+            score:Number(
+
+                score.toFixed(
+
+                    2
+
+                )
+
+            )
+
+        };
+
+        Telemetry.track(
+
+            "quality.score.calculated",
+
+            summary
+
+        );
+
+        Audit.log(
+
+            "quality.score.calculated",
+
+            summary
+
+        );
+
+        EventBus.emit(
+
+            "quality.score.calculated",
+
+            summary
+
+        );
+
+        return summary;
+
+    }
+
+};
+
+/* ==========================================================
+   QUALITY SCORE ENGINE BOOTSTRAP
+   ========================================================== */
+
+ModuleRegistry.register(
+
+    "QualityScoreEngine",
+
+    "1.0.0",
+
+    QualityScoreEngine
+
+);
+
+Container.register(
+
+    "QualityScoreEngine",
+
+    QualityScoreEngine
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Score Engine loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.score.ready",
+
+    {
+
+        module:
+
+            "QualityScoreEngine"
+
+    }
+
+);
