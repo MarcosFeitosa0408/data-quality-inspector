@@ -10613,3 +10613,145 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY NOTIFICATION SERVICE
+   ========================================================== */
+
+const QualityNotificationService={
+
+    publish(
+
+        assessmentIds=[],
+
+        options={}
+
+    ){
+
+        const alerts=
+
+            QualityAlertEngine.evaluate(
+
+                assessmentIds,
+
+                options
+
+            );
+
+        const notification={
+
+            generatedAt:
+
+                new Date().toISOString(),
+
+            totalAlerts:
+
+                alerts.totalAlerts,
+
+            alerts:
+
+                alerts.alerts
+
+        };
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Quality Notification Published",
+
+            {
+
+                alerts:
+
+                    notification.totalAlerts
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "quality.notification.published",
+
+            {
+
+                alerts:
+
+                    notification.totalAlerts
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.notification.published",
+
+            {
+
+                alerts:
+
+                    notification.totalAlerts
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.notification.published",
+
+            notification
+
+        );
+
+        return notification;
+
+    }
+
+};
+
+/* ==========================================================
+   QUALITY NOTIFICATION SERVICE BOOTSTRAP
+   ========================================================== */
+
+ModuleRegistry.register(
+
+    "QualityNotificationService",
+
+    "1.0.0",
+
+    QualityNotificationService
+
+);
+
+Container.register(
+
+    "QualityNotificationService",
+
+    QualityNotificationService
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Notification Service loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.notification.ready",
+
+    {
+
+        module:
+
+            "QualityNotificationService"
+
+    }
+
+);
