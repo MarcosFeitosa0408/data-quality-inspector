@@ -9023,3 +9023,217 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   DATA QUALITY PROFILE REGISTRY
+   ========================================================== */
+
+const DataQualityProfileRegistry={
+
+    profiles:new Map(),
+
+    register(
+
+        id,
+
+        profile
+
+    ){
+
+        this.profiles.set(
+
+            id,
+
+            profile
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Data Quality Profile Registered",
+
+            {
+
+                profile:id
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.profile.register",
+
+            {
+
+                profile:id
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.profile.registered",
+
+            {
+
+                profile:id
+
+            }
+
+        );
+
+    },
+
+    update(
+
+        id,
+
+        profile
+
+    ){
+
+        const current=
+
+            this.profiles.get(
+
+                id
+
+            ) ?? {};
+
+        this.profiles.set(
+
+            id,
+
+            {
+
+                ...current,
+
+                ...profile
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.profile.updated",
+
+            {
+
+                profile:id
+
+            }
+
+        );
+
+    },
+
+    resolve(
+
+        id
+
+    ){
+
+        return this.profiles.get(
+
+            id
+
+        );
+
+    },
+
+    exists(
+
+        id
+
+    ){
+
+        return this.profiles.has(
+
+            id
+
+        );
+
+    },
+
+    remove(
+
+        id
+
+    ){
+
+        this.profiles.delete(
+
+            id
+
+        );
+
+        Audit.log(
+
+            "quality.profile.removed",
+
+            {
+
+                profile:id
+
+            }
+
+        );
+
+    },
+
+    list(){
+
+        return Array.from(
+
+            this.profiles.values()
+
+        );
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "DataQualityProfileRegistry",
+
+    "1.0.0",
+
+    DataQualityProfileRegistry
+
+);
+
+Container.register(
+
+    "DataQualityProfileRegistry",
+
+    DataQualityProfileRegistry
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Data Quality Profile Registry loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.profiles.ready",
+
+    {
+
+        module:
+
+            "DataQualityProfileRegistry"
+
+    }
+
+);
