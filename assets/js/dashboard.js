@@ -9891,3 +9891,229 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY ASSESSMENT REGISTRY
+   ========================================================== */
+
+const QualityAssessmentRegistry={
+
+    assessments:new Map(),
+
+    register(
+
+        assessmentId,
+
+        assessment
+
+    ){
+
+        this.assessments.set(
+
+            assessmentId,
+
+            assessment
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Quality Assessment Registered",
+
+            {
+
+                assessment:assessmentId
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.assessment.register",
+
+            {
+
+                assessment:assessmentId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.assessment.registered",
+
+            {
+
+                assessment:assessmentId
+
+            }
+
+        );
+
+    },
+
+    update(
+
+        assessmentId,
+
+        assessment
+
+    ){
+
+        const current=
+
+            this.assessments.get(
+
+                assessmentId
+
+            ) ?? {};
+
+        this.assessments.set(
+
+            assessmentId,
+
+            {
+
+                ...current,
+
+                ...assessment
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.assessment.updated",
+
+            {
+
+                assessment:assessmentId
+
+            }
+
+        );
+
+    },
+
+    resolve(
+
+        assessmentId
+
+    ){
+
+        return this.assessments.get(
+
+            assessmentId
+
+        );
+
+    },
+
+    exists(
+
+        assessmentId
+
+    ){
+
+        return this.assessments.has(
+
+            assessmentId
+
+        );
+
+    },
+
+    remove(
+
+        assessmentId
+
+    ){
+
+        this.assessments.delete(
+
+            assessmentId
+
+        );
+
+        Audit.log(
+
+            "quality.assessment.removed",
+
+            {
+
+                assessment:assessmentId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.assessment.removed",
+
+            {
+
+                assessment:assessmentId
+
+            }
+
+        );
+
+    },
+
+    list(){
+
+        return Array.from(
+
+            this.assessments.values()
+
+        );
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "QualityAssessmentRegistry",
+
+    "1.0.0",
+
+    QualityAssessmentRegistry
+
+);
+
+Container.register(
+
+    "QualityAssessmentRegistry",
+
+    QualityAssessmentRegistry
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Assessment Registry loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.assessments.ready",
+
+    {
+
+        module:
+
+            "QualityAssessmentRegistry"
+
+    }
+
+);
