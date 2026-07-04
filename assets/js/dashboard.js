@@ -9237,3 +9237,219 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   DATA QUALITY ASSIGNMENT REGISTRY
+   ========================================================== */
+
+const DataQualityAssignmentRegistry={
+
+    assignments:new Map(),
+
+    assign(
+
+        targetId,
+
+        profileId
+
+    ){
+
+        this.assignments.set(
+
+            targetId,
+
+            profileId
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Data Quality Profile Assigned",
+
+            {
+
+                target:targetId,
+
+                profile:profileId
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.assignment.created",
+
+            {
+
+                target:targetId,
+
+                profile:profileId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.assignment.created",
+
+            {
+
+                target:targetId,
+
+                profile:profileId
+
+            }
+
+        );
+
+    },
+
+    resolve(
+
+        targetId
+
+    ){
+
+        return this.assignments.get(
+
+            targetId
+
+        );
+
+    },
+
+    exists(
+
+        targetId
+
+    ){
+
+        return this.assignments.has(
+
+            targetId
+
+        );
+
+    },
+
+    remove(
+
+        targetId
+
+    ){
+
+        const profileId=
+
+            this.assignments.get(
+
+                targetId
+
+            );
+
+        this.assignments.delete(
+
+            targetId
+
+        );
+
+        Audit.log(
+
+            "quality.assignment.removed",
+
+            {
+
+                target:targetId,
+
+                profile:profileId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.assignment.removed",
+
+            {
+
+                target:targetId,
+
+                profile:profileId
+
+            }
+
+        );
+
+    },
+
+    list(){
+
+        return Array.from(
+
+            this.assignments.entries()
+
+        ).map(
+
+            ([
+
+                target,
+
+                profile
+
+            ])=>({
+
+                target,
+
+                profile
+
+            })
+
+        );
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "DataQualityAssignmentRegistry",
+
+    "1.0.0",
+
+    DataQualityAssignmentRegistry
+
+);
+
+Container.register(
+
+    "DataQualityAssignmentRegistry",
+
+    DataQualityAssignmentRegistry
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Data Quality Assignment Registry loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.assignments.ready",
+
+    {
+
+        module:
+
+            "DataQualityAssignmentRegistry"
+
+    }
+
+);
