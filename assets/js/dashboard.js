@@ -11229,3 +11229,274 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY TREND ANALYZER
+   ========================================================== */
+
+const QualityTrendAnalyzer={
+
+    analyze(
+
+        assessments=[]
+
+    ){
+
+        if(
+
+            !Array.isArray(
+
+                assessments
+
+            ) ||
+
+            assessments.length===0
+
+        ){
+
+            return{
+
+                trend:"stable",
+
+                variation:0,
+
+                firstScore:null,
+
+                lastScore:null,
+
+                assessments:0
+
+            };
+
+        }
+
+        const ordered=
+
+            [...assessments]
+
+            .sort(
+
+                (
+
+                    a,
+
+                    b
+
+                )=>
+
+                    new Date(
+
+                        a.timestamp ?? 0
+
+                    )-
+
+                    new Date(
+
+                        b.timestamp ?? 0
+
+                    )
+
+            );
+
+        const first=
+
+            ordered[0];
+
+        const last=
+
+            ordered[
+
+                ordered.length-1
+
+            ];
+
+        const firstScore=
+
+            Number(
+
+                first.score ?? 0
+
+            );
+
+        const lastScore=
+
+            Number(
+
+                last.score ?? 0
+
+            );
+
+        const variation=
+
+            lastScore-
+
+            firstScore;
+
+        let trend=
+
+            "stable";
+
+        if(
+
+            variation>0
+
+        ){
+
+            trend="improving";
+
+        }
+        else if(
+
+            variation<0
+
+        ){
+
+            trend="degrading";
+
+        }
+
+        const result={
+
+            trend,
+
+            variation,
+
+            firstScore,
+
+            lastScore,
+
+            assessments:
+
+                ordered.length
+
+        };
+
+        Telemetry.track(
+
+            "quality.trend.analyzed",
+
+            {
+
+                trend,
+
+                assessments:
+
+                    ordered.length
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.trend.analyzed",
+
+            result
+
+        );
+
+        EventBus.emit(
+
+            "quality.trend.analyzed",
+
+            result
+
+        );
+
+        return result;
+
+    },
+
+    analyzeDataset(
+
+        datasetId
+
+    ){
+
+        const assessments=
+
+            QualityAssessmentRegistry.list()
+
+            .filter(
+
+                assessment=>
+
+                    assessment.dataset===
+
+                    datasetId
+
+            );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Quality Trend Analysis",
+
+            {
+
+                dataset:
+
+                    datasetId,
+
+                assessments:
+
+                    assessments.length
+
+            }
+
+        );
+
+        return this.analyze(
+
+            assessments
+
+        );
+
+    }
+
+};
+
+/* ==========================================================
+   QUALITY TREND ANALYZER BOOTSTRAP
+   ========================================================== */
+
+ModuleRegistry.register(
+
+    "QualityTrendAnalyzer",
+
+    "1.0.0",
+
+    QualityTrendAnalyzer
+
+);
+
+Container.register(
+
+    "QualityTrendAnalyzer",
+
+    QualityTrendAnalyzer
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Trend Analyzer loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.trend.ready",
+
+    {
+
+        module:
+
+            "QualityTrendAnalyzer"
+
+    }
+
+);
