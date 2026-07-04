@@ -10913,3 +10913,161 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY REPORTING SERVICE
+   ========================================================== */
+
+const QualityReportingService={
+
+    generate(
+
+        assessmentIds=[],
+
+        options={}
+
+    ){
+
+        const dashboard=
+
+            QualityDashboardProvider.build(
+
+                assessmentIds,
+
+                options
+
+            );
+
+        const report={
+
+            generatedAt:
+
+                new Date().toISOString(),
+
+            title:
+
+                options.title ??
+
+                "Enterprise Data Quality Report",
+
+            summary:{
+
+                assessments:
+
+                    dashboard.metrics.assessments,
+
+                averageScore:
+
+                    dashboard.metrics.averageScore,
+
+                alerts:
+
+                    dashboard.alerts.length
+
+            },
+
+            dashboard
+
+        };
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Quality Report Generated",
+
+            {
+
+                assessments:
+
+                    dashboard.metrics.assessments
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "quality.report.generated",
+
+            {
+
+                assessments:
+
+                    dashboard.metrics.assessments
+
+            }
+
+        );
+
+        Audit.log(
+
+            "quality.report.generated",
+
+            {
+
+                assessments:
+
+                    dashboard.metrics.assessments
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.report.generated",
+
+            report
+
+        );
+
+        return report;
+
+    }
+
+};
+
+/* ==========================================================
+   QUALITY REPORTING SERVICE BOOTSTRAP
+   ========================================================== */
+
+ModuleRegistry.register(
+
+    "QualityReportingService",
+
+    "1.0.0",
+
+    QualityReportingService
+
+);
+
+Container.register(
+
+    "QualityReportingService",
+
+    QualityReportingService
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Reporting Service loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.reporting.ready",
+
+    {
+
+        module:
+
+            "QualityReportingService"
+
+    }
+
+);
