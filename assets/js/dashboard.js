@@ -11500,3 +11500,160 @@ EventBus.emit(
     }
 
 );
+
+/* ========================================================== 
+   QUALITY BENCHMARK ENGINE
+   ========================================================== */
+
+const QualityBenchmarkEngine={
+
+    compare(
+
+        assessmentId,
+
+        benchmark={}
+
+    ){
+
+       
+
+const scoreResult=
+
+    QualityScoreEngine.calculate(
+
+        assessmentId
+
+    );
+
+if(
+
+    !scoreResult
+
+){
+
+    return null;
+
+}
+
+const score=
+
+    scoreResult.score;  
+        const target=
+
+            benchmark.target ??
+
+            100;
+
+        const gap=
+
+            target-
+
+            score;
+
+        const result={
+
+            assessmentId,
+
+            score,
+
+            target,
+
+            gap,
+
+            status:
+
+                score>=target
+
+                    ? "compliant"
+
+                    : "non_compliant",
+
+            comparedAt:
+
+                new Date().toISOString()
+
+        };
+
+        Audit.log(
+
+            "quality.benchmark.executed",
+
+            {
+
+                assessment:assessmentId,
+
+                score,
+
+                target
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "quality.benchmark.executed",
+
+            {
+
+                assessment:assessmentId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.benchmark.executed",
+
+            result
+
+        );
+
+        return result;
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "QualityBenchmarkEngine",
+
+    "1.0.0",
+
+    QualityBenchmarkEngine
+
+);
+
+Container.register(
+
+    "QualityBenchmarkEngine",
+
+    QualityBenchmarkEngine
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Benchmark Engine loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.benchmark.ready",
+
+    {
+
+        module:
+
+            "QualityBenchmarkEngine"
+
+    }
+
+);
+
+
