@@ -11656,4 +11656,182 @@ EventBus.emit(
 
 );
 
+/* ==========================================================
+   QUALITY COMPLIANCE ENGINE
+   ========================================================== */
 
+const QualityComplianceEngine={
+
+    evaluate(
+
+        assessmentId,
+
+        policyId,
+
+        context={}
+
+    ){
+
+        const assessment=
+
+            QualityAssessmentRegistry.resolve(
+
+                assessmentId
+
+            );
+
+        if(
+
+            !assessment
+
+        ){
+
+            return null;
+
+        }
+
+        const scoreResult=
+
+            QualityScoreEngine.calculate(
+
+                assessmentId
+
+            );
+
+        if(
+
+            !scoreResult
+
+        ){
+
+            return null;
+
+        }
+
+        const policyResult=
+
+            QualityPolicyEngine.evaluate(
+
+                policyId,
+
+                {
+
+                    ...context,
+
+                    score:scoreResult.score
+
+                }
+
+            );
+
+        const compliance={
+
+            assessment:assessmentId,
+
+            policy:policyId,
+
+            compliant:
+
+                policyResult.compliant,
+
+            score:
+
+                scoreResult.score,
+
+            threshold:
+
+                policyResult.threshold,
+
+            evaluatedAt:
+
+                Date.now(),
+
+            details:
+
+                policyResult
+
+        };
+
+        Audit.log(
+
+            "quality.compliance.evaluated",
+
+            {
+
+                assessment:assessmentId,
+
+                policy:policyId,
+
+                compliant:
+
+                    compliance.compliant
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "quality.compliance.evaluated",
+
+            {
+
+                policy:policyId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.compliance.evaluated",
+
+            compliance
+
+        );
+
+        return compliance;
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "QualityComplianceEngine",
+
+    "1.0.0",
+
+    QualityComplianceEngine
+
+);
+
+Container.register(
+
+    "QualityComplianceEngine",
+
+    QualityComplianceEngine
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Compliance Engine loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.compliance.ready",
+
+    {
+
+        module:
+
+            "QualityComplianceEngine"
+
+    }
+
+);
