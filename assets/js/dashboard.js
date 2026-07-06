@@ -12501,3 +12501,167 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY EXECUTIVE ANALYTICS ENGINE
+   ========================================================== */
+
+const QualityExecutiveAnalyticsEngine={
+
+    summarize(
+
+        assessmentIds=[],
+
+        options={}
+
+    ){
+
+        const analytics=[];
+
+        for(
+
+            const assessmentId of
+
+            assessmentIds
+
+        ){
+
+            const kpi=
+
+                QualityKPIEngine.summarize(
+
+                    assessmentId,
+
+                    options
+
+                );
+
+            if(
+
+                kpi
+
+            ){
+
+                analytics.push(
+
+                    kpi
+
+                );
+
+            }
+
+        }
+
+        const summary={
+
+            assessments:
+
+                analytics.length,
+
+            generatedAt:
+
+                new Date()
+
+                    .toISOString(),
+
+            analytics
+
+        };
+
+        Audit.log(
+
+            "quality.executive.analytics.generated",
+
+            {
+
+                assessments:
+
+                    analytics.length
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "quality.executive.analytics.generated",
+
+            {
+
+                assessments:
+
+                    analytics.length
+
+            }
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Quality Executive Analytics Generated",
+
+            {
+
+                assessments:
+
+                    analytics.length
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.executive.analytics.generated",
+
+            summary
+
+        );
+
+        return summary;
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "QualityExecutiveAnalyticsEngine",
+
+    "1.0.0",
+
+    QualityExecutiveAnalyticsEngine
+
+);
+
+Container.register(
+
+    "QualityExecutiveAnalyticsEngine",
+
+    QualityExecutiveAnalyticsEngine
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Executive Analytics Engine loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.executive.analytics.ready",
+
+    {
+
+        module:
+
+            "QualityExecutiveAnalyticsEngine"
+
+    }
+
+);
