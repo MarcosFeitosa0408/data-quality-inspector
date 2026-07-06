@@ -11995,3 +11995,281 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY RISK ANALYZER
+   ========================================================== */
+
+const QualityRiskAnalyzer={
+
+    analyze(
+
+        assessmentId,
+
+        options={}
+
+    ){
+
+        const assessment=
+
+            QualityAssessmentRegistry.resolve(
+
+                assessmentId
+
+            );
+
+        if(
+
+            !assessment
+
+        ){
+
+            return null;
+
+        }
+
+        const scoreResult=
+
+            QualityScoreEngine.calculate(
+
+                assessmentId
+
+            );
+
+        if(
+
+            !scoreResult
+
+        ){
+
+            return null;
+
+        }
+
+        const trend=
+
+            assessment.dataset
+
+                ? QualityTrendAnalyzer.analyzeDataset(
+
+                    assessment.dataset
+
+                )
+
+                : QualityTrendAnalyzer.analyze(
+
+                    [
+
+                        assessment
+
+                    ]
+
+                );
+
+        const benchmark=
+
+            QualityBenchmarkEngine.compare(
+
+                assessmentId,
+
+                options.benchmark ?? {}
+
+            );
+
+        const compliance=
+
+            QualityComplianceEngine.evaluate(
+
+                assessmentId,
+
+                options.policyId,
+
+                options.context ?? {}
+
+            );
+
+        const sla=
+
+            assessment.remediationId
+
+                ? QualitySLAEngine.evaluate(
+
+                    assessment.remediationId
+
+                )
+
+                : null;
+
+        let riskLevel="LOW";
+
+        if(
+
+            scoreResult.score<80 ||
+
+            (
+
+                benchmark &&
+
+                benchmark.status==="non_compliant"
+
+            ) ||
+
+            (
+
+                trend &&
+
+                trend.trend==="degrading"
+
+            ) ||
+
+            (
+
+                compliance &&
+
+                !compliance.compliant
+
+            ) ||
+
+            (
+
+                sla &&
+
+                sla.violated
+
+            )
+
+        ){
+
+            riskLevel="MEDIUM";
+
+        }
+
+        if(
+
+            scoreResult.score<60 ||
+
+            (
+
+                benchmark &&
+
+                benchmark.status==="non_compliant" &&
+
+                trend &&
+
+                trend.trend==="degrading"
+
+            ) ||
+
+            (
+
+                sla &&
+
+                sla.violated &&
+
+                scoreResult.score<60
+
+            )
+
+        ){
+
+            riskLevel="HIGH";
+
+        }
+
+        const result={
+
+            assessment:assessmentId,
+
+            score:scoreResult.score,
+
+            trend,
+
+            benchmark,
+
+            compliance,
+
+            sla,
+
+            risk:riskLevel
+
+        };
+
+        Audit.log(
+
+            "quality.risk.analyzed",
+
+            {
+
+                assessment:assessmentId,
+
+                risk:riskLevel
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "quality.risk.analyzed",
+
+            {
+
+                risk:riskLevel
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.risk.analyzed",
+
+            result
+
+        );
+
+        return result;
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "QualityRiskAnalyzer",
+
+    "1.0.0",
+
+    QualityRiskAnalyzer
+
+);
+
+Container.register(
+
+    "QualityRiskAnalyzer",
+
+    QualityRiskAnalyzer
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Risk Analyzer loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.risk.ready",
+
+    {
+
+        module:
+
+            "QualityRiskAnalyzer"
+
+    }
+
+);
