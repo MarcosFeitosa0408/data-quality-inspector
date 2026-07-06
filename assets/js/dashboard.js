@@ -12273,3 +12273,231 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY KPI ENGINE
+   ========================================================== */
+
+const QualityKPIEngine={
+
+    summarize(
+
+        assessmentId,
+
+        options={}
+
+    ){
+
+        const assessment=
+
+            QualityAssessmentRegistry.resolve(
+
+                assessmentId
+
+            );
+
+        if(
+
+            !assessment
+
+        ){
+
+            return null;
+
+        }
+
+        const score=
+
+            QualityScoreEngine.calculate(
+
+                assessmentId
+
+            );
+
+        if(
+
+            !score
+
+        ){
+
+            return null;
+
+        }
+
+        const metrics=
+
+            QualityMetricsService.summarize(
+
+                [
+
+                    assessmentId
+
+                ]
+
+            );
+
+        const trend=
+
+            assessment.dataset
+
+                ? QualityTrendAnalyzer.analyzeDataset(
+
+                    assessment.dataset
+
+                )
+
+                : QualityTrendAnalyzer.analyze(
+
+                    [
+
+                        assessment
+
+                    ]
+
+                );
+
+        const benchmark=
+
+            QualityBenchmarkEngine.compare(
+
+                assessmentId,
+
+                options.benchmark ?? {}
+
+            );
+
+        const compliance=
+
+            QualityComplianceEngine.evaluate(
+
+                assessmentId,
+
+                options.policyId,
+
+                options.context ?? {}
+
+            );
+
+        const sla=
+
+            assessment.remediationId
+
+                ? QualitySLAEngine.evaluate(
+
+                    assessment.remediationId
+
+                )
+
+                : null;
+
+        const risk=
+
+            QualityRiskAnalyzer.analyze(
+
+                assessmentId,
+
+                options
+
+            );
+
+        const result={
+
+            assessment:assessmentId,
+
+            score:score.score,
+
+            metrics,
+
+            trend,
+
+            benchmark,
+
+            compliance,
+
+            sla,
+
+            risk,
+
+            generatedAt:
+
+                new Date().toISOString()
+
+        };
+
+        Audit.log(
+
+            "quality.kpi.generated",
+
+            {
+
+                assessment:assessmentId
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "quality.kpi.generated",
+
+            {
+
+                assessment:assessmentId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.kpi.generated",
+
+            result
+
+        );
+
+        return result;
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "QualityKPIEngine",
+
+    "1.0.0",
+
+    QualityKPIEngine
+
+);
+
+Container.register(
+
+    "QualityKPIEngine",
+
+    QualityKPIEngine
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality KPI Engine loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.kpi.ready",
+
+    {
+
+        module:
+
+            "QualityKPIEngine"
+
+    }
+
+);
