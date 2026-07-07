@@ -12980,3 +12980,143 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY REPORTING SERVICE
+   ========================================================== */
+
+const QualityReportingService={
+
+    generate(
+
+        assessmentIds=[],
+
+        options={}
+
+    ){
+
+        const report=
+
+            QualityExecutiveAnalyticsEngine
+
+                .summarize(
+
+                    assessmentIds,
+
+                    options
+
+                );
+
+        if(
+
+            !report
+
+        ){
+
+            return null;
+
+        }
+
+        Audit.log(
+
+            "quality.reporting.generated",
+
+            {
+
+                assessments:
+
+                    assessmentIds.length
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "quality.reporting.generated",
+
+            {
+
+                assessments:
+
+                    assessmentIds.length
+
+            }
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Quality Reporting Generated",
+
+            {
+
+                assessments:
+
+                    assessmentIds.length
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.reporting.generated",
+
+            {
+
+                assessments:
+
+                    assessmentIds.length
+
+            }
+
+        );
+
+        return report;
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "QualityReportingService",
+
+    "1.0.0",
+
+    QualityReportingService
+
+);
+
+Container.register(
+
+    "QualityReportingService",
+
+    QualityReportingService
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Reporting Service loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.reporting.ready",
+
+    {
+
+        module:
+
+            "QualityReportingService"
+
+    }
+
+);
