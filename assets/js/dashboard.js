@@ -12840,3 +12840,143 @@ Object.assign(
     }
 
 );
+
+/* ==========================================================
+   QUALITY EXECUTIVE DASHBOARD PROVIDER
+   ========================================================== */
+
+const QualityExecutiveDashboardProvider={
+
+    provide(
+
+        assessmentIds=[],
+
+        options={}
+
+    ){
+
+        const analytics=
+
+            QualityExecutiveAnalyticsEngine
+
+                .summarize(
+
+                    assessmentIds,
+
+                    options
+
+                );
+
+        if(
+
+            !analytics
+
+        ){
+
+            return null;
+
+        }
+
+        Audit.log(
+
+            "quality.executive.dashboard.provided",
+
+            {
+
+                assessments:
+
+                    assessmentIds.length
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "quality.executive.dashboard.provided",
+
+            {
+
+                assessments:
+
+                    assessmentIds.length
+
+            }
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Quality Executive Dashboard Provided",
+
+            {
+
+                assessments:
+
+                    assessmentIds.length
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "quality.executive.dashboard.provided",
+
+            {
+
+                assessments:
+
+                    assessmentIds.length
+
+            }
+
+        );
+
+        return analytics;
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "QualityExecutiveDashboardProvider",
+
+    "1.0.0",
+
+    QualityExecutiveDashboardProvider
+
+);
+
+Container.register(
+
+    "QualityExecutiveDashboardProvider",
+
+    QualityExecutiveDashboardProvider
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Quality Executive Dashboard Provider loaded."
+
+);
+
+EventBus.emit(
+
+    "quality.executive.dashboard.ready",
+
+    {
+
+        module:
+
+            "QualityExecutiveDashboardProvider"
+
+    }
+
+);
