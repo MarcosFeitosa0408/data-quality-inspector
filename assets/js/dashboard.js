@@ -14038,3 +14038,139 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   DATA GOVERNANCE DASHBOARD PROVIDER
+   ========================================================== */
+
+const DataGovernanceDashboardProvider={
+
+    provide(
+
+        assignmentId,
+
+        context={}
+
+    ){
+
+        const profile=
+
+            DataGovernanceProfileEngine.summarize(
+
+                assignmentId,
+
+                context
+
+            );
+
+        if(
+
+            !profile
+
+        ){
+
+            return null;
+
+        }
+
+        const result={
+
+            profile,
+
+            generatedAt:
+
+                new Date().toISOString()
+
+        };
+
+        Audit.log(
+
+            "governance.dashboard.provided",
+
+            {
+
+                assignment:assignmentId
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "governance.dashboard.provided",
+
+            {
+
+                assignment:assignmentId
+
+            }
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Data Governance Dashboard Provider executed",
+
+            {
+
+                assignment:assignmentId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "governance.dashboard.provided",
+
+            result
+
+        );
+
+        return result;
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "DataGovernanceDashboardProvider",
+
+    "1.0.0",
+
+    DataGovernanceDashboardProvider
+
+);
+
+Container.register(
+
+    "DataGovernanceDashboardProvider",
+
+    DataGovernanceDashboardProvider
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Data Governance Dashboard Provider loaded."
+
+);
+
+EventBus.emit(
+
+    "governance.dashboard.ready",
+
+    {
+
+        module:
+
+            "DataGovernanceDashboardProvider"
+
+    }
+
+);
