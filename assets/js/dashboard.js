@@ -12665,3 +12665,178 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   QUALITY EXECUTIVE ANALYTICS ENGINE
+   SECOND INCREMENT
+   ========================================================== */
+
+Object.assign(
+
+    QualityExecutiveAnalyticsEngine,
+
+    {
+
+        summarize(
+
+            assessmentIds=[],
+
+            options={}
+
+        ){
+
+            const analytics=[];
+
+            let totalScore=0;
+
+            let validScores=0;
+
+            for(
+
+                const assessmentId of
+
+                assessmentIds
+
+            ){
+
+                const kpi=
+
+                    QualityKPIEngine.summarize(
+
+                        assessmentId,
+
+                        options
+
+                    );
+
+                if(
+
+                    !kpi
+
+                ){
+
+                    continue;
+
+                }
+
+                analytics.push(
+
+                    kpi
+
+                );
+
+                if(
+
+                    typeof kpi.score===
+
+                    "number"
+
+                ){
+
+                    totalScore+=
+
+                        kpi.score;
+
+                    validScores++;
+
+                }
+
+            }
+
+            const summary={
+
+                assessments:
+
+                    analytics.length,
+
+                averageScore:
+
+                    validScores===0
+
+                        ? null
+
+                        : Number(
+
+                            (
+
+                                totalScore/
+
+                                validScores
+
+                            ).toFixed(
+
+                                2
+
+                            )
+
+                        ),
+
+                generatedAt:
+
+                    new Date()
+
+                        .toISOString(),
+
+                analytics
+
+            };
+
+            Audit.log(
+
+                "quality.executive.analytics.generated",
+
+                {
+
+                    assessments:
+
+                        analytics.length
+
+                }
+
+            );
+
+            Telemetry.track(
+
+                "quality.executive.analytics.generated",
+
+                {
+
+                    assessments:
+
+                        analytics.length
+
+                }
+
+            );
+
+            Logger.write(
+
+                Logger.levels.INFO,
+
+                "Quality Executive Analytics Generated",
+
+                {
+
+                    assessments:
+
+                        analytics.length
+
+                }
+
+            );
+
+            EventBus.emit(
+
+                "quality.executive.analytics.generated",
+
+                summary
+
+            );
+
+            return summary;
+
+        }
+
+    }
+
+);
