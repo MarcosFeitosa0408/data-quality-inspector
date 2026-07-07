@@ -13716,3 +13716,163 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   DATA GOVERNANCE ASSIGNMENT ENGINE
+   ========================================================== */
+
+const DataGovernanceAssignmentEngine={
+
+    evaluate(
+
+        assignmentId,
+
+        context={}
+
+    ){
+
+        const assignment=
+
+            DataGovernanceAssignmentRegistry.resolve(
+
+                assignmentId
+
+            );
+
+        if(
+
+            !assignment
+
+        ){
+
+            return null;
+
+        }
+
+        const policy=
+
+            DataGovernancePolicyEngine.evaluate(
+
+                assignment.policy,
+
+                context
+
+            );
+
+        if(
+
+            !policy
+
+        ){
+
+            return null;
+
+        }
+
+        const result={
+
+            assignment:assignmentId,
+
+            asset:assignment.asset,
+
+            policy:policy.policy,
+
+            valid:true,
+
+            evaluatedAt:
+
+                new Date().toISOString()
+
+        };
+
+        Audit.log(
+
+            "governance.assignment.evaluated",
+
+            {
+
+                assignment:assignmentId
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "governance.assignment.evaluated",
+
+            {
+
+                assignment:assignmentId
+
+            }
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Data Governance Assignment Evaluated",
+
+            {
+
+                assignment:assignmentId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "governance.assignment.evaluated",
+
+            result
+
+        );
+
+        return result;
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "DataGovernanceAssignmentEngine",
+
+    "1.0.0",
+
+    DataGovernanceAssignmentEngine
+
+);
+
+Container.register(
+
+    "DataGovernanceAssignmentEngine",
+
+    DataGovernanceAssignmentEngine
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Data Governance Assignment Engine loaded."
+
+);
+
+EventBus.emit(
+
+    "governance.assignment.engine.ready",
+
+    {
+
+        module:
+
+            "DataGovernanceAssignmentEngine"
+
+    }
+
+);
