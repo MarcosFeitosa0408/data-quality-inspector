@@ -14174,3 +14174,205 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   DATA CATALOG REGISTRY
+   ========================================================== */
+
+const DataCatalogRegistry={
+
+    assets:new Map(),
+
+    register(
+
+        asset
+
+    ){
+
+        if(
+
+            !asset ||
+
+            !asset.id
+
+        ){
+
+            return false;
+
+        }
+
+        this.assets.set(
+
+            asset.id,
+
+            structuredClone(
+
+                asset
+
+            )
+
+        );
+
+        Audit.log(
+
+            "catalog.asset.registered",
+
+            {
+
+                asset:asset.id
+
+            }
+
+        );
+
+        Telemetry.track(
+
+            "catalog.asset.registered",
+
+            {
+
+                asset:asset.id
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "catalog.asset.registered",
+
+            asset
+
+        );
+
+        return true;
+
+    },
+
+    resolve(
+
+        assetId
+
+    ){
+
+        return this.assets.get(
+
+            assetId
+
+        ) ?? null;
+
+    },
+
+    list(){
+
+        return Array.from(
+
+            this.assets.values()
+
+        );
+
+    },
+
+    remove(
+
+        assetId
+
+    ){
+
+        const removed=
+
+            this.assets.delete(
+
+                assetId
+
+            );
+
+        if(
+
+            removed
+
+        ){
+
+            Audit.log(
+
+                "catalog.asset.removed",
+
+                {
+
+                    asset:assetId
+
+                }
+
+            );
+
+            Telemetry.track(
+
+                "catalog.asset.removed",
+
+                {
+
+                    asset:assetId
+
+                }
+
+            );
+
+            EventBus.emit(
+
+                "catalog.asset.removed",
+
+                {
+
+                    asset:assetId
+
+                }
+
+            );
+
+        }
+
+        return removed;
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "DataCatalogRegistry",
+
+    "1.0.0",
+
+    DataCatalogRegistry
+
+);
+
+Container.register(
+
+    "DataCatalogRegistry",
+
+    DataCatalogRegistry
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Data Catalog Registry loaded."
+
+);
+
+EventBus.emit(
+
+    "catalog.registry.ready",
+
+    {
+
+        module:
+
+            "DataCatalogRegistry"
+
+    }
+
+);
