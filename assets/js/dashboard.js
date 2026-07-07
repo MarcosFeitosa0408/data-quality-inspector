@@ -13490,3 +13490,229 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   DATA GOVERNANCE ASSIGNMENT REGISTRY
+   ========================================================== */
+
+const DataGovernanceAssignmentRegistry={
+
+    assignments:new Map(),
+
+    register(
+
+        assignmentId,
+
+        assignment
+
+    ){
+
+        this.assignments.set(
+
+            assignmentId,
+
+            assignment
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Data Governance Assignment Registered",
+
+            {
+
+                assignment:assignmentId
+
+            }
+
+        );
+
+        Audit.log(
+
+            "governance.assignment.register",
+
+            {
+
+                assignment:assignmentId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "governance.assignment.registered",
+
+            {
+
+                assignment:assignmentId
+
+            }
+
+        );
+
+    },
+
+    update(
+
+        assignmentId,
+
+        assignment
+
+    ){
+
+        const current=
+
+            this.assignments.get(
+
+                assignmentId
+
+            ) ?? {};
+
+        this.assignments.set(
+
+            assignmentId,
+
+            {
+
+                ...current,
+
+                ...assignment
+
+            }
+
+        );
+
+        Audit.log(
+
+            "governance.assignment.updated",
+
+            {
+
+                assignment:assignmentId
+
+            }
+
+        );
+
+    },
+
+    resolve(
+
+        assignmentId
+
+    ){
+
+        return this.assignments.get(
+
+            assignmentId
+
+        );
+
+    },
+
+    exists(
+
+        assignmentId
+
+    ){
+
+        return this.assignments.has(
+
+            assignmentId
+
+        );
+
+    },
+
+    remove(
+
+        assignmentId
+
+    ){
+
+        this.assignments.delete(
+
+            assignmentId
+
+        );
+
+        Audit.log(
+
+            "governance.assignment.removed",
+
+            {
+
+                assignment:assignmentId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "governance.assignment.removed",
+
+            {
+
+                assignment:assignmentId
+
+            }
+
+        );
+
+    },
+
+    list(){
+
+        return Array.from(
+
+            this.assignments.values()
+
+        );
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "DataGovernanceAssignmentRegistry",
+
+    "1.0.0",
+
+    DataGovernanceAssignmentRegistry
+
+);
+
+Container.register(
+
+    "DataGovernanceAssignmentRegistry",
+
+    DataGovernanceAssignmentRegistry
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Data Governance Assignment Registry loaded."
+
+);
+
+EventBus.emit(
+
+    "governance.assignment.ready",
+
+    {
+
+        module:
+
+            "DataGovernanceAssignmentRegistry"
+
+    }
+
+);
