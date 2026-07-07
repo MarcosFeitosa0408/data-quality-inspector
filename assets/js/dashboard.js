@@ -13120,3 +13120,235 @@ EventBus.emit(
     }
 
 );
+
+/* ==========================================================
+   PARTE 20
+   ENTERPRISE DATA GOVERNANCE
+   ========================================================== */
+
+
+/* ==========================================================
+   DATA GOVERNANCE POLICY REGISTRY
+   ========================================================== */
+
+const DataGovernancePolicyRegistry={
+
+    policies:new Map(),
+
+    register(
+
+        policyId,
+
+        policy
+
+    ){
+
+        this.policies.set(
+
+            policyId,
+
+            policy
+
+        );
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Data Governance Policy Registered",
+
+            {
+
+                policy:policyId
+
+            }
+
+        );
+
+        Audit.log(
+
+            "governance.policy.register",
+
+            {
+
+                policy:policyId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "governance.policy.registered",
+
+            {
+
+                policy:policyId
+
+            }
+
+        );
+
+    },
+
+    update(
+
+        policyId,
+
+        policy
+
+    ){
+
+        const current=
+
+            this.policies.get(
+
+                policyId
+
+            ) ?? {};
+
+        this.policies.set(
+
+            policyId,
+
+            {
+
+                ...current,
+
+                ...policy
+
+            }
+
+        );
+
+        Audit.log(
+
+            "governance.policy.updated",
+
+            {
+
+                policy:policyId
+
+            }
+
+        );
+
+    },
+
+    resolve(
+
+        policyId
+
+    ){
+
+        return this.policies.get(
+
+            policyId
+
+        );
+
+    },
+
+    exists(
+
+        policyId
+
+    ){
+
+        return this.policies.has(
+
+            policyId
+
+        );
+
+    },
+
+    remove(
+
+        policyId
+
+    ){
+
+        this.policies.delete(
+
+            policyId
+
+        );
+
+        Audit.log(
+
+            "governance.policy.removed",
+
+            {
+
+                policy:policyId
+
+            }
+
+        );
+
+        EventBus.emit(
+
+            "governance.policy.removed",
+
+            {
+
+                policy:policyId
+
+            }
+
+        );
+
+    },
+
+    list(){
+
+        return Array.from(
+
+            this.policies.values()
+
+        );
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "DataGovernancePolicyRegistry",
+
+    "1.0.0",
+
+    DataGovernancePolicyRegistry
+
+);
+
+Container.register(
+
+    "DataGovernancePolicyRegistry",
+
+    DataGovernancePolicyRegistry
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Data Governance Policy Registry loaded."
+
+);
+
+EventBus.emit(
+
+    "governance.policy.ready",
+
+    {
+
+        module:
+
+            "DataGovernancePolicyRegistry"
+
+    }
+
+);
