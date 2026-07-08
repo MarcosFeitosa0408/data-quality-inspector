@@ -14605,6 +14605,40 @@ const DataCatalogRelationshipRegistry = {
 
     },
 
+   listByAsset(assetId){
+
+    if(
+        !assetId
+    ){
+        return [];
+    }
+
+    return Array.from(
+
+        this.relationships.values()
+
+    ).filter(
+
+        relationship=>
+
+            relationship.sourceAsset===assetId ||
+
+            relationship.targetAsset===assetId
+
+    ).map(
+
+        relationship=>
+
+            structuredClone(
+
+                relationship
+
+            )
+
+    );
+
+},
+
     remove(id){
 
         if(
