@@ -14512,3 +14512,173 @@ EventBus.emit(
 
 );
 
+/* ==========================================================
+   DATA CATALOG RELATIONSHIP REGISTRY
+   ========================================================== */
+
+const DataCatalogRelationshipRegistry = {
+
+    relationships:new Map(),
+
+    register(relationship){
+
+        if(
+            !relationship ||
+            typeof relationship !== "object" ||
+            !relationship.id ||
+            !relationship.sourceAsset ||
+            !relationship.targetAsset
+        ){
+            return false;
+        }
+
+        if(
+            !DataCatalogRegistry.resolve(
+                relationship.sourceAsset
+            ) ||
+            !DataCatalogRegistry.resolve(
+                relationship.targetAsset
+            )
+        ){
+            return false;
+        }
+
+        this.relationships.set(
+            relationship.id,
+            structuredClone(
+                relationship
+            )
+        );
+
+        Audit.log(
+            "catalog.relationship.registered",
+            {
+                relationship:
+                    relationship.id
+            }
+        );
+
+        Telemetry.track(
+            "catalog.relationship.registered",
+            {
+                relationship:
+                    relationship.id
+            }
+        );
+
+        EventBus.emit(
+            "catalog.relationship.registered",
+            relationship
+        );
+
+        return true;
+
+    },
+
+    resolve(id){
+
+        return this.relationships.has(id)
+            ? structuredClone(
+                this.relationships.get(id)
+            )
+            : null;
+
+    },
+
+    list(){
+
+        return Array.from(
+
+            this.relationships.values()
+
+        ).map(
+
+            relationship=>
+
+                structuredClone(
+
+                    relationship
+
+                )
+
+        );
+
+    },
+
+    remove(id){
+
+        if(
+            !this.relationships.has(id)
+        ){
+            return false;
+        }
+
+        this.relationships.delete(id);
+
+        Audit.log(
+            "catalog.relationship.removed",
+            {
+                relationship:id
+            }
+        );
+
+        Telemetry.track(
+            "catalog.relationship.removed",
+            {
+                relationship:id
+            }
+        );
+
+        EventBus.emit(
+            "catalog.relationship.removed",
+            {
+                relationship:id
+            }
+        );
+
+        return true;
+
+    }
+
+};
+
+ModuleRegistry.register(
+
+    "DataCatalogRelationshipRegistry",
+
+    "1.0.0",
+
+    DataCatalogRelationshipRegistry
+
+);
+
+Container.register(
+
+    "DataCatalogRelationshipRegistry",
+
+    DataCatalogRelationshipRegistry
+
+);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Enterprise Data Catalog Relationship Registry loaded."
+
+);
+
+EventBus.emit(
+
+    "catalog.relationship.registry.ready",
+
+    {
+
+        module:
+
+            "DataCatalogRelationshipRegistry"
+
+    }
+
+);
+
