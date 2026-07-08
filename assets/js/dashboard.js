@@ -14200,6 +14200,8 @@ const DataCatalogRegistry={
 
             !asset ||
 
+            typeof asset !== "object" ||
+
             !asset.id
 
         ){
@@ -14509,3 +14511,4 @@ EventBus.emit(
     }
 
 );
+
