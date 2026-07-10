@@ -199,9 +199,7 @@ function validateDOM(){
             if(value===null){
 
                 console.warn(
-
-    `Elemento não encontrado: ${key}`
-
+    "Elemento não encontrado: " + key
 );
             }
 
