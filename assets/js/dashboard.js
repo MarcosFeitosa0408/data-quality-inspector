@@ -5968,7 +5968,7 @@ const ExtensionHooks={
 
         ?? [];
 
-    for(
+        for(
 
         const callback of callbacks
 
@@ -6006,7 +6006,13 @@ const ExtensionHooks={
 
     }
 
-};
+}   // fecha o método trigger
+
+};  // fecha o objeto ExtensionHooks
+
+/* ==========================================================
+   DISTRIBUTED SERVICES FOUNDATION
+   ========================================================== */
 /* ==========================================================
    DISTRIBUTED SERVICES FOUNDATION
    ========================================================== */
