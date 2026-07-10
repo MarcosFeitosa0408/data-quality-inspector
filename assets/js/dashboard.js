@@ -4292,7 +4292,7 @@ const Session={
 
     id:null,
 
-    started
+    started:false,
 
     startedAt:null,
 
