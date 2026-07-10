@@ -35,13 +35,21 @@ Simular um pipeline real de Engenharia de Dados:
 
 ## 📊 Arquitetura
 
-Python → processa dados  
-↓  
-Gera JSON  
-↓  
-Frontend consome JSON  
-↓  
-Dashboard atualizado automaticamente  
+Python → processa dados
+↓
+Gera JSON
+↓
+Frontend consome JSON
+↓
+Dashboard atualizado automaticamente
+
+### Baseline Arquitetural
+
+A arquitetura oficial da plataforma **EDAP v1.0** está documentada em:
+
+`docs/EDAP_v1.0_Baseline_Arquitetural.md`
+
+Esse documento formaliza a baseline arquitetural da plataforma e estabelece as diretrizes para manutenção, validação e futuras evoluções da EDAP.
 
 ---
 
