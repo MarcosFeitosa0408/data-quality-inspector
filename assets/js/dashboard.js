@@ -6890,32 +6890,6 @@ EventBus.emit(
 );
 
 
-/* ==========================================================
-   PATCH 05
-   RESOURCE MANAGER
-   ========================================================== */
-
-/* FECHAMENTO CORRETO DO MÓDULO */
-
-dispose(){
-
-    this.resources.forEach(
-
-        resource=>{
-
-            resource
-
-                ?.dispose?.();
-
-        }
-
-    );
-
-    this.resources.clear();
-
-}
-
-};
 
 /* ==========================================================
    PART 16
