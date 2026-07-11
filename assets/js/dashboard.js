@@ -51,9 +51,9 @@ const DOM = {
 
     /* KPIs */
 
-    kpiRows:
-        document.getElementById("kpi-dataset-rows"),
-
+   kpiRows:
+    document.getElementById("dataset-rows"),
+   
     missing:
         document.getElementById("missing"),
 
@@ -111,7 +111,7 @@ const DOM = {
     /* Insights */
 
     insights:
-        document.getElementById("insights-container"),
+    document.getElementById("insights"),
 
     /* Export */
 
