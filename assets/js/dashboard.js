@@ -12948,11 +12948,10 @@ EventBus.emit(
 );
 
 /* ==========================================================
-   QUALITY REPORTING SERVICE
+   QUALITY EXECUTIVE REPORTING SERVICE
    ========================================================== */
 
-const QualityReportingService={
-
+const QualityExecutiveReportingService={
     generate(
 
         assessmentIds=[],
@@ -13049,19 +13048,19 @@ const QualityReportingService={
 
 ModuleRegistry.register(
 
-    "QualityReportingService",
+    "QualityExecutiveReportingService",
 
     "1.0.0",
 
-    QualityReportingService
+    QualityExecutiveReportingService
 
 );
 
 Container.register(
 
-    "QualityReportingService",
+    "QualityExecutiveReportingService",
 
-    QualityReportingService
+    QualityExecutiveReportingService
 
 );
 
@@ -13069,7 +13068,7 @@ Logger.write(
 
     Logger.levels.INFO,
 
-    "Enterprise Quality Reporting Service loaded."
+    "Enterprise Quality Executive Reporting Service loaded."
 
 );
 
@@ -13081,7 +13080,7 @@ EventBus.emit(
 
         module:
 
-            "QualityReportingService"
+    "QualityExecutiveReportingService"
 
     }
 
