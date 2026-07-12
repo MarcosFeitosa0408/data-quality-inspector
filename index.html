@@ -376,21 +376,71 @@
 
             <div class="card-body">
 
-                <div class="info-item">
+               
 
-                    <span>
+    <!-- ==========================================================
+         DATASET IMPORT
+         ========================================================== -->
 
-                        Nome do Arquivo
+    <div
+    id="dataset-import-zone"
+    class="dataset-import-zone">
 
-                    </span>
+    <h4>
 
-                    <strong id="dataset-name">
+        Importar Dataset
 
-                        --
+    </h4>
 
-                    </strong>
+    <p
+        id="dataset-import-status">
 
-                </div>
+        Nenhum dataset carregado.
+
+        <br><br>
+
+        Selecione um arquivo CSV para iniciar a análise.
+
+    </p>
+
+    <button
+        id="dataset-import-button"
+        type="button">
+
+        Selecionar Arquivo
+
+    </button>
+
+    <input
+        id="dataset-import-input"
+        type="file"
+        accept=".csv"
+        hidden>
+
+    <div
+        id="dataset-import-name">
+
+        Nenhum arquivo selecionado.
+
+    </div>
+
+</div>
+
+    <div class="info-item">
+
+        <span>
+
+            Nome do Arquivo
+
+        </span>
+
+        <strong id="dataset-name">
+
+            --
+
+        </strong>
+
+    </div>
 
                 <div class="info-item">
 
