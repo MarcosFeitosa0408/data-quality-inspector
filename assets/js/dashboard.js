@@ -321,6 +321,36 @@ const DatasetValidator = {
     }
 
 };
+
+/* ==========================================================
+   DATASET PARSER
+   ========================================================== */
+
+const DatasetParser = {
+
+    async parse(file){
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "DatasetParser started.",
+
+            {
+
+                name: file.name,
+
+                size: file.size
+
+            }
+
+        );
+
+        return [];
+
+    }
+
+};
 /* ==========================================================
    INITIALIZATION
    ========================================================== */
