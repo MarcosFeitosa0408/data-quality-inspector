@@ -173,13 +173,13 @@ const DatasetImportManager = {
 
     bindEvents(){
 
-        if(!DOM.datasetImportButton || !DOM.datasetImportInput){
+    if(!DOM.datasetImportButton || !DOM.datasetImportInput){
 
             return;
 
         }
 
-        DOM.datasetImportButton.addEventListener(
+    DOM.datasetImportButton.addEventListener(
 
             "click",
 
@@ -192,7 +192,7 @@ const DatasetImportManager = {
         );
 
    
-DOM.datasetImportInput.addEventListener(
+    DOM.datasetImportInput.addEventListener(
 
     "change",
 
@@ -216,6 +216,28 @@ DOM.datasetImportInput.addEventListener(
 
    
 onFileSelected(file){
+
+   const validation = DatasetValidator.validate(file);
+
+   if(!validation.valid){
+
+    DOM.datasetImportStatus.textContent =
+
+        validation.message;
+
+    Logger.write(
+
+        Logger.levels.WARN,
+
+        "Dataset validation failed.",
+
+        validation
+
+    );
+
+    return;
+
+}
 
     DOM.datasetImportName.textContent = file.name;
 
