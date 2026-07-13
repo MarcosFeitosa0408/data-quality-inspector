@@ -133,6 +133,28 @@ const DOM = {
 };
 
 /* ==========================================================
+   DATASET IMPORT MANAGER
+   ========================================================== */
+
+const DatasetImportManager = {
+
+    initialize(){
+
+        Logger.write(
+            Logger.levels.INFO,
+            "DatasetImportManager initialized."
+        );
+
+        EventBus.emit(
+            "dataset.import.ready",
+            {}
+        );
+
+    }
+
+};
+
+/* ==========================================================
    INITIALIZATION
    ========================================================== */
 
@@ -157,6 +179,8 @@ async function initializeApplication(){
     try{
 
         validateDOM();
+
+ DatasetImportManager.initialize();
 
         showLoadingState();
 
