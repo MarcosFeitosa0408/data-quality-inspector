@@ -191,9 +191,70 @@ const DatasetImportManager = {
 
         );
 
+   
+DOM.datasetImportInput.addEventListener(
+
+    "change",
+
+    (event) => {
+
+        const file = event.target.files[0];
+
+        if(!file){
+
+            return;
+
+        }
+
+        this.onFileSelected(file);
+
     }
 
+);
+       
+    },
+
+   
+onFileSelected(file){
+
+    DOM.datasetImportName.textContent = file.name;
+
+    DOM.datasetImportStatus.textContent =
+
+        "Dataset selecionado. Preparando validação...";
+
+    EventBus.emit(
+
+        "dataset.selected",
+
+        {
+
+            file
+
+        }
+
+    );
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "Dataset selected.",
+
+        {
+
+            name: file.name,
+
+            size: file.size
+
+        }
+
+    );
+
+}
+   
 };
+
 
 /* ==========================================================
    INITIALIZATION
