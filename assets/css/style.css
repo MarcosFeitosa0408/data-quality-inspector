@@ -1591,3 +1591,72 @@ hr{
 
 }
 
+/* ==========================================================
+   DATASET IMPORT
+   ========================================================== */
+
+.dataset-import-zone{
+
+    border:2px dashed var(--border-color,#d1d5db);
+
+    border-radius:12px;
+
+    padding:20px;
+
+    margin-bottom:20px;
+
+    text-align:center;
+
+    background:var(--card-bg,#fafafa);
+
+    transition:all .25s ease;
+
+}
+
+.dataset-import-zone:hover{
+
+    border-color:var(--primary-color,#2563eb);
+
+    background:#f8fbff;
+
+}
+
+.dataset-import-zone h4{
+
+    margin-bottom:12px;
+
+}
+
+.dataset-import-zone p{
+
+    margin-bottom:16px;
+
+    color:#6b7280;
+
+    line-height:1.5;
+
+}
+
+#dataset-import-button{
+
+    padding:10px 20px;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+}
+
+#dataset-import-name{
+
+    margin-top:15px;
+
+    font-size:.90rem;
+
+    color:#6b7280;
+
+}
