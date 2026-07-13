@@ -257,6 +257,49 @@ onFileSelected(file){
 
 
 /* ==========================================================
+   DATASET VALIDATOR
+   ========================================================== */
+
+const DatasetValidator = {
+
+    validate(file){
+
+        if(!file){
+
+            return {
+
+                valid: false,
+
+                message: "Nenhum arquivo foi selecionado."
+
+            };
+
+        }
+
+        if(!file.name.toLowerCase().endsWith(".csv")){
+
+            return {
+
+                valid: false,
+
+                message: "Apenas arquivos CSV são permitidos."
+
+            };
+
+        }
+
+        return {
+
+            valid: true,
+
+            message: "Arquivo válido."
+
+        };
+
+    }
+
+};
+/* ==========================================================
    INITIALIZATION
    ========================================================== */
 
