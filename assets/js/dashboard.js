@@ -49,6 +49,23 @@ const DOM = {
     datasetColumns:
         document.getElementById("dataset-columns"),
 
+   /* Dataset Import */
+
+datasetImportZone:
+    document.getElementById("dataset-import-zone"),
+
+datasetImportButton:
+    document.getElementById("dataset-import-button"),
+
+datasetImportInput:
+    document.getElementById("dataset-import-input"),
+
+datasetImportStatus:
+    document.getElementById("dataset-import-status"),
+
+datasetImportName:
+    document.getElementById("dataset-import-name"),
+
     /* KPIs */
 
    kpiRows:
