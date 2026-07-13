@@ -273,6 +273,8 @@ onFileSelected(file){
 
     );
 
+   DatasetParser.parse(file);
+
 }
    
 };
