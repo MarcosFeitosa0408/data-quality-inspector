@@ -162,9 +162,33 @@ const DatasetImportManager = {
             "DatasetImportManager initialized."
         );
 
+        this.bindEvents();
+
         EventBus.emit(
             "dataset.import.ready",
             {}
+        );
+
+    },
+
+    bindEvents(){
+
+        if(!DOM.datasetImportButton || !DOM.datasetImportInput){
+
+            return;
+
+        }
+
+        DOM.datasetImportButton.addEventListener(
+
+            "click",
+
+            () => {
+
+                DOM.datasetImportInput.click();
+
+            }
+
         );
 
     }
