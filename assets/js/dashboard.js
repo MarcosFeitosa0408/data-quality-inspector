@@ -330,7 +330,7 @@ const DatasetValidator = {
 
 const DatasetParser = {
 
-   async parse(file){
+ async parse(file){
 
     Logger.write(
 
@@ -364,7 +364,31 @@ const DatasetParser = {
 
     );
 
-    return csvText;
+    const lines = csvText
+
+        .split(/\r?\n/)
+
+        .filter(
+
+            line => line.trim() !== ""
+
+        );
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "CSV split into lines.",
+
+        {
+
+            totalLines: lines.length
+
+        }
+
+    );
+
+    return lines;
 
 }
    
