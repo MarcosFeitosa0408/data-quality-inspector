@@ -285,6 +285,8 @@ EDAP.dataset = parsedDataset;
 
     DatasetStatistics.calculate(parsedDataset);
 
+   DatasetStatistics.updateDashboard(statistics);
+
 Logger.write(
 
     Logger.levels.INFO,
