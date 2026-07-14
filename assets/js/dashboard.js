@@ -400,6 +400,36 @@ const headers = lines[0]
 
 const records = lines.slice(1);
 
+    const dataset = records.map(
+
+    record => {
+
+        const values = record.split(",");
+
+        const row = {};
+
+        headers.forEach(
+
+            (header,index) => {
+
+                row[header] =
+
+                    values[index] !== undefined
+
+                        ? values[index].trim()
+
+                        : "";
+
+            }
+
+        );
+
+        return row;
+
+    }
+
+);
+
 Logger.write(
 
     Logger.levels.INFO,
@@ -416,11 +446,25 @@ Logger.write(
 
 );
 
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "Dataset converted to objects.",
+
+    {
+
+        rows: dataset.length
+
+    }
+
+);
+
 return {
 
     headers,
 
-    records
+    dataset
 
 };
 
