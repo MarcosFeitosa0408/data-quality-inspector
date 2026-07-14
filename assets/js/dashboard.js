@@ -364,34 +364,68 @@ const DatasetParser = {
 
     );
 
-    const lines = csvText
+   const lines = csvText
 
-        .split(/\r?\n/)
+    .split(/\r?\n/)
 
-        .filter(
+    .filter(
 
-            line => line.trim() !== ""
-
-        );
-
-    Logger.write(
-
-        Logger.levels.INFO,
-
-        "CSV split into lines.",
-
-        {
-
-            totalLines: lines.length
-
-        }
+        line => line.trim() !== ""
 
     );
 
-    return lines;
+Logger.write(
 
-}
-   
+    Logger.levels.INFO,
+
+    "CSV split into lines.",
+
+    {
+
+        totalLines: lines.length
+
+    }
+
+);
+
+const headers = lines[0]
+
+    .split(",")
+
+    .map(
+
+        column => column.trim()
+
+    );
+
+const records = lines.slice(1);
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "CSV structure identified.",
+
+    {
+
+        columns: headers.length,
+
+        records: records.length
+
+    }
+
+);
+
+return {
+
+    headers,
+
+    records
+
+};
+
+    }
+
 };
 /* ==========================================================
    INITIALIZATION
