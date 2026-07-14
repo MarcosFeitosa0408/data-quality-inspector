@@ -630,7 +630,7 @@ async function initializeApplication(){
 
         initializeExportEvents();
 
-        startAutoRefresh();
+        // startAutoRefresh();
 
         hideLoadingState();
 
