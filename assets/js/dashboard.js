@@ -583,6 +583,14 @@ const DatasetStatistics = {
 
     }
 
+    if(DOM.valid){
+
+    DOM.valid.textContent =
+
+        statistics.valid;
+
+}
+
     Logger.write(
 
         Logger.levels.INFO,
