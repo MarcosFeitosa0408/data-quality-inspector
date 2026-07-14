@@ -285,6 +285,10 @@ EDAP.dataset = parsedDataset;
 
     DatasetStatistics.calculate(parsedDataset);
 
+    const quality =
+
+    DatasetQualityEngine.analyze(parsedDataset);
+
    DatasetStatistics.updateDashboard(statistics);
 
 Logger.write(
