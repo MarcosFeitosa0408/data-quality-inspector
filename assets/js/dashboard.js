@@ -215,7 +215,7 @@ const DatasetImportManager = {
     },
 
    
-onFileSelected(file){
+  async onFileSelected(file){
 
    const validation = DatasetValidator.validate(file);
 
@@ -273,7 +273,27 @@ onFileSelected(file){
 
     );
 
-   DatasetParser.parse(file);
+  const parsedDataset =
+
+    await DatasetParser.parse(file);
+
+EDAP.dataset = parsedDataset;
+
+Logger.write(
+
+    Logger.levels.INFO,
+
+    "EDAP dataset updated.",
+
+    {
+
+        rows: parsedDataset.dataset.length,
+
+        columns: parsedDataset.headers.length
+
+    }
+
+);
 
 }
    
