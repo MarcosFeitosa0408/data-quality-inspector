@@ -278,7 +278,9 @@ const DatasetImportManager = {
     await DatasetParser.parse(file);
 
 EDAP.dataset = parsedDataset;
-    
+
+     console.log(">>> PASSOU POR AQUI");
+     
      const statistics =
 
     DatasetStatistics.calculate(parsedDataset);
