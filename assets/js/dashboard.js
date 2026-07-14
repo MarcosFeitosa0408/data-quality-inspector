@@ -279,7 +279,7 @@ const DatasetImportManager = {
 
 EDAP.dataset = parsedDataset;
 
-     console.log(">>> PASSOU POR AQUI");
+   
      
      const statistics =
 
