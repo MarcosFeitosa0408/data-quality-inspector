@@ -43,8 +43,8 @@ const DOM = {
     datasetName:
         document.getElementById("dataset-name"),
 
-    datasetRows:
-        document.getElementById("dataset-rows"),
+    datasetRowsInfo:
+        document.getElementById("dataset-rows-info"),
 
     datasetColumns:
         document.getElementById("dataset-columns"),
@@ -68,8 +68,8 @@ datasetImportName:
 
     /* KPIs */
 
-   kpiRows:
-    document.getElementById("dataset-rows"),
+  kpiRows:
+    document.getElementById("dataset-rows-info"),
    
     missing:
         document.getElementById("missing"),
@@ -295,8 +295,44 @@ Logger.write(
 
 );
 
+   this.updateDatasetInfo(file, parsedDataset);
+
 }
    
+   },
+
+   updateDatasetInfo(file, parsedDataset){
+
+    DOM.datasetName.textContent = file.name;
+
+    DOM.datasetRowsInfo.textContent =
+
+        parsedDataset.dataset.length;
+
+    DOM.datasetColumns.textContent =
+
+        parsedDataset.headers.length;
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "Dataset information updated.",
+
+        {
+
+            file: file.name,
+
+            rows: parsedDataset.dataset.length,
+
+            columns: parsedDataset.headers.length
+
+        }
+
+     );
+
+  }
+
 };
 
 
