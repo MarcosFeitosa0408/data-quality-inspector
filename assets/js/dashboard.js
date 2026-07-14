@@ -40,14 +40,14 @@ const DOM = {
 
     /* Dataset */
 
-    datasetName:
-        document.getElementById("dataset-name"),
+datasetName:
+    document.getElementById("dataset-name"),
 
-    datasetRowsInfo:
-        document.getElementById("dataset-rows-info"),
+datasetRowsInfo:
+    document.getElementById("dataset-rows-info"),
 
-    datasetColumns:
-        document.getElementById("dataset-columns"),
+datasetColumns:
+    document.getElementById("dataset-columns"),
 
    /* Dataset Import */
 
