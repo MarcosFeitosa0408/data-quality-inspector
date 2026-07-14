@@ -525,6 +525,39 @@ return {
     }
 
 };
+
+/* ==========================================================
+   DATASET STATISTICS
+   ========================================================== */
+
+const DatasetStatistics = {
+
+    calculate(parsedDataset){
+
+        const statistics = {
+
+            rows: parsedDataset.dataset.length,
+
+            columns: parsedDataset.headers.length
+
+        };
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Dataset statistics calculated.",
+
+            statistics
+
+        );
+
+        return statistics;
+
+    }
+
+};
+
 /* ==========================================================
    INITIALIZATION
    ========================================================== */
