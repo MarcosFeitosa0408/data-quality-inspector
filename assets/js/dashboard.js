@@ -544,12 +544,13 @@ const DatasetStatistics = {
 
         const statistics = {
 
-            rows: parsedDataset.dataset.length,
+    rows: parsedDataset.dataset.length,
 
-            columns: parsedDataset.headers.length
+    columns: parsedDataset.headers.length,
 
-        };
+    valid: parsedDataset.dataset.length
 
+};
         Logger.write(
 
             Logger.levels.INFO,
