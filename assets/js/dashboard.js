@@ -296,8 +296,6 @@ Logger.write(
 );
 
    this.updateDatasetInfo(file, parsedDataset);
-
-}
    
    },
 
