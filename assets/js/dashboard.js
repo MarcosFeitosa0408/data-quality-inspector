@@ -538,6 +538,8 @@ const DatasetStatistics = {
 
     calculate(parsedDataset){
 
+       console.log(">>> DatasetStatistics.calculate executado");
+
         const statistics = {
 
             rows: parsedDataset.dataset.length,
