@@ -330,28 +330,44 @@ const DatasetValidator = {
 
 const DatasetParser = {
 
-    async parse(file){
+   async parse(file){
 
-        Logger.write(
+    Logger.write(
 
-            Logger.levels.INFO,
+        Logger.levels.INFO,
 
-            "DatasetParser started.",
+        "DatasetParser started.",
 
-            {
+        {
 
-                name: file.name,
+            name: file.name,
 
-                size: file.size
+            size: file.size
 
-            }
+        }
 
-        );
+    );
 
-        return [];
+    const csvText = await file.text();
 
-    }
+    Logger.write(
 
+        Logger.levels.INFO,
+
+        "CSV loaded into memory.",
+
+        {
+
+            characters: csvText.length
+
+        }
+
+    );
+
+    return csvText;
+
+}
+   
 };
 /* ==========================================================
    INITIALIZATION
