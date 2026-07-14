@@ -540,8 +540,6 @@ const DatasetStatistics = {
 
     calculate(parsedDataset){
 
-       console.log(">>> DatasetStatistics.calculate executado");
-
         const statistics = {
 
             rows: parsedDataset.dataset.length,
@@ -561,6 +559,36 @@ const DatasetStatistics = {
         );
 
         return statistics;
+
+    }, 
+
+   updateDashboard(statistics){
+
+    if(DOM.datasetRowsInfo){
+
+        DOM.datasetRowsInfo.textContent =
+
+            statistics.rows;
+
+    }
+
+    if(DOM.datasetColumns){
+
+        DOM.datasetColumns.textContent =
+
+            statistics.columns;
+
+    }
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "Statistics rendered on dashboard.",
+
+        statistics
+
+        );
 
     }
 
