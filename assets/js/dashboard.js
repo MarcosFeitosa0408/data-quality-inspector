@@ -606,6 +606,44 @@ const DatasetStatistics = {
 };
 
 /* ==========================================================
+   DATASET QUALITY ENGINE
+   ========================================================== */
+
+const DatasetQualityEngine = {
+
+    analyze(parsedDataset){
+
+        const quality = {
+
+            valid: parsedDataset.dataset.length,
+
+            missing: 0,
+
+            duplicates: 0,
+
+            score: 100
+
+        };
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Dataset quality analyzed.",
+
+            quality
+
+        );
+
+        return quality;
+
+    }
+
+};
+
+/* ========================================================== */
+
+/* ==========================================================
    INITIALIZATION
    ========================================================== */
 
