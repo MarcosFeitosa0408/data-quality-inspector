@@ -595,6 +595,14 @@ const DatasetStatistics = {
 
 }
 
+          if(DOM.missing){
+
+    DOM.missing.textContent =
+
+        statistics.missing;
+
+}
+
     Logger.write(
 
         Logger.levels.INFO,
@@ -729,7 +737,18 @@ const DatasetQualityEngine = {
 
 },
 
-      
+    updateDashboard(quality){
+
+    if(DOM.missing){
+
+        DOM.missing.textContent =
+
+            quality.missing;
+
+    }
+
+},
+       
     analyze(parsedDataset){
 
 
