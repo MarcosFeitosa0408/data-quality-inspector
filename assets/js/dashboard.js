@@ -784,6 +784,8 @@ updateDashboard(quality){
 
     this.classify(quality.score);
 
+this.updateDashboard(quality);
+
         Logger.write(
 
             Logger.levels.INFO,
