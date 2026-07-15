@@ -705,6 +705,30 @@ const DatasetQualityEngine = {
 
 },
 
+       classify(score){
+
+    if(score >= 95){
+
+        return "Excelente";
+
+    }
+
+    if(score >= 80){
+
+        return "Boa";
+
+    }
+
+    if(score >= 60){
+
+        return "Regular";
+
+    }
+
+    return "Crítica";
+
+},
+
       
     analyze(parsedDataset){
 
@@ -730,9 +754,14 @@ const DatasetQualityEngine = {
 
         };
 
+
           quality.score =
 
     this.calculateScore(quality);
+
+           quality.classification =
+
+    this.classify(quality.score);
 
         Logger.write(
 
