@@ -1,4 +1,4 @@
-       
+        
 /* ==========================================================
    ENTERPRISE DATA ANALYTICS PLATFORM (EDAP)
    assets/js/dashboard.js
@@ -739,13 +739,19 @@ const DatasetQualityEngine = {
 
 updateDashboard(quality){
 
-    console.log(">>> Quality Dashboard atualizado", quality);
-
     if(DOM.missing){
 
         DOM.missing.textContent =
 
             quality.missing;
+
+    }
+
+    if(DOM.duplicates){
+
+        DOM.duplicates.textContent =
+
+            quality.duplicates;
 
     }
 
