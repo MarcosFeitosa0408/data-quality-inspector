@@ -1,4 +1,4 @@
-      
+       
 /* ==========================================================
    ENTERPRISE DATA ANALYTICS PLATFORM (EDAP)
    assets/js/dashboard.js
@@ -729,6 +729,10 @@ const DatasetQualityEngine = {
             score: 100
 
         };
+
+          quality.score =
+
+    this.calculateScore(quality);
 
         Logger.write(
 
