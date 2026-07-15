@@ -737,7 +737,9 @@ const DatasetQualityEngine = {
 
 },
 
-    updateDashboard(quality){
+updateDashboard(quality){
+
+    console.log(">>> Quality Dashboard atualizado", quality);
 
     if(DOM.missing){
 
