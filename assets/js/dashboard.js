@@ -741,6 +741,11 @@ updateDashboard(quality){
 
         console.log(quality);
 
+        console.log(DOM.score);
+        console.log(DOM.missing);
+        console.log(DOM.duplicates);
+        console.log(DOM.classification);
+
     if(DOM.missing){
 
         DOM.missing.textContent =
