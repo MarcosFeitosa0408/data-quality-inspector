@@ -739,6 +739,8 @@ const DatasetQualityEngine = {
 
 updateDashboard(quality){
 
+        console.log(quality);
+
     if(DOM.missing){
 
         DOM.missing.textContent =
