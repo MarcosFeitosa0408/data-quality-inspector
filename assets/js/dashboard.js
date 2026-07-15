@@ -691,6 +691,21 @@ const DatasetQualityEngine = {
 
 },  
 
+      calculateScore(quality){
+
+    let score = 100;
+
+    score -= quality.missing * 0.1;
+
+    score -= quality.duplicates * 2;
+
+    score = Math.max(0, score);
+
+    return Math.round(score);
+
+},
+
+      
     analyze(parsedDataset){
 
 
