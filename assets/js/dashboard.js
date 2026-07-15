@@ -1,4 +1,4 @@
-        
+
 /* ==========================================================
    ENTERPRISE DATA ANALYTICS PLATFORM (EDAP)
    assets/js/dashboard.js
@@ -748,11 +748,15 @@ updateDashboard(quality){
 
     if(DOM.missing){
 
-        DOM.missing.textContent =
+    DOM.missing.textContent =
+        quality.missing;
 
-            quality.missing;
+    console.log(
+        "Missing atualizado:",
+        DOM.missing.textContent
+    );
 
-    }
+}
 
     if(DOM.duplicates){
 
