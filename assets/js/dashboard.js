@@ -617,6 +617,38 @@ const DatasetQualityEngine = {
 
     analyze(parsedDataset){
 
+       let missing = 0;
+
+parsedDataset.dataset.forEach(
+
+    row => {
+
+        Object.values(row).forEach(
+
+            value => {
+
+                if(
+
+                    value === "" ||
+
+                    value === null ||
+
+                    value === undefined
+
+                ){
+
+                    missing++;
+
+                }
+
+            }
+
+        );
+
+    }
+
+);
+
         const quality = {
 
             valid: parsedDataset.dataset.length,
