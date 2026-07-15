@@ -697,6 +697,10 @@ const DatasetQualityEngine = {
         const missing =
 
     this.countMissing(parsedDataset);
+
+         const duplicates =
+
+    this.countDuplicates(parsedDataset);
         
 
         const quality = {
@@ -705,7 +709,7 @@ const DatasetQualityEngine = {
 
             missing,
 
-            duplicates: 0,
+           duplicates,
 
             score: 100
 
