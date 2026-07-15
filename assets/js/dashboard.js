@@ -1,4 +1,4 @@
-   
+    
 /* ==========================================================
    ENTERPRISE DATA ANALYTICS PLATFORM (EDAP)
    assets/js/dashboard.js
@@ -653,7 +653,7 @@ parsedDataset.dataset.forEach(
 
             valid: parsedDataset.dataset.length,
 
-            missing: 0,
+            missing,
 
             duplicates: 0,
 
