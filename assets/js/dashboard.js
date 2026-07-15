@@ -615,39 +615,51 @@ const DatasetStatistics = {
 
 const DatasetQualityEngine = {
 
-    analyze(parsedDataset){
+    countMissing(parsedDataset){
 
-       let missing = 0;
+    let missing = 0;
 
-parsedDataset.dataset.forEach(
+    parsedDataset.dataset.forEach(
 
-    row => {
+        row => {
 
-        Object.values(row).forEach(
+            Object.values(row).forEach(
 
-            value => {
+                value => {
 
-                if(
+                    if(
 
-                    value === "" ||
+                        value === "" ||
 
-                    value === null ||
+                        value === null ||
 
-                    value === undefined
+                        value === undefined
 
-                ){
+                    ){
 
-                    missing++;
+                        missing++;
+
+                    }
 
                 }
 
-            }
+            );
 
-        );
+        }
 
-    }
+    );
 
-);
+    return missing;
+
+},
+
+    analyze(parsedDataset){
+
+
+        const missing =
+
+    this.countMissing(parsedDataset);
+        
 
         const quality = {
 
