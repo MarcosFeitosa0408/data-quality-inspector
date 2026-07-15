@@ -755,6 +755,20 @@ updateDashboard(quality){
 
     }
 
+    if(DOM.score){
+
+        DOM.score.textContent =
+            quality.score;
+
+    }
+
+    if(DOM.classification){
+
+        DOM.classification.textContent =
+            quality.classification;
+
+    }
+
 },
        
     analyze(parsedDataset){
