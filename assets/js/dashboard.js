@@ -653,6 +653,44 @@ const DatasetQualityEngine = {
 
 },
 
+   countDuplicates(parsedDataset){
+
+    const uniqueRows = new Set();
+
+    let duplicates = 0;
+
+    parsedDataset.dataset.forEach(
+
+        row => {
+
+            const serialized =
+
+                JSON.stringify(row);
+
+            if(
+
+                uniqueRows.has(serialized)
+
+            ){
+
+                duplicates++;
+
+            }
+
+            else{
+
+                uniqueRows.add(serialized);
+
+            }
+
+        }
+
+    );
+
+    return duplicates;
+
+},  
+
     analyze(parsedDataset){
 
 
