@@ -44,7 +44,7 @@ datasetName:
     document.getElementById("dataset-name"),
 
 datasetRowsInfo:
-    document.getElementById("dataset-rows-info"),
+    document.getElementById("dataset-rows"),
 
 datasetColumns:
     document.getElementById("dataset-columns"),
