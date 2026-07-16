@@ -108,6 +108,9 @@ classification:
  kpiProgressScore:
     document.getElementById("kpi-progress-score"),
 
+ kpiProgressMissing:
+    document.getElementById("kpi-progress-missing"),
+
     progressValid:
         document.getElementById("progress-valid"),
 
