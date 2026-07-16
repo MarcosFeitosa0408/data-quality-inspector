@@ -773,7 +773,12 @@ updateDashboard(quality){
 
     }
 
-},
+      if(DOM.progressScore){
+
+    DOM.progressScore.style.width =
+        quality.score + "%";
+
+}
        
     analyze(parsedDataset){
 
