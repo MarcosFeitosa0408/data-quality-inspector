@@ -808,8 +808,19 @@ updateDashboard(quality){
 
  }
 
-},
+if(DOM.kpiProgressMissing){
 
+    const missingPercent = Math.min(
+        (quality.missing / quality.valid) * 100,
+        100
+    );
+
+    DOM.kpiProgressMissing.style.width =
+        missingPercent + "%";
+
+ }
+
+},
        analyze(parsedDataset){
 
 
