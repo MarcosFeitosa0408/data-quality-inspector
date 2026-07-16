@@ -778,9 +778,13 @@ updateDashboard(quality){
     DOM.progressScore.style.width =
         quality.score + "%";
 
-}
-       
-    analyze(parsedDataset){
+   }
+
+
+ },
+
+
+       analyze(parsedDataset){
 
 
         const missing =
