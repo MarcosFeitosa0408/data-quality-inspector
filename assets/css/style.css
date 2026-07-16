@@ -753,6 +753,12 @@ main{
 
 }
 
+.bg-primary{
+
+    background:var(--primary);
+
+}
+
 .bg-success{
 
     background:var(--success);
