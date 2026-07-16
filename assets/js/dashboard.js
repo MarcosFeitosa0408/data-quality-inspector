@@ -818,6 +818,12 @@ if(DOM.kpiProgressMissing){
     DOM.kpiProgressMissing.style.width =
         missingPercent + "%";
 
+ 
+     console.log(
+        "Missing Progress:",
+        missingPercent + "%"
+    );
+ 
  }
 
 },
