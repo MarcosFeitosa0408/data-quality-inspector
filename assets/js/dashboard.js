@@ -793,7 +793,9 @@ updateDashboard(quality){
     DOM.progressScore.style.width
 );
 
- }
+}
+
+},
 
        analyze(parsedDataset){
 
