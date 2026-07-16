@@ -595,13 +595,6 @@ const DatasetStatistics = {
 
 }
 
-          if(DOM.missing){
-
-    DOM.missing.textContent =
-
-        statistics.missing;
-
-}
 
     Logger.write(
 
