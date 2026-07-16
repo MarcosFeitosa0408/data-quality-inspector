@@ -105,6 +105,9 @@ classification:
     progressScore:
         document.getElementById("progress-score"),
 
+ kpiProgressScore:
+    document.getElementById("kpi-progress-score"),
+
     progressValid:
         document.getElementById("progress-valid"),
 
@@ -791,9 +794,16 @@ updateDashboard(quality){
   console.log(
     "Progress:",
     DOM.progressScore.style.width
-);
+ );
 
 }
+
+ if(DOM.kpiProgressScore){
+
+    DOM.kpiProgressScore.style.width =
+        quality.score + "%";
+
+ }
 
 },
 
