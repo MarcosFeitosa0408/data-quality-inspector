@@ -80,11 +80,14 @@ datasetImportName:
     valid:
         document.getElementById("valid"),
 
-    score:
-        document.getElementById("score"),
+   score:
+    document.getElementById("score"),
 
-    classification:
-        document.getElementById("classification"),
+scorePercent:
+    document.getElementById("score-percent"),
+
+classification:
+    document.getElementById("classification"),
 
     /* Statistics */
 
@@ -773,7 +776,14 @@ updateDashboard(quality){
 
     }
 
-      if(DOM.progressScore){
+    if(DOM.scorePercent){
+
+    DOM.scorePercent.textContent =
+        quality.score + "%";
+
+    }
+ 
+    if(DOM.progressScore){
 
     DOM.progressScore.style.width =
         quality.score + "%";
