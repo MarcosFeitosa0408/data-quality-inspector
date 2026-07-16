@@ -754,6 +754,12 @@ main{
 
 }
 
+.bg-primary{
+
+    background:var(--primary);
+
+}
+
 .stat-card span{
 
     color:var(--text-secondary);
