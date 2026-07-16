@@ -520,6 +520,23 @@ main{
 
 }
 
+
+#score-percent{
+
+    display:block;
+
+    margin-top:12px;
+
+    text-align:center;
+
+    font-size:1rem;
+
+    font-weight:600;
+
+    color:var(--text);
+
+}
+
 /* ==========================================================
    DASHBOARD GRID
    ========================================================== */
