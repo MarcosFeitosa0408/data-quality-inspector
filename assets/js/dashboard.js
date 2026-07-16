@@ -788,11 +788,12 @@ updateDashboard(quality){
     DOM.progressScore.style.width =
         quality.score + "%";
 
-   }
+  console.log(
+    "Progress:",
+    DOM.progressScore.style.width
+);
 
-
- },
-
+ }
 
        analyze(parsedDataset){
 
