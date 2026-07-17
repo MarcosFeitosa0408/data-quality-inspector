@@ -856,6 +856,19 @@ DOM.kpiProgressDuplicates.style.width =
 
 }
  
+if(DOM.kpiProgressValid){
+
+    DOM.kpiProgressValid.style.width = "100%";
+
+  }
+
+if(DOM.kpiProgressClassification){
+
+    DOM.kpiProgressClassification.style.width =
+        quality.score + "%";
+
+ }
+
 },
        analyze(parsedDataset){
 
