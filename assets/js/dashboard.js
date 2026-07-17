@@ -605,14 +605,7 @@ const DatasetStatistics = {
 
     }
 
-    if(DOM.valid){
-
-    DOM.valid.textContent =
-
-        statistics.valid;
-
-}
-
+  
 
     Logger.write(
 
@@ -803,6 +796,15 @@ updateDashboard(quality){
     this.animateCounter(
         DOM.duplicates,
         quality.duplicates
+    );
+
+}
+
+ if(DOM.valid){
+
+    this.animateCounter(
+        DOM.valid,
+        quality.valid
     );
 
 }
