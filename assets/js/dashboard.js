@@ -748,6 +748,33 @@ const DatasetQualityEngine = {
 
 },
 
+ animateCounter(element, target, duration = 1000){
+
+    if(!element) return;
+
+    const start = 0;
+    const increment = target / (duration / 16);
+
+    let current = start;
+
+    const timer = setInterval(() => {
+
+        current += increment;
+
+        if(current >= target){
+
+            current = target;
+
+            clearInterval(timer);
+
+        }
+
+        element.textContent = Math.floor(current);
+
+    }, 16);
+
+},
+
 updateDashboard(quality){
 
         console.log(quality);
