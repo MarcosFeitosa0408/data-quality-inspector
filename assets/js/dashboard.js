@@ -111,6 +111,9 @@ classification:
  kpiProgressMissing:
     document.getElementById("kpi-progress-missing"),
 
+ kpiProgressDuplicates:
+    document.getElementById("kpi-progress-duplicates"),
+
     progressValid:
         document.getElementById("progress-valid"),
 
