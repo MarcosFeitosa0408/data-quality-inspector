@@ -828,6 +828,12 @@ if(DOM.kpiProgressMissing){
     );
  
  }
+
+ console.log(
+    "DOM.kpiProgressDuplicates:",
+    DOM.kpiProgressDuplicates
+);
+ 
 if(DOM.kpiProgressDuplicates){
 
     const duplicatePercent = Math.min(
