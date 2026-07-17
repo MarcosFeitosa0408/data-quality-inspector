@@ -828,7 +828,23 @@ if(DOM.kpiProgressMissing){
     );
  
  }
+if(DOM.kpiProgressDuplicates){
 
+    const duplicatePercent = Math.min(
+        (quality.duplicates / quality.valid) * 100,
+        100
+    );
+
+    DOM.kpiProgressDuplicates.style.width =
+        duplicatePercent + "%";
+
+    console.log(
+        "Duplicate Progress:",
+        duplicatePercent + "%"
+    );
+
+}
+ 
 },
        analyze(parsedDataset){
 
