@@ -784,32 +784,37 @@ updateDashboard(quality){
         console.log(DOM.duplicates);
         console.log(DOM.classification);
 
-    if(DOM.missing){
+   if(DOM.missing){
 
-    DOM.missing.textContent =
-        quality.missing;
+    this.animateCounter(
+        DOM.missing,
+        quality.missing
+    );
 
     console.log(
         "Missing atualizado:",
-        DOM.missing.textContent
+        quality.missing
     );
 
 }
 
-    if(DOM.duplicates){
+  if(DOM.duplicates){
 
-        DOM.duplicates.textContent =
+    this.animateCounter(
+        DOM.duplicates,
+        quality.duplicates
+    );
 
-            quality.duplicates;
+}
 
-    }
+   if(DOM.score){
 
-    if(DOM.score){
+    this.animateCounter(
+        DOM.score,
+        quality.score
+    );
 
-        DOM.score.textContent =
-            quality.score;
-
-    }
+  }
 
     if(DOM.classification){
 
