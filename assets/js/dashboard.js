@@ -1197,6 +1197,30 @@ function updateStatistics(data){
 
     const statistics = data?.statistics ?? {};
 
+ setText(
+
+    DOM.datasetRowsInfo,
+
+    formatNumber(
+
+        statistics.rows
+
+    )
+
+);
+
+setText(
+
+    DOM.kpiRows,
+
+    formatNumber(
+
+        statistics.rows
+
+    )
+
+);
+
     setText(
 
         DOM.numericColumns,
