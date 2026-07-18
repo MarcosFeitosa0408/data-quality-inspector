@@ -1197,15 +1197,11 @@ function updateStatistics(data){
 
     const statistics = data?.statistics ?? {};
 
- setText(
+ DatasetQualityEngine.animateCounter(
 
     DOM.datasetRowsInfo,
 
-    formatNumber(
-
-        statistics.rows
-
-    )
+    statistics.rows
 
 );
 
