@@ -760,10 +760,6 @@ const DatasetQualityEngine = {
 
             clearInterval(timer);
 
-     console.log(
-    "Contador finalizado:",
-    target
- );
 
 }
 
@@ -774,23 +770,12 @@ const DatasetQualityEngine = {
 },
 
 updateDashboard(quality){
-
-        console.log(quality);
-
-        console.log(DOM.score);
-        console.log(DOM.missing);
-        console.log(DOM.duplicates);
-        console.log(DOM.classification);
+   
 
    if(DOM.missing){
 
     this.animateCounter(
         DOM.missing,
-        quality.missing
-    );
-
-    console.log(
-        "Missing atualizado:",
         quality.missing
     );
 
@@ -842,11 +827,6 @@ updateDashboard(quality){
     DOM.progressScore.style.width =
         quality.score + "%";
 
-  console.log(
-    "Progress:",
-    DOM.progressScore.style.width
- );
-
 }
 
  if(DOM.kpiProgressScore){
@@ -865,19 +845,8 @@ if(DOM.kpiProgressMissing){
 
     DOM.kpiProgressMissing.style.width =
         missingPercent + "%";
-
- 
-     console.log(
-        "Missing Progress:",
-        missingPercent + "%"
-    );
  
  }
-
- console.log(
-    "DOM.kpiProgressDuplicates:",
-    DOM.kpiProgressDuplicates
-);
  
 if(DOM.kpiProgressDuplicates){
 
@@ -893,11 +862,6 @@ const duplicateWidth =
 
 DOM.kpiProgressDuplicates.style.width =
     duplicateWidth + "%";
-
-    console.log(
-        "Duplicate Progress:",
-        duplicatePercent + "%"
-    );
 
 }
  
