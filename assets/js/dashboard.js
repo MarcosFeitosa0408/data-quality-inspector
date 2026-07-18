@@ -760,7 +760,12 @@ const DatasetQualityEngine = {
 
             clearInterval(timer);
 
-        }
+     console.log(
+    "Contador finalizado:",
+    target
+ );
+
+}
 
         element.textContent = Math.floor(current);
 
