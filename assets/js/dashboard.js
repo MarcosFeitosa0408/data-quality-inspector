@@ -1201,7 +1201,7 @@ function updateStatistics(data){
 
     DOM.datasetRowsInfo,
 
-    statistics.rows
+    statistics.rows ?? 0
 
 );
 
