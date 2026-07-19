@@ -1743,17 +1743,13 @@ function createQualityChart(quality){
 
     ],
 
-    borderColor: [
+    borderColor: "#0F172A",
 
-        "#FFFFFF",
-        "#FFFFFF",
-        "#FFFFFF"
+    borderWidth: 3,
 
-    ],
+    spacing: 4,
 
-    borderWidth: 2,
-
-    hoverOffset: 12
+    hoverOffset: 16
 
 }]
 
