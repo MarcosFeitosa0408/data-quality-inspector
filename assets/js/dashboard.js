@@ -1797,32 +1797,35 @@ function createBarChart(quality){
 
                 ],
 
-                datasets:[{
+               datasets:[{
 
-                    label:"Quantidade",
+    label:"Quantidade",
 
-                    data:[
+    data:[
 
-                        quality.missing ?? 0,
+        quality.missing ?? 0,
 
-                        quality.duplicates ?? 0,
+        quality.duplicates ?? 0,
 
-                        quality.valid ?? 0
+        quality.valid ?? 0
 
-                    ],
+    ],
 
-                    backgroundColor:[
+    backgroundColor:[
 
-                        "#EF4444",
+        "#EF4444",
 
-                        "#F59E0B",
+        "#F59E0B",
 
-                        "#38BDF8"
+        "#38BDF8"
 
-                    ]
+    ],
 
-                }]
+    borderRadius:8,
 
+    borderSkipped:false
+
+}]
             },
 
             options:getChartDefaults()
