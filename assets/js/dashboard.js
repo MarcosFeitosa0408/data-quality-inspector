@@ -1583,41 +1583,55 @@ function getChartDefaults(){
 
         plugins:{
 
-            legend:{
+    legend:{
 
-                labels:{
+        position:"bottom",
 
-                    color:"#CBD5E1",
+        labels:{
 
-                    font:{
+            color:"#CBD5E1",
 
-                        family:"Inter",
+            usePointStyle:true,
 
-                        size:13
+            pointStyle:"circle",
 
-                    }
+            padding:20,
 
-                }
+            font:{
 
-            },
+                family:"Inter",
 
-            tooltip:{
+                size:13,
 
-                backgroundColor:"#1E293B",
-
-                titleColor:"#FFFFFF",
-
-                bodyColor:"#CBD5E1",
-
-                borderColor:"#334155",
-
-                borderWidth:1,
-
-                padding:12
+                weight:"600"
 
             }
 
-        },
+        }
+
+    },
+
+    tooltip:{
+
+        backgroundColor:"#1E293B",
+
+        titleColor:"#FFFFFF",
+
+        bodyColor:"#CBD5E1",
+
+        borderColor:"#334155",
+
+        borderWidth:1,
+
+        padding:12,
+
+        cornerRadius:12,
+
+        displayColors:true
+
+    }
+
+},
 
         scales:{
 
@@ -1717,23 +1731,31 @@ function createQualityChart(quality){
 
                 ],
 
-                datasets:[{
+               datasets:[{
 
-                    data:chartData,
+    data: chartData,
 
-                    backgroundColor:[
+    backgroundColor: [
 
-                        "#EF4444",
+        "#EF4444",
+        "#F59E0B",
+        "#22C55E"
 
-                        "#F59E0B",
+    ],
 
-                        "#22C55E"
+    borderColor: [
 
-                    ],
+        "#FFFFFF",
+        "#FFFFFF",
+        "#FFFFFF"
 
-                    borderWidth:0
+    ],
 
-                }]
+    borderWidth: 2,
+
+    hoverOffset: 12
+
+}]
 
             },
 
