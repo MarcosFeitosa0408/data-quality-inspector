@@ -299,15 +299,39 @@ EDAP.dataset = parsedDataset;
 
    
      
-     const statistics =
-
+    const statistics =
     DatasetStatistics.calculate(parsedDataset);
 
-    const quality =
-
+const quality =
     DatasetQualityEngine.analyze(parsedDataset);
 
-   DatasetStatistics.updateDashboard(statistics);
+/* ==========================================================
+   DASHBOARD DATA
+   ========================================================== */
+
+const dashboardData = {
+
+    dataset:{
+
+        name:file.name,
+
+        rows:parsedDataset.dataset.length,
+
+        columns:parsedDataset.headers.length
+
+    },
+
+    statistics,
+
+    quality,
+
+    generated_at:new Date().toISOString()
+
+};
+
+/* ========================================================== */
+
+updateDashboard(dashboardData);
 
 Logger.write(
 
@@ -317,15 +341,15 @@ Logger.write(
 
     {
 
-        rows: parsedDataset.dataset.length,
+        rows:parsedDataset.dataset.length,
 
-        columns: parsedDataset.headers.length
+        columns:parsedDataset.headers.length
 
     }
 
 );
 
-   this.updateDatasetInfo(file, parsedDataset);
+this.updateDatasetInfo(file, parsedDataset);
    
    },
 
