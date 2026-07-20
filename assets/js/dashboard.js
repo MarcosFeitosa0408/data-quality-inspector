@@ -2104,6 +2104,15 @@ function createOrUpdateChart(
             config
 
         );
+
+     setTimeout(() => {
+
+    console.log(
+        key,
+        EDAP.charts[key].data
+    );
+
+},1000);
      
         console.log("Gráfico criado:", key);
 
