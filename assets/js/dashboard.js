@@ -2079,6 +2079,8 @@ function createOrUpdateChart(
 
 ){
 
+ console.log("Entrou em createOrUpdateChart:", key);
+
     if(!canvas){
 
         return;
@@ -2093,6 +2095,8 @@ function createOrUpdateChart(
 
         }
 
+        console.log("Criando gráfico:", key);
+     
         EDAP.charts[key] = new Chart(
 
             canvas,
@@ -2100,6 +2104,8 @@ function createOrUpdateChart(
             config
 
         );
+     
+        console.log("Gráfico criado:", key);
 
         console.log("Chart criado:", key);
 
