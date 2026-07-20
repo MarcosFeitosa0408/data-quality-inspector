@@ -2085,19 +2085,15 @@ function createOrUpdateChart(
 
     }
 
-    if(
+    try{
 
-        EDAP.charts[key]
+        if(EDAP.charts[key]){
 
-    ){
+            EDAP.charts[key].destroy();
 
-        EDAP.charts[key].destroy();
+        }
 
-    }
-
-    EDAP.charts[key]=
-
-        new Chart(
+        EDAP.charts[key] = new Chart(
 
             canvas,
 
@@ -2105,8 +2101,25 @@ function createOrUpdateChart(
 
         );
 
-}
+        console.log("Chart criado:", key);
 
+    }
+
+    catch(error){
+
+        console.error(
+
+            "Erro ao criar",
+
+            key,
+
+            error
+
+        );
+
+    }
+
+}
 /* ==========================================================
    INSIGHTS
    ========================================================== */
