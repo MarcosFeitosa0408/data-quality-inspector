@@ -28,6 +28,8 @@ const EDAP = {
 
     dataset: null,
 
+    history:[],
+
     initialized: false
 
 };
