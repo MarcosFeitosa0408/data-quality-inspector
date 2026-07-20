@@ -1505,6 +1505,8 @@ function formatDate(value){
 
 function updateCharts(data){
 
+ console.log("updateCharts() executou");
+
     if(typeof Chart === "undefined"){
 
         console.warn(
