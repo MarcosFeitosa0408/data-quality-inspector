@@ -1713,28 +1713,27 @@ function createQualityChart(quality){
 
     }
 
-    const chartData=[
+   const total =
 
-        Number(
+    (quality.valid ?? 0) +
+    (quality.missing ?? 0) +
+    (quality.duplicates ?? 0);
 
-            quality.missing ?? 0
+const chartData = [
 
-        ),
+    total
+        ? Number((((quality.missing ?? 0) / total) * 100).toFixed(2))
+        : 0,
 
-        Number(
+    total
+        ? Number((((quality.duplicates ?? 0) / total) * 100).toFixed(2))
+        : 0,
 
-            quality.duplicates ?? 0
+    total
+        ? Number((((quality.valid ?? 0) / total) * 100).toFixed(2))
+        : 0
 
-        ),
-
-        Number(
-
-            quality.valid ?? 0
-
-        )
-
-    ];
-
+];
     createOrUpdateChart(
 
         "qualityChart",
@@ -1747,17 +1746,19 @@ function createQualityChart(quality){
 
             data:{
 
-                labels:[
+               labels:[
 
-                    "Missing",
+    "Missing (%)",
 
-                    "Duplicados",
+    "Duplicados (%)",
 
-                    "Válidos"
+    "Válidos (%)"
 
-                ],
+],
 
                datasets:[{
+
+    label:"Percentual (%)",
 
     data: chartData,
 
@@ -1769,19 +1770,43 @@ function createQualityChart(quality){
 
     ],
 
-    borderColor: "#0F172A",
+    borderColor:"#0F172A",
 
-    borderWidth: 3,
+    borderWidth:3,
 
-    spacing: 4,
+    spacing:4,
 
-    hoverOffset: 16
+    hoverOffset:16
 
 }]
 
             },
 
-            options:getChartDefaults()
+           options:{
+
+    ...getChartDefaults(),
+
+    plugins:{
+
+        ...getChartDefaults().plugins,
+
+        tooltip:{
+
+            callbacks:{
+
+                label(context){
+
+                    return `${context.label}: ${context.raw}%`;
+
+                }
+
+            }
+
+        }
+
+    }
+
+}
 
         }
 
