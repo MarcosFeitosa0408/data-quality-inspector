@@ -628,6 +628,20 @@ main{
 
     padding:28px;
 
+    position:relative;
+
+    height:360px;
+
+}
+
+.dashboard-card canvas{
+
+    width:100% !important;
+
+    height:100% !important;
+
+    display:block;
+
 }
 
 /* ==========================================================
