@@ -1775,6 +1775,17 @@ function createBarChart(quality){
 
     }
 
+ console.log("QUALITY:", quality);
+
+console.log(
+    "BAR DATA:",
+    [
+        quality.missing ?? 0,
+        quality.duplicates ?? 0,
+        quality.valid ?? 0
+    ]
+);
+
     createOrUpdateChart(
 
         "barChart",
