@@ -1935,7 +1935,49 @@ function createLineChart(quality){
             type:"line",
 
             data:{
-                // <-- substitua SOMENTE este bloco
+
+                labels:[
+
+                    "Missing",
+
+                    "Duplicados",
+
+                    "Score",
+
+                    "Válidos"
+
+                ],
+
+                datasets:[{
+
+                    label:"Indicadores",
+
+                    data:[
+
+                        quality.missing ?? 0,
+
+                        quality.duplicates ?? 0,
+
+                        quality.score ?? 0,
+
+                        quality.valid ?? 0
+
+                    ],
+
+                    borderColor:"#38BDF8",
+
+                    backgroundColor:"rgba(56,189,248,.20)",
+
+                    tension:0.35,
+
+                    fill:true,
+
+                    pointRadius:5,
+
+                    pointHoverRadius:7
+
+                }]
+
             },
 
             options:getChartDefaults()
