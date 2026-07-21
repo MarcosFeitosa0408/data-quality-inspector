@@ -593,47 +593,74 @@ const DatasetStatistics = {
 
     calculate(parsedDataset){
 
-    const numericColumns = parsedDataset.headers.filter(header => {
+        const numericColumns = parsedDataset.headers.filter(header => {
 
-        return parsedDataset.dataset.every(row => {
+            return parsedDataset.dataset.every(row => {
 
-            const value = row[header];
+                const value = row[header];
 
-            return value === "" || !isNaN(Number(value));
+                return value === "" || !isNaN(Number(value));
 
-        });
+            });
 
-    }).length;
+        }).length;
 
-    const statistics = {
+        const statistics = {
 
-        rows: parsedDataset.dataset.length,
+            rows: parsedDataset.dataset.length,
 
-        columns: parsedDataset.headers.length,
+            columns: parsedDataset.headers.length,
 
-        valid: parsedDataset.dataset.length,
+            valid: parsedDataset.dataset.length,
 
-        numeric_columns: numericColumns,
+            numeric_columns: numericColumns,
 
-        categorical_columns:
-            parsedDataset.headers.length - numericColumns
+            categorical_columns:
+                parsedDataset.headers.length - numericColumns
 
-    };
+        };
 
-    Logger.write(
+        Logger.write(
 
-        Logger.levels.INFO,
+            Logger.levels.INFO,
 
-        "Dataset statistics calculated.",
+            "Dataset statistics calculated.",
 
-        statistics
+            statistics
 
-    );
+        );
 
-    return statistics;
+        return statistics;
 
-},
+    },
 
+    updateDashboard(statistics){
+
+        if(DOM.datasetRowsInfo){
+
+            DOM.datasetRowsInfo.textContent = statistics.rows;
+
+        }
+
+        if(DOM.datasetColumns){
+
+            DOM.datasetColumns.textContent = statistics.columns;
+
+        }
+
+        Logger.write(
+
+            Logger.levels.INFO,
+
+            "Statistics rendered on dashboard.",
+
+            statistics
+
+        );
+
+    }
+
+};
 /* ==========================================================
    DATASET QUALITY ENGINE
    ========================================================== */
