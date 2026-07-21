@@ -327,6 +327,9 @@ const dashboardData = {
 
     quality,
 
+    data: parsedDataset.dataset,
+    headers: parsedDataset.headers,
+
     generated_at:new Date().toISOString()
 
 };
