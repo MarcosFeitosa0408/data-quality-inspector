@@ -593,62 +593,46 @@ const DatasetStatistics = {
 
     calculate(parsedDataset){
 
-        const statistics = {
+    const numericColumns = parsedDataset.headers.filter(header => {
 
-    rows: parsedDataset.dataset.length,
+        return parsedDataset.dataset.every(row => {
 
-    columns: parsedDataset.headers.length,
+            const value = row[header];
 
-    valid: parsedDataset.dataset.length
+            return value === "" || !isNaN(Number(value));
 
-};
-        Logger.write(
+        });
 
-            Logger.levels.INFO,
+    }).length;
 
-            "Dataset statistics calculated.",
+    const statistics = {
 
-            statistics
+        rows: parsedDataset.dataset.length,
 
-        );
+        columns: parsedDataset.headers.length,
 
-        return statistics;
+        valid: parsedDataset.dataset.length,
 
-    }, 
+        numeric_columns: numericColumns,
 
-   updateDashboard(statistics){
+        categorical_columns:
+            parsedDataset.headers.length - numericColumns
 
-    if(DOM.datasetRowsInfo){
-
-        DOM.datasetRowsInfo.textContent =
-
-            statistics.rows;
-
-    }
-
-    if(DOM.datasetColumns){
-
-        DOM.datasetColumns.textContent =
-
-            statistics.columns;
-
-    }
-
-  
+    };
 
     Logger.write(
 
         Logger.levels.INFO,
 
-        "Statistics rendered on dashboard.",
+        "Dataset statistics calculated.",
 
         statistics
 
-        );
+    );
 
-    }
+    return statistics;
 
-};
+},
 
 /* ==========================================================
    DATASET QUALITY ENGINE
