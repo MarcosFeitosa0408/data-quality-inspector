@@ -1921,18 +1921,8 @@ console.log(
 function createLineChart(quality){
 
     if(!DOM.lineChart){
-
         return;
-
     }
-
-    const score=
-
-        Number(
-
-            quality.score ?? 0
-
-        );
 
     createOrUpdateChart(
 
@@ -1945,35 +1935,7 @@ function createLineChart(quality){
             type:"line",
 
             data:{
-
-                labels:[
-
-                    "Qualidade"
-
-                ],
-
-                datasets:[{
-
-                    label:"Score",
-
-                    data:[
-
-                        score
-
-                    ],
-
-                    borderColor:"#38BDF8",
-
-                    backgroundColor:
-
-                        "rgba(56,189,248,.25)",
-
-                    tension:.35,
-
-                    fill:true
-
-                }]
-
+                // <-- substitua SOMENTE este bloco
             },
 
             options:getChartDefaults()
@@ -1983,7 +1945,6 @@ function createLineChart(quality){
     );
 
 }
-
 /* ==========================================================
    COLUMN CHART
    ========================================================== */
