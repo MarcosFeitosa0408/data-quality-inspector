@@ -110,14 +110,14 @@ classification:
  kpiProgressScore:
     document.getElementById("kpi-progress-score"),
 
- kpiProgressMissing:
-    document.getElementById("kpi-progress-missing"),
+kpiProgressMissing:
+    document.getElementById("progress-missing"),
 
- kpiProgressDuplicates:
-    document.getElementById("kpi-progress-duplicates"),
+kpiProgressDuplicates:
+    document.getElementById("progress-duplicates"),
 
- kpiProgressValid:
-    document.getElementById("kpi-progress-valid"),
+kpiProgressValid:
+    document.getElementById("progress-valid"),
 
 kpiProgressClassification:
     document.getElementById("kpi-progress-classification"),
