@@ -2081,7 +2081,17 @@ function createScatterChart(quality){
 
                     backgroundColor:"#38BDF8",
 
-                   data:[
+                    showLine:true,
+                 
+                    borderColor:"#38BDF8",
+                 
+                    borderWidth:3,
+                 
+                    tension:0.35,
+                 
+                    fill:false,
+
+                    data:[
 
     {
         x:0,
