@@ -2081,21 +2081,34 @@ function createScatterChart(quality){
 
                     backgroundColor:"#38BDF8",
 
-                    data:[{
+                   data:[
 
-                        x:Number(
+    {
+        x:0,
+        y:80
+    },
 
-                            quality.missing ?? 0
+    {
+        x:10,
+        y:78
+    },
 
-                        ),
+    {
+        x:20,
+        y:70
+    },
 
-                        y:Number(
+    {
+        x:30,
+        y:60
+    },
 
-                            quality.score ?? 0
+    {
+        x:40,
+        y:50
+    }
 
-                        )
-
-                    }]
+]
 
                 }]
 
