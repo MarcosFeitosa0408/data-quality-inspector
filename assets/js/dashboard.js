@@ -413,17 +413,46 @@ const DatasetValidator = {
 
         }
 
-        if(!file.name.toLowerCase().endsWith(".csv")){
+       const extension =
 
-            return {
+    file.name
+        .toLowerCase()
+        .split(".")
+        .pop();
 
-                valid: false,
+const allowedExtensions = [
 
-                message: "Apenas arquivos CSV são permitidos."
+    "csv",
 
-            };
+    "xlsx",
 
-        }
+    "xls",
+
+    "json",
+
+    "html",
+
+    "htm"
+
+];
+
+if(
+
+    !allowedExtensions.includes(extension)
+
+){
+
+    return {
+
+        valid:false,
+
+        message:
+
+            "Formato não suportado. Utilize CSV, Excel, JSON ou HTML."
+
+    };
+
+}
 
         return {
 
