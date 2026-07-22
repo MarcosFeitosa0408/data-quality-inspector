@@ -894,19 +894,43 @@ updateDashboard(quality){
 
   }
 
+    if(DOM.missingPercent){
+
+    DOM.missingPercent.textContent =
+        quality.missing;
+
+}
+
+if(DOM.duplicatesPercent){
+
+    DOM.duplicatesPercent.textContent =
+        quality.duplicates;
+
+}
+
+if(DOM.validPercent){
+
+    DOM.validPercent.textContent =
+        quality.valid;
+
+}
+
+if(DOM.scorePercent){
+
+    DOM.scorePercent.textContent =
+        quality.score + "%";
+
+}
+
+/* ========================================================== */
+ 
     if(DOM.classification){
 
         DOM.classification.textContent =
             quality.classification;
 
     }
-
-    if(DOM.scorePercent){
-
-    DOM.scorePercent.textContent =
-        quality.score + "%";
-
-    }
+ 
  
     if(DOM.progressScore){
 
