@@ -490,6 +490,11 @@ const DatasetParser = {
 
     );
 
+    const extension = file.name
+    .toLowerCase()
+    .split(".")
+    .pop();
+
     const csvText = await file.text();
 
     Logger.write(
