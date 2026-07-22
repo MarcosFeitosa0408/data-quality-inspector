@@ -102,6 +102,18 @@ classification:
     generatedAt:
         document.getElementById("generated-at"),
 
+ missingPercent:
+    document.getElementById("missing-percent"),
+
+duplicatesPercent:
+    document.getElementById("duplicates-percent"),
+
+validPercent:
+    document.getElementById("valid-percent"),
+
+scorePercent:
+    document.getElementById("score-percent"),
+
     /* Progress */
 
     progressScore:
@@ -149,8 +161,8 @@ kpiProgressClassification:
 
     insights:
     document.getElementById("insights"),
-
-    /* Export */
+ 
+ /* Export */
 
     exportPDF:
         document.getElementById("export-pdf"),
