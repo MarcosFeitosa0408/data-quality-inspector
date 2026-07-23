@@ -484,152 +484,64 @@ if(
 
 const DatasetParser = {
 
- async parse(file){
+    async parse(file){
 
-    Logger.write(
+        Logger.write(
 
-        Logger.levels.INFO,
+            Logger.levels.INFO,
 
-        "DatasetParser started.",
+            "DatasetParser started.",
 
-        {
+            {
 
-            name: file.name,
+                name:file.name,
 
-            size: file.size
-
-        }
-
-    );
-
-    const extension = file.name
-    .toLowerCase()
-    .split(".")
-    .pop();
-
-    const csvText = await file.text();
-
-    Logger.write(
-
-        Logger.levels.INFO,
-
-        "CSV loaded into memory.",
-
-        {
-
-            characters: csvText.length
-
-        }
-
-    );
-
-   const lines = csvText
-
-    .split(/\r?\n/)
-
-    .filter(
-
-        line => line.trim() !== ""
-
-    );
-
-Logger.write(
-
-    Logger.levels.INFO,
-
-    "CSV split into lines.",
-
-    {
-
-        totalLines: lines.length
-
-    }
-
-);
-
-const headers = lines[0]
-
-    .split(",")
-
-    .map(
-
-        column => column.trim()
-
-    );
-
-const records = lines.slice(1);
-
-    const dataset = records.map(
-
-    record => {
-
-        const values = record.split(",");
-
-        const row = {};
-
-        headers.forEach(
-
-            (header,index) => {
-
-                row[header] =
-
-                    values[index] !== undefined
-
-                        ? values[index].trim()
-
-                        : "";
+                size:file.size
 
             }
 
         );
 
-        return row;
+        const extension =
 
-    }
+            file.name
+                .toLowerCase()
+                .split(".")
+                .pop();
 
-);
+        switch(extension){
 
-Logger.write(
+            case "csv":
 
-    Logger.levels.INFO,
+                return await this.parseCSV(file);
 
-    "CSV structure identified.",
+            case "json":
 
-    {
+                return await this.parseJSON(file);
 
-        columns: headers.length,
+            case "xlsx":
 
-        records: records.length
+            case "xls":
 
-    }
+                return await this.parseExcel(file);
 
-);
+            case "html":
 
-Logger.write(
+            case "htm":
 
-    Logger.levels.INFO,
+                return await this.parseHTML(file);
 
-    "Dataset converted to objects.",
+            default:
 
-    {
+                throw new Error(
 
-        rows: dataset.length
+                    "Formato não suportado."
 
-    }
+                );
 
-);
+        }
 
-return {
-
-    headers,
-
-    dataset
-
-};
-
-    }
-
-};
+    },
 
 /* ==========================================================
    DATASET STATISTICS
