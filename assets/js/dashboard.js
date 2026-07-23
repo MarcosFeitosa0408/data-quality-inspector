@@ -773,7 +773,7 @@ const DatasetParser = {
 
 },
 
-    async parseExcel(file){
+   async parseExcel(file){
 
     throw new Error(
         "Importação Excel ainda não implementada."
