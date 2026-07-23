@@ -698,7 +698,95 @@ const DatasetParser = {
 
     async parseJSON(file){
 
-    },
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "JSON loaded into memory.",
+
+        {
+
+            name:file.name,
+
+            size:file.size
+
+        }
+
+    );
+
+    const text = await file.text();
+
+    const json = JSON.parse(text);
+
+    if(!Array.isArray(json)){
+
+        throw new Error(
+
+            "O JSON deve conter um array de objetos."
+
+        );
+
+    }
+
+    if(json.length === 0){
+
+        return {
+
+            headers:[],
+
+            dataset:[]
+
+        };
+
+    }
+
+    const headers =
+
+        Object.keys(json[0]);
+
+    const dataset =
+
+        json.map(row => {
+
+            const normalized = {};
+
+            headers.forEach(header => {
+
+                normalized[header] =
+
+                    row[header] ?? "";
+
+            });
+
+            return normalized;
+
+        });
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "JSON convertido para dataset.",
+
+        {
+
+            columns:headers.length,
+
+            rows:dataset.length
+
+        }
+
+    );
+
+    return {
+
+        headers,
+
+        dataset
+
+    };
+
+},
 
     async parseExcel(file){
 
