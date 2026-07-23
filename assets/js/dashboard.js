@@ -1,4 +1,4 @@
- 
+
 /* ==========================================================
    ENTERPRISE DATA ANALYTICS PLATFORM (EDAP)
    assets/js/dashboard.js
@@ -311,7 +311,7 @@ const DatasetImportManager = {
 
 EDAP.dataset = parsedDataset;
 
-   
+   console.log(parsedDataset);
      
     const statistics =
     DatasetStatistics.calculate(parsedDataset);
