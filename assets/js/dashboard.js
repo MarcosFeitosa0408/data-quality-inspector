@@ -698,6 +698,8 @@ const DatasetParser = {
 
     async parseJSON(file){
 
+    console.log(">>> ENTROU NO parseJSON");
+
     Logger.write(
 
         Logger.levels.INFO,
