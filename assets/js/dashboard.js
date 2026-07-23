@@ -543,6 +543,173 @@ const DatasetParser = {
 
     },
 
+    async parseCSV(file){
+
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "DatasetParser started.",
+
+        {
+
+            name:file.name,
+
+            size:file.size
+
+        }
+
+    );
+
+    const csvText = await file.text();
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "CSV loaded into memory.",
+
+        {
+
+            characters:csvText.length
+
+        }
+
+    );
+
+    const lines = csvText
+
+        .split(/\r?\n/)
+
+        .filter(
+
+            line => line.trim() !== ""
+
+        );
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "CSV split into lines.",
+
+        {
+
+            totalLines:lines.length
+
+        }
+
+    );
+
+    const headers = lines[0]
+
+        .split(",")
+
+        .map(
+
+            column => column.trim()
+
+        );
+
+    const records =
+
+        lines.slice(1);
+
+    const dataset = records.map(
+
+        record => {
+
+            const values =
+
+                record.split(",");
+
+            const row = {};
+
+            headers.forEach(
+
+                (
+
+                    header,
+
+                    index
+
+                ) => {
+
+                    row[header] =
+
+                        values[index] !== undefined
+
+                            ? values[index].trim()
+
+                            : "";
+
+                }
+
+            );
+
+            return row;
+
+        }
+
+    );
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "CSV structure identified.",
+
+        {
+
+            columns:headers.length,
+
+            records:records.length
+
+        }
+
+    );
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "Dataset converted to objects.",
+
+        {
+
+            rows:dataset.length
+
+        }
+
+    );
+
+    return{
+
+        headers,
+
+        dataset
+
+    };
+
+},
+
+   
+
+    async parseJSON(file){
+
+    },
+
+    async parseExcel(file){
+
+    },
+
+    async parseHTML(file){
+
+    }
+
+};
+
 /* ==========================================================
    DATASET STATISTICS
    ========================================================== */
