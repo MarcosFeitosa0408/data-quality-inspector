@@ -543,24 +543,7 @@ const DatasetParser = {
 
     },
 
-    async parseCSV(file){
-
-
-    Logger.write(
-
-        Logger.levels.INFO,
-
-        "DatasetParser started.",
-
-        {
-
-            name:file.name,
-
-            size:file.size
-
-        }
-
-    );
+  async parseCSV(file){
 
     const csvText = await file.text();
 
@@ -572,7 +555,7 @@ const DatasetParser = {
 
         {
 
-            characters:csvText.length
+            characters: csvText.length
 
         }
 
