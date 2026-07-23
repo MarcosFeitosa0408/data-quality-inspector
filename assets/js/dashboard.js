@@ -311,7 +311,7 @@ const DatasetImportManager = {
 
 EDAP.dataset = parsedDataset;
 
-   console.log(parsedDataset);
+  
      
     const statistics =
     DatasetStatistics.calculate(parsedDataset);
@@ -698,7 +698,7 @@ const DatasetParser = {
 
     async parseJSON(file){
 
-    console.log(">>> ENTROU NO parseJSON");
+    
 
     Logger.write(
 
@@ -792,13 +792,121 @@ const DatasetParser = {
 
     async parseExcel(file){
 
-    },
- 
-    async parseHTML(file){
+    throw new Error(
+        "Importação Excel ainda não implementada."
+    );
+
+},
+
+async parseHTML(file){
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "HTML loaded into memory.",
+
+        {
+
+            name:file.name,
+
+            size:file.size
+
+        }
+
+    );
+
+    const html = await file.text();
+
+    const parser = new DOMParser();
+
+    const documentHTML = parser.parseFromString(
+
+        html,
+
+        "text/html"
+
+    );
+
+    const table = documentHTML.querySelector("table");
+
+    if(!table){
+
+        throw new Error(
+
+            "Nenhuma tabela encontrada."
+
+        );
 
     }
 
-};
+    const headerCells =
+
+        Array.from(
+
+            table.querySelectorAll("thead th")
+
+        );
+
+    const headers =
+
+        headerCells.map(
+
+            cell => cell.textContent.trim()
+
+        );
+
+    const dataset = [];
+
+    table.querySelectorAll("tbody tr")
+
+        .forEach(row => {
+
+            const object = {};
+
+            const cells = row.querySelectorAll("td");
+
+            headers.forEach((header,index)=>{
+
+                object[header] =
+
+                    cells[index]
+
+                        ? cells[index].textContent.trim()
+
+                        : "";
+
+            });
+
+            dataset.push(object);
+
+        });
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "HTML convertido para dataset.",
+
+        {
+
+            columns:headers.length,
+
+            rows:dataset.length
+
+        }
+
+    );
+
+    return {
+
+        headers,
+
+        dataset
+
+    };
+
+},
 
 /* ==========================================================
    DATASET STATISTICS
