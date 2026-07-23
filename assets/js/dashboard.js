@@ -773,13 +773,114 @@ const DatasetParser = {
 
 },
 
-   async parseExcel(file){
 
-    throw new Error(
-        "Importação Excel ainda não implementada."
+async parseExcel(file){
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "Excel loaded into memory.",
+
+        {
+
+            name:file.name,
+
+            size:file.size
+
+        }
+
     );
 
+    const buffer = await file.arrayBuffer();
+
+    const workbook = XLSX.read(
+
+        buffer,
+
+        {
+
+            type:"array"
+
+        }
+
+    );
+
+    const sheetName = workbook.SheetNames[0];
+
+    const worksheet = workbook.Sheets[sheetName];
+
+    const json = XLSX.utils.sheet_to_json(
+
+        worksheet,
+
+        {
+
+            defval:""
+
+        }
+
+    );
+
+    if(json.length === 0){
+
+        return{
+
+            headers:[],
+
+            dataset:[]
+
+        };
+
+    }
+
+    const headers = Object.keys(json[0]);
+
+    const dataset = json.map(row=>{
+
+        const normalized = {};
+
+        headers.forEach(header=>{
+
+            normalized[header] =
+
+                row[header] ?? "";
+
+        });
+
+        return normalized;
+
+    });
+
+    Logger.write(
+
+        Logger.levels.INFO,
+
+        "Excel convertido para dataset.",
+
+        {
+
+            sheet:sheetName,
+
+            columns:headers.length,
+
+            rows:dataset.length
+
+        }
+
+    );
+
+    return{
+
+        headers,
+
+        dataset
+
+    };
+
 },
+
+
 
 async parseHTML(file){
 
