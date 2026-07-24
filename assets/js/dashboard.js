@@ -2554,6 +2554,42 @@ function createScatterChart(
 
     }
 
+    console.log("ANALYTICS", analytics);
+
+    console.log(
+
+        "SCATTER DATA",
+
+        [
+
+            {
+
+                x:analytics.duplication,
+
+                y:analytics.score
+
+            },
+
+            {
+
+                x:analytics.consistency,
+
+                y:analytics.integrity
+
+            },
+
+            {
+
+                x:analytics.completeness,
+
+                y:analytics.score
+
+            }
+
+        ]
+
+    );
+
     createOrUpdateChart(
 
         "scatterChart",
@@ -2665,7 +2701,6 @@ function createScatterChart(
     );
 
 }
-
 /* ==========================================================
    CHART FACTORY
    ========================================================== */
