@@ -1406,6 +1406,38 @@ this.updateDashboard(quality);
 /* ========================================================== */
 
 /* ==========================================================
+   ENTERPRISE QUALITY ANALYTICS
+   ========================================================== */
+
+const EnterpriseQualityAnalytics = {
+
+    calculate(
+
+        statistics,
+
+        quality
+
+    ){
+
+        return{
+
+            score:0,
+
+            integrity:0,
+
+            completeness:0,
+
+            duplication:0,
+
+            consistency:0
+
+        };
+
+    }
+
+};
+
+/* ==========================================================
    INITIALIZATION
    ========================================================== */
 
