@@ -2654,51 +2654,73 @@ function createScatterChart(
 
             },
 
-            options:{
+           options:{
 
-                ...getChartDefaults(),
+    ...getChartDefaults(),
 
-                scales:{
+    scales:{
 
-                    x:{
+        x:{
 
-                        title:{
+            type:"linear",
 
-                            display:true,
+            position:"bottom",
 
-                            text:"Indicadores (%)"
+            min:0,
 
-                        },
+            max:100,
 
-                        min:0,
+            title:{
 
-                        max:100
+                display:true,
 
-                    },
+                text:"Indicadores (%)"
 
-                    y:{
+            },
 
-                        title:{
+            ticks:{
 
-                            display:true,
+                color:"#CBD5E1"
 
-                            text:"Qualidade (%)"
+            },
 
-                        },
+            grid:{
 
-                        min:0,
+                color:"rgba(255,255,255,.05)"
 
-                        max:100
+            }
 
-                    }
+        },
 
-                }
+        y:{
+
+            min:0,
+
+            max:100,
+
+            title:{
+
+                display:true,
+
+                text:"Qualidade (%)"
+
+            },
+
+            ticks:{
+
+                color:"#CBD5E1"
+
+            },
+
+            grid:{
+
+                color:"rgba(255,255,255,.05)"
 
             }
 
         }
 
-    );
+    }
 
 }
 /* ==========================================================
