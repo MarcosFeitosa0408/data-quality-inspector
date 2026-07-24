@@ -1419,17 +1419,40 @@ const EnterpriseQualityAnalytics = {
 
     ){
 
+        const totalRows = statistics.rows || 0;
+
+        const totalColumns = statistics.columns || 0;
+
+        const numericColumns = statistics.numericColumns || 0;
+        const categoricalColumns = statistics.categoricalColumns || 0;
+
         return{
 
-            score:0,
+            score: quality.score,
 
-            integrity:0,
+            integrity:
+                totalRows > 0
+                    ? Math.round(
+                        (quality.valid / totalRows) * 100
+                    )
+                    : 0,
 
-            completeness:0,
+            completeness:
+                quality.score,
 
-            duplication:0,
+            duplication:
+                totalRows > 0
+                    ? Math.round(
+                        (quality.duplicates / totalRows) * 100
+                    )
+                    : 0,
 
-            consistency:0
+            consistency:
+                totalColumns > 0
+                    ? Math.round(
+                        (numericColumns / totalColumns) * 100
+                    )
+                    : 0
 
         };
 
@@ -2010,14 +2033,12 @@ function formatDate(value){
 
 function updateCharts(data){
 
- console.log("updateCharts() executou");
+    console.log("updateCharts() executou");
 
     if(typeof Chart === "undefined"){
 
         console.warn(
-
             "Chart.js não encontrado."
-
         );
 
         return;
@@ -2028,38 +2049,37 @@ function updateCharts(data){
 
     const statistics = data?.statistics ?? {};
 
+    const analytics =
+        EnterpriseQualityAnalytics.calculate(
+            statistics,
+            quality
+        );
+
     createQualityChart(
-
         quality
-
     );
 
     createBarChart(
-
         quality
-
     );
 
     createLineChart(
-
         quality
-
     );
 
     createColumnChart(
-
         statistics
-
     );
 
     createScatterChart(
 
-        quality
+        quality,
+
+        analytics
 
     );
 
 }
-
 /* ==========================================================
    DEFAULT CHART CONFIG
    ========================================================== */
@@ -2520,7 +2540,13 @@ function createColumnChart(statistics){
    SCATTER CHART
    ========================================================== */
 
-function createScatterChart(quality){
+function createScatterChart(
+
+    quality,
+
+    analytics
+
+){
 
     if(!DOM.scatterChart){
 
@@ -2542,54 +2568,97 @@ function createScatterChart(quality){
 
                 datasets:[{
 
-                    label:"Qualidade",
+                    label:"Correlação da Qualidade",
 
                     backgroundColor:"#38BDF8",
 
-                    showLine:true,
-                 
                     borderColor:"#38BDF8",
-                 
+
                     borderWidth:3,
-                 
+
+                    showLine:true,
+
                     tension:0.35,
-                 
+
                     fill:false,
+
+                    pointRadius:7,
+
+                    pointHoverRadius:9,
 
                     data:[
 
-    {
-        x:0,
-        y:80
-    },
+                        {
 
-    {
-        x:10,
-        y:78
-    },
+                            x:analytics.duplication,
 
-    {
-        x:20,
-        y:70
-    },
+                            y:analytics.score
 
-    {
-        x:30,
-        y:60
-    },
+                        },
 
-    {
-        x:40,
-        y:50
-    }
+                        {
 
-]
+                            x:analytics.consistency,
+
+                            y:analytics.integrity
+
+                        },
+
+                        {
+
+                            x:analytics.completeness,
+
+                            y:analytics.score
+
+                        }
+
+                    ]
 
                 }]
 
             },
 
-            options:getChartDefaults()
+            options:{
+
+                ...getChartDefaults(),
+
+                scales:{
+
+                    x:{
+
+                        title:{
+
+                            display:true,
+
+                            text:"Indicadores (%)"
+
+                        },
+
+                        min:0,
+
+                        max:100
+
+                    },
+
+                    y:{
+
+                        title:{
+
+                            display:true,
+
+                            text:"Qualidade (%)"
+
+                        },
+
+                        min:0,
+
+                        max:100
+
+                    }
+
+                }
+
+            }
 
         }
 
